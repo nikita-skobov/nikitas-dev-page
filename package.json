@@ -1,0 +1,50 @@
+{
+  "name": "nikitas-dev-page",
+  "version": "1.0.0",
+  "description": "A",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "badges": "local-badges --coverage-path coverage/clover.xml --build-status",
+    "test": "react-scripts test",
+    "test-CI": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*js --collectCoverageFrom=!src/serviceWorker.js",
+    "test-CI-json": "cross-env CI=true react-scripts test --coverage --collectCoverageFrom=src/**/*js --collectCoverageFrom=!src/serviceWorker.js --json > jestOutput.json",
+    "eject": "echo 'please dont use this: react-scripts eject'"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nikita-skobov/nikitas-dev-page.git"
+  },
+  "author": "Nikita Skobov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nikita-skobov/nikitas-dev-page/issues"
+  },
+  "homepage": "https://github.com/nikita-skobov/nikitas-dev-page#readme",
+  "dependencies": {
+    "prop-types": "^15.7.2",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-redux": "^6.0.1",
+    "react-scripts": "2.1.8",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "cross-env": "^5.2.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "eslint-config-airbnb": "^17.1.0",
+    "nikitas-badges": "^1.1.0"
+  }
+}

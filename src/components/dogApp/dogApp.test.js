@@ -1,0 +1,41 @@
+/* global describe it expect beforeEach */
+
+import * as React from 'react'
+import { Provider } from 'react-redux'
+import { mount } from 'enzyme'
+
+import setupStore from '../../setupStore'
+import App from './dogApp'
+
+describe('App integration tests', () => {
+  let httpMock
+  let store
+
+  const flushAllPromises = () => new Promise(resolve => setImmediate(resolve))
+
+  beforeEach(() => {
+    httpMock = () => {  }
+    store = setupStore()
+  })
+
+  it('should render a placeholder when no dog image is fetched', () => {
+    const wrapper = mount(<Provider store={store}><App /></Provider>)
+    expect(wrapper.find('.dog-placeholder').exists()).toBe(true)
+    expect(wrapper.find('.dog-image').exists()).toBe(false)
+  })
+
+  it('should fetch and render a dog', async () => {
+    httpMock.onGet('https://dog.ceo/api/breeds/image/random').reply(200, {
+      status: 'success',
+      message: 'https://dog.ceo/api/img/someDog.jpg',
+    })
+
+    const wrapper = mount(<Provider store={store}><App /></Provider>)
+    wrapper.find('.dog-button').simulate('click')
+
+    await flushAllPromises()
+    wrapper.update()
+
+    expect(wrapper.find('img[src="https://dog.ceo/api/img/someDog.jpg"]').exists()).toBe(true)
+  })
+})
