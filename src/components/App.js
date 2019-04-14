@@ -5,9 +5,10 @@ import { fetchSpecific } from '../actions/fetchData'
 import './App.css'
 
 export function SomeComponent(props) {
+  const { func1 } = props
   return (
     <div>
-      <button id="test-button" type="button" onClick={props.func1}>Click here</button>
+      <button id="test-button" type="button" onClick={func1}>Click here</button>
     </div>
   )
 }
