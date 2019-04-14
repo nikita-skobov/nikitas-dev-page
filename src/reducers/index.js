@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
-import dog from './dog/dogReducer'
+import { appReducer } from './appReducer'
+
 
 export default combineReducers({
-  dog,
+  app: appReducer,
 })
