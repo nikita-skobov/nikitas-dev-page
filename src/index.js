@@ -5,10 +5,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+
 import './index.css'
 import ReduxApp from './components/App'
 import { createEnhancers, setupStore } from './setupStore'
 import * as serviceWorker from './serviceWorker'
+
 
 const store = setupStore(
   createEnhancers([thunk]),
@@ -16,7 +19,9 @@ const store = setupStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <ReduxApp />
+    <Router>
+      <Route path="/:filter?" component={ReduxApp} />
+    </Router>
   </Provider>,
   document.getElementById('root'),
 )
