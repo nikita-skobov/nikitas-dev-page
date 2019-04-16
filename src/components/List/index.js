@@ -3,7 +3,7 @@ import { Spinner } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { fetchRepoList } from '../../actions/fetchRepoList'
-import { ListItem } from '../ListItem'
+import ListItem from '../ListItem'
 
 export class List extends Component {
   componentDidMount() {
