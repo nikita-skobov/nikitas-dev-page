@@ -1,4 +1,4 @@
-/* global expect describe it beforeEach */
+/* global expect describe it beforeEach fetch */
 import * as React from 'react'
 import { Provider } from 'react-redux'
 // eslint-disable-next-line
@@ -31,5 +31,19 @@ describe('the list component', () => {
     const wrapper = mount(<Provider store={store}><ConnectedList /></Provider>)
     const htmlstring = wrapper.html()
     expect(htmlstring).not.toContain('spinner-border')
+  })
+
+  it('should render a list after it fetches', async () => {
+    fetch.mockResponseOnce(JSON.stringify(
+      [
+        { name: 'fsa' }, { name: 'sads' }, { name: 'qqqq' },
+      ],
+    ))
+
+    const wrapper = mount(<Provider store={store}><ConnectedList /></Provider>)
+    const flushAllPromises = () => new Promise(resolve => setImmediate(resolve))
+    await flushAllPromises()
+    wrapper.update()
+    expect(wrapper.find('div').children().length).toEqual(3)
   })
 })
