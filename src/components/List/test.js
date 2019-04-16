@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 // eslint-disable-next-line
 import { mount } from 'enzyme'
 
+import { flushAllPromises } from '../../utilities'
 import { setupStore } from '../../setupStore'
 import ConnectedList from './index'
 
@@ -41,7 +42,6 @@ describe('the list component', () => {
     ))
 
     const wrapper = mount(<Provider store={store}><ConnectedList /></Provider>)
-    const flushAllPromises = () => new Promise(resolve => setImmediate(resolve))
     await flushAllPromises()
     wrapper.update()
     expect(wrapper.find('div').children().length).toEqual(3)

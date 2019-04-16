@@ -5,6 +5,7 @@ import {
   FETCH_REPO_LIST_SUCCESS,
   FETCH_REPO_LIST_FAILURE,
 } from '../constants'
+import { handleErrors } from '../utilities'
 
 
 export function fetchRepoListBegin() {
@@ -29,13 +30,6 @@ export function fetchRepoListFailure(err) {
       err,
     },
   }
-}
-
-export function handleErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText)
-  }
-  return response
 }
 
 
