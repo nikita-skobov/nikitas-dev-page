@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Card, CardText, CardBody, Spinner } from 'reactstrap'
+import { Spinner } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { fetchRepoList } from '../../actions/fetchRepoList'
+import { ListItem } from '../ListItem'
 
 export class List extends Component {
   componentDidMount() {
@@ -31,11 +32,7 @@ export class List extends Component {
 
     return (
       <div>
-        {list.map(item => (
-          <div>
-            {item.name}
-          </div>
-        ))}
+        {list.map(item => <ListItem name={item.name} />)}
       </div>
     )
   }

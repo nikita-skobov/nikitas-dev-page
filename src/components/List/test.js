@@ -34,16 +34,17 @@ describe('the list component', () => {
     expect(htmlstring).not.toContain('spinner-border')
   })
 
-  it('should render a list after it fetches', async () => {
+  it('should render a list of N ListItems after it fetches', async () => {
+    const N = 20
     fetch.mockResponseOnce(JSON.stringify(
       [
-        { name: 'fsa' }, { name: 'sads' }, { name: 'qqqq' },
+        ...Array(N).fill({ some: 'object' }),
       ],
     ))
 
     const wrapper = mount(<Provider store={store}><ConnectedList /></Provider>)
     await flushAllPromises()
     wrapper.update()
-    expect(wrapper.find('div').children().length).toEqual(3)
+    expect(wrapper.find('.list-item').length).toEqual(N)
   })
 })
