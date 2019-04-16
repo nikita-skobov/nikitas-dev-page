@@ -32,7 +32,7 @@ export class List extends Component {
 
     return (
       <div>
-        {list.map(item => <ListItem name={item.name} />)}
+        {list.map(item => <ListItem {...item} />)}
       </div>
     )
   }
