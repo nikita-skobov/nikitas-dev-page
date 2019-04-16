@@ -1,33 +1,21 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Route, Switch } from 'react-router-dom'
 
-import { fetchSpecific } from '../actions/fetchData'
 import './App.css'
+import Footer from './Footer'
+import List from './List'
 
-export function SomeComponent(props) {
-  const { func1 } = props
+export function App() {
   return (
     <div>
-      <button id="test-button" type="button" onClick={func1}>Click here</button>
+      <Switch>
+        <Route exact path="/" component={Footer} />
+        <Route path="/article/:id" component={List} />
+      </Switch>
     </div>
   )
 }
 
-export function App(props) {
-  const { fetchSomething, someText } = props
 
-  return (
-    <div className="app-container">
-      <SomeComponent func1={fetchSomething} />
-      <h1>{someText}</h1>
-    </div>
-  )
-}
-
-const mapStateToProps = state => ({ someText: state.app.url })
-
-const mapActionsToProps = {
-  fetchSomething: fetchSpecific,
-}
-
-export default connect(mapStateToProps, mapActionsToProps)(App)
+export default connect()(App)
