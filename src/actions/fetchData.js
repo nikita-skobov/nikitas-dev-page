@@ -37,3 +37,44 @@ export function fetchSpecific() {
       .catch(err => dispatch(fetchRequestFailure(err)))
   }
 }
+
+
+export class FetchData {
+  constructor(name) {
+    this.TYPE_BEGIN = FETCH_REQUEST_START
+    this.TYPE_FAIL = FETCH_REQUEST_FAILURE
+    this.TYPE_SUCCESS = FETCH_REQUEST_SUCCESS
+    this.name = name || 'ORIGINAL'
+
+    this.handleErrors = (response) => {
+      if (!response.ok) {
+        throw Error(response.statusText)
+      }
+      return response
+    }
+  }
+
+  fetchBegin() {
+    return {
+      type: `${this.TYPE_BEGIN}_${this.name}`,
+    }
+  }
+
+  fetchFailure(err) {
+    return {
+      type: `${this.TYPE_FAIL}_${this.name}`,
+      payload: {
+        err,
+      },
+    }
+  }
+
+  fetchSuccess(body) {
+    return {
+      type: `${this.TYPE_SUCCESS}_${this.name}`,
+      payload: {
+        body,
+      },
+    }
+  }
+}
