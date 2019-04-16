@@ -8,7 +8,6 @@ export const initialState = {
 }
 
 export function repoListReducer(state = initialState, action) {
-  console.log(action.type)
   switch (action.type) {
     case FETCH_REPO_LIST_SUCCESS: {
       return {
@@ -17,7 +16,6 @@ export function repoListReducer(state = initialState, action) {
       }
     }
     case FETCH_REPO_LIST_FAILURE: {
-      console.log('repo list failure')
       return {
         ...state,
         list: undefined,
