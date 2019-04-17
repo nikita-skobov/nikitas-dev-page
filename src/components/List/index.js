@@ -32,7 +32,7 @@ export class List extends Component {
 
     return (
       <div>
-        {list.map(item => <ListItem {...item} />)}
+        {list.map(item => <ListItem key={item.node_id} {...item} />)}
       </div>
     )
   }
