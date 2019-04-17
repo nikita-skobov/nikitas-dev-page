@@ -47,4 +47,19 @@ describe('the list component', () => {
     wrapper.update()
     expect(wrapper.find('.list-item').length).toEqual(N)
   })
+
+  it('should not render any repositories that are forks', async () => {
+    const N = 20
+    fetch.mockResponseOnce(JSON.stringify(
+      [
+        ...Array(N).fill({ fork: false }),
+        { fork: true },
+      ],
+    ))
+
+    const wrapper = mount(<Provider store={store}><ConnectedList /></Provider>)
+    await flushAllPromises()
+    wrapper.update()
+    expect(wrapper.find('.list-item').length).not.toEqual(N + 1)
+  })
 })

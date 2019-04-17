@@ -32,7 +32,13 @@ export class List extends Component {
 
     return (
       <div>
-        {list.map(item => <ListItem key={item.node_id} {...item} />)}
+        {list.map((item) => {
+          if (item.fork) {
+            // dont show repositories that are forks
+            return null
+          }
+          return <ListItem key={item.node_id} {...item} />
+        })}
       </div>
     )
   }
