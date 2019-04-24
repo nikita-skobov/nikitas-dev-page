@@ -46,6 +46,10 @@ describe('ListItem component', () => {
 
       wrapper.find('a[href="/repo/dsadsa"]').simulate('click')
 
+      // the action should be dispatched
+      expect(stateChangeListener).toHaveBeenCalledTimes(1)
+
+      // the reducer function should receive the action
       // the first call is redux init,
       // the second call is receiving the action that was dispatched from
       // the navlink click. the second call has 2 arguments: current state,
