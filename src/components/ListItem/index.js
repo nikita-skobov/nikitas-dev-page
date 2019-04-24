@@ -3,9 +3,15 @@ import { connect } from 'react-redux'
 import { Card, CardText, CardBody } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
+import { clickRepo } from '../../actions/navLinkClick'
+
 export function ListItem(props) {
   // eslint-disable-next-line
-  const { name, html_url: htmlUrl } = props
+  const { name, clickRepoFunc, html_url: htmlUrl } = props
+
+  const repoClicked = () => {
+    clickRepoFunc(name, htmlUrl)
+  }
 
   return (
     <div className="list-item p-3">
@@ -16,7 +22,7 @@ export function ListItem(props) {
             <a href={htmlUrl}>{name}</a>
           </CardText>
           <CardText>
-            <NavLink to={`/repo/${name}`}>NAVLINK: {name}</NavLink>
+            <NavLink onClick={repoClicked} to={`/repo/${name}`}>NAVLINK: {name}</NavLink>
           </CardText>
         </CardBody>
       </Card>
@@ -29,6 +35,7 @@ const mapStateToProps = state => ({
 })
 
 const mapActionsToProps = {
+  clickRepoFunc: clickRepo,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(ListItem)
