@@ -20,9 +20,6 @@ export function ListItem(props) {
         <CardBody>
           <CardText>{name}</CardText>
           <CardText>
-            <a href={htmlUrl}>{name}</a>
-          </CardText>
-          <CardText>
             <NavLink onClick={repoClicked} to={`/repo/${name}`}>NAVLINK: {name}</NavLink>
           </CardText>
         </CardBody>
