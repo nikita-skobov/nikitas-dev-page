@@ -1,4 +1,4 @@
-/* global expect describe it beforeEach fetch */
+/* global expect describe it */
 import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 // eslint-disable-next-line
