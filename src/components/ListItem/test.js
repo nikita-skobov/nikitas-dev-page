@@ -27,7 +27,7 @@ describe('ListItem component', () => {
         <ListItem item={item} />
       </Router>,
     )
-    expect(wrapper.html()).toMatch(`<a href="/${REPO_PATH_PREFIX}/${repoName}">`)
+    expect(wrapper.html()).toMatch(`href="/${REPO_PATH_PREFIX}/${repoName}">`)
   })
 
   describe('when clicking on a navlink', () => {
