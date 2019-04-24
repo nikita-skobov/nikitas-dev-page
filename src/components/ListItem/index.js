@@ -1,8 +1,9 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Card, CardText, CardBody } from 'reactstrap'
+import { Card, CardBody, CardTitle } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
+import './style.css'
 import { clickRepo } from '../../actions/navLinkClick'
 import { REPO_PATH_PREFIX } from '../../constants'
 
@@ -17,14 +18,15 @@ export function ListItem(props) {
 
   return (
     <div className="list-item p-3">
-      <Card inverse color="info">
-        <CardBody>
-          <CardText>{name}</CardText>
-          <CardText>
-            <NavLink onClick={repoClicked} to={`/${REPO_PATH_PREFIX}/${name}`}>NAVLINK: {name}</NavLink>
-          </CardText>
-        </CardBody>
-      </Card>
+      <NavLink className="ns-link" onClick={repoClicked} to={`/${REPO_PATH_PREFIX}/${name}`}>
+        <Card className="ns-card">
+          <CardBody>
+            <CardTitle>
+              {name}
+            </CardTitle>
+          </CardBody>
+        </Card>
+      </NavLink>
     </div>
   )
 }

@@ -1,0 +1,15 @@
+.ns-link {
+  text-decoration: none;
+}
+.ns-link:hover {
+  text-decoration: none;
+}
+
+.ns-card {
+  background-color: #48bfdd;
+  color: white;
+}
+
+.ns-card:hover {
+  background-color: #328295;
+}
