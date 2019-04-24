@@ -11,23 +11,33 @@ import ConnectedListItem, { ListItem } from './index'
 import { setupStore } from '../../setupStore'
 
 describe('ListItem component', () => {
+  const repoName = 'some-repo-name'
+  const item = {
+    name: repoName,
+    html_url: 'https://someurl.com',
+  }
+
   it('should render', () => {
     const wrapper = mount(<Router><ListItem item={{ name: 'dsa' }} /></Router>)
     expect(wrapper.find('.list-item').exists()).toBeTruthy()
   })
 
   it('should have a navlink to the repository component', () => {
-    const repoName = 'some-repo-name'
-    const item = {
-      name: repoName,
-      html_url: 'https://someurl.com',
-    }
     const wrapper = mount(
       <Router>
         <ListItem item={item} />
       </Router>,
     )
     expect(wrapper.html()).toMatch(`href="/${REPO_PATH_PREFIX}/${repoName}">`)
+  })
+
+  it('should have text saying how long ago the last update was', () => {
+    const wrapper = mount(
+      <Router>
+        <ListItem item={item} />
+      </Router>,
+    )
+    expect(wrapper.html()).toMatch('Last updated')
   })
 
   describe('when clicking on a navlink', () => {
