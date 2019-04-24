@@ -37,7 +37,7 @@ export class List extends Component {
             // dont show repositories that are forks
             return null
           }
-          return <ConnectedListItem key={item.node_id} {...item} />
+          return <ConnectedListItem key={item.node_id} item={item} />
         })}
       </div>
     )

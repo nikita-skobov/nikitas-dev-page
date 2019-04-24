@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 
 export function Repo(props) {
   console.log(props)
-  const { name, updated_at } = props
+  const { name, updated_at } = props.repo
 
   return (
     <div>
@@ -14,5 +14,8 @@ export function Repo(props) {
   )
 }
 
+const mapStateToProps = state => ({
+  ...state,
+})
 
-export default connect()(Repo)
+export default connect(mapStateToProps)(Repo)

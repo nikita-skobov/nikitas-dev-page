@@ -9,15 +9,19 @@ import { ListItem } from './index'
 
 describe('ListItem component', () => {
   it('should render', () => {
-    const wrapper = mount(<Router><ListItem /></Router>)
+    const wrapper = mount(<Router><ListItem item={{ name: 'dsa' }} /></Router>)
     expect(wrapper.find('.list-item').exists()).toBeTruthy()
   })
 
   it('should have a navlink to the repository component', () => {
     const repoName = 'some-repo-name'
+    const item = {
+      name: repoName,
+      html_url: 'https://someurl.com',
+    }
     const wrapper = mount(
       <Router>
-        <ListItem name={`${repoName}`} html_url="https://github.com/nikita-skobov/backend-frontend-template" />
+        <ListItem item={item} />
       </Router>,
     )
     expect(wrapper.html()).toMatch(`<a href="/repo/${repoName}">`)

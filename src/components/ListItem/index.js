@@ -6,11 +6,12 @@ import { NavLink } from 'react-router-dom'
 import { clickRepo } from '../../actions/navLinkClick'
 
 export function ListItem(props) {
+  const { item, clickRepoFunc } = props
   // eslint-disable-next-line
-  const { name, clickRepoFunc, html_url: htmlUrl } = props
+  const { name, html_url: htmlUrl } = item
 
   const repoClicked = () => {
-    clickRepoFunc(name, htmlUrl)
+    clickRepoFunc(item)
   }
 
   return (
