@@ -1,8 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import { Card, CardText, CardBody } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
-export default function ListItem(props) {
+export function ListItem(props) {
   // eslint-disable-next-line
   const { name, html_url: htmlUrl } = props
 
@@ -22,3 +23,12 @@ export default function ListItem(props) {
     </div>
   )
 }
+
+const mapStateToProps = state => ({
+  ...state,
+})
+
+const mapActionsToProps = {
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(ListItem)

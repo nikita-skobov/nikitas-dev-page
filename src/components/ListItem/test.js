@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { mount } from 'enzyme'
 
 
-import ListItem from './index'
+import { ListItem } from './index'
 
 describe('ListItem component', () => {
   it('should render', () => {
