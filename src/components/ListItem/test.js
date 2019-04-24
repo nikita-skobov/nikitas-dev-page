@@ -1,11 +1,14 @@
-/* global expect describe it */
+/* global expect describe it beforeEach jest */
 import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
+import { Provider } from 'react-redux'
 // eslint-disable-next-line
 import { mount } from 'enzyme'
 
-
-import { ListItem } from './index'
+import { NAVLINK_CLICK_REPO } from '../../constants'
+import * as repoReducers from '../../reducers/repo'
+import ConnectedListItem, { ListItem } from './index'
+import { setupStore } from '../../setupStore'
 
 describe('ListItem component', () => {
   it('should render', () => {
@@ -25,5 +28,32 @@ describe('ListItem component', () => {
       </Router>,
     )
     expect(wrapper.html()).toMatch(`<a href="/repo/${repoName}">`)
+  })
+
+  describe('when clicking on a navlink', () => {
+    let store
+    repoReducers.repoReducer = jest.fn(repoReducers.repoReducer)
+
+    beforeEach(() => {
+      // so that we can test if the reducer functions have been called
+      store = setupStore(undefined, undefined, repoReducers.repoReducer)
+    })
+
+    it('should cause a navLinkClick action to be dispatched', () => {
+      const wrapper = mount(<Provider store={store}><Router><ConnectedListItem item={{ name: 'dsadsa' }} /></Router></Provider>)
+      const stateChangeListener = jest.fn()
+      store.subscribe(stateChangeListener)
+
+      wrapper.find('a[href="/repo/dsadsa"]').simulate('click')
+
+      // the first call is redux init,
+      // the second call is receiving the action that was dispatched from
+      // the navlink click. the second call has 2 arguments: current state,
+      // and action. The current state should be an empty object, and the
+      // action should be an object that contains the type: NAVLINK_CLICK_REPO
+      expect(repoReducers.repoReducer).toHaveBeenNthCalledWith(2, {}, expect.objectContaining({
+        type: NAVLINK_CLICK_REPO,
+      }))
+    })
   })
 })
