@@ -4,6 +4,7 @@ import { Card, CardText, CardBody } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
 import { clickRepo } from '../../actions/navLinkClick'
+import { REPO_PATH_PREFIX } from '../../constants'
 
 export function ListItem(props) {
   const { item, clickRepoFunc } = props
@@ -20,7 +21,7 @@ export function ListItem(props) {
         <CardBody>
           <CardText>{name}</CardText>
           <CardText>
-            <NavLink onClick={repoClicked} to={`/repo/${name}`}>NAVLINK: {name}</NavLink>
+            <NavLink onClick={repoClicked} to={`/${REPO_PATH_PREFIX}/${name}`}>NAVLINK: {name}</NavLink>
           </CardText>
         </CardBody>
       </Card>

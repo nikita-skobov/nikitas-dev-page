@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 // eslint-disable-next-line
 import { mount } from 'enzyme'
 
-import { NAVLINK_CLICK_REPO } from '../../constants'
+import { NAVLINK_CLICK_REPO, REPO_PATH_PREFIX } from '../../constants'
 import * as repoReducers from '../../reducers/repo'
 import ConnectedListItem, { ListItem } from './index'
 import { setupStore } from '../../setupStore'
@@ -27,7 +27,7 @@ describe('ListItem component', () => {
         <ListItem item={item} />
       </Router>,
     )
-    expect(wrapper.html()).toMatch(`<a href="/repo/${repoName}">`)
+    expect(wrapper.html()).toMatch(`<a href="/${REPO_PATH_PREFIX}/${repoName}">`)
   })
 
   describe('when clicking on a navlink', () => {
@@ -44,7 +44,7 @@ describe('ListItem component', () => {
       const stateChangeListener = jest.fn()
       store.subscribe(stateChangeListener)
 
-      wrapper.find('a[href="/repo/dsadsa"]').simulate('click')
+      wrapper.find(`a[href="/${REPO_PATH_PREFIX}/dsadsa"]`).simulate('click')
 
       // the action should be dispatched
       expect(stateChangeListener).toHaveBeenCalledTimes(1)
