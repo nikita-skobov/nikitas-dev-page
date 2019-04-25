@@ -3,3 +3,7 @@ export const FETCH_REPO_LIST_SUCCESS = 'FETCH_REPO_LIST_SUCCESS'
 export const FETCH_REPO_LIST_FAILURE = 'FETCH_REPO_LIST_FAILURE'
 export const NAVLINK_CLICK_REPO = 'NAVLINK_CLICK_REPO'
 export const REPO_PATH_PREFIX = 'repos'
+
+export const LIST_COMPONENT_CLASS_NAME = 'ns-list'
+export const LIST_ITEM_COMPONENT_CLASS_NAME = 'ns-list-item'
+export const REPO_COMPONENT_CLASS_NAME = 'ns-repo'

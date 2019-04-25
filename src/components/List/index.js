@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Spinner } from 'reactstrap'
 import { connect } from 'react-redux'
 
+import { LIST_COMPONENT_CLASS_NAME } from '../../constants'
 import { fetchRepoList } from '../../actions/fetchRepoList'
 import ConnectedListItem from '../ListItem'
 
@@ -18,7 +19,7 @@ export class List extends Component {
     if (!Array.isArray(list)) {
       // if not array, then it means reducer returned an error
       return (
-        <div>
+        <div className={LIST_COMPONENT_CLASS_NAME}>
           Unable to load list
         </div>
       )
@@ -26,12 +27,12 @@ export class List extends Component {
 
     if (list.length === 0) {
       return (
-        <Spinner color="dark" />
+        <Spinner className={LIST_COMPONENT_CLASS_NAME} color="dark" />
       )
     }
 
     return (
-      <div>
+      <div className={LIST_COMPONENT_CLASS_NAME}>
         {list.map((item) => {
           if (item.fork) {
             // dont show repositories that are forks
