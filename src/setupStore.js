@@ -2,7 +2,11 @@ import { applyMiddleware, createStore, compose } from 'redux'
 import thunk from 'redux-thunk'
 import reducers from './reducers/index'
 
-export function setupStore(allEnhancers = applyMiddleware(thunk), initialState = {}, theReducers = reducers) {
+export function setupStore(
+  allEnhancers = applyMiddleware(thunk),
+  initialState = {},
+  theReducers = reducers,
+) {
   return createStore(theReducers, { ...initialState }, allEnhancers)
 }
 
