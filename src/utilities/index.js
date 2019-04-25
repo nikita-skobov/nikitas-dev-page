@@ -2,6 +2,37 @@ export function flushAllPromises() {
   return new Promise(resolve => setImmediate(resolve))
 }
 
+export function objectOnlyHas(obj, properties) {
+  const propertiesObjectHas = Object.keys(obj)
+
+  if (typeof properties === 'string') {
+    if (propertiesObjectHas.length === 1 && propertiesObjectHas[0] === properties) {
+      return true
+    }
+    return false
+  }
+  // otherwise, it is assumed properties is an array of properties
+
+  if (propertiesObjectHas.length > properties.length) {
+    // if the object length is longer than the array of properties
+    // we know that the object contains more properties than we are looking for
+    return false
+  }
+
+  let matchedProperties = 0
+  for (let i = 0; i < propertiesObjectHas.length; i += 1) {
+    if (properties.indexOf(propertiesObjectHas[i]) !== -1) {
+      matchedProperties += 1
+    }
+  }
+
+  if (matchedProperties === propertiesObjectHas.length) {
+    return true
+  }
+
+  return false
+}
+
 export function handleErrors(response) {
   if (!response.ok) {
     throw new Error(response.statusText)
