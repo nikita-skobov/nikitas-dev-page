@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
 import { has } from '../../utilities'
+import { Badge } from '../Badge'
 
 export class Repo extends Component {
   componentDidMount() {
@@ -30,14 +31,7 @@ export class Repo extends Component {
       <div className={REPO_COMPONENT_CLASS_NAME}>
         <Jumbotron>
           <h2 className="display-3">{name}</h2>
-          <ButtonGroup>
-            <Button size="sm" color="secondary">
-              Last updated
-            </Button>
-            <Button size="sm" color="success">
-              {updatedAt}
-            </Button>
-          </ButtonGroup>
+          <Badge textA="Last updated" textB={updatedAt} />
           <p>
             <br />
             <span className="text-muted font-italic">{`"${description}"`}</span>
