@@ -32,8 +32,8 @@ export class Repo extends Component {
 
     if (noDataYet) {
       return (
-        <Container className="d-flex h-100">
-          <Spinner className={`mx-auto d-block align-self-center ${REPO_COMPONENT_CLASS_NAME}`} color="dark" />
+        <Container className={`d-flex h-100 ${REPO_COMPONENT_CLASS_NAME}`}>
+          <Spinner className="mx-auto d-block align-self-center" color="dark" />
         </Container>
       )
     }
