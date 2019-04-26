@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Spinner, Container } from 'reactstrap'
+import { Spinner, Container, Jumbotron, Button, ButtonGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { fetchRepo } from '../../actions/fetchRepo'
@@ -17,7 +17,7 @@ export class Repo extends Component {
 
   render() {
     const { repo, noDataYet } = this.props
-    const { name, updated_at: updatedAt } = repo
+    const { name, description, updated_at: updatedAt } = repo
     if (noDataYet) {
       return (
         <Container className="d-flex h-100">
@@ -28,8 +28,22 @@ export class Repo extends Component {
 
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
-        <div>Name2: {name}</div>
-        <div>Last updated: {updatedAt}</div>
+        <Jumbotron>
+          <h2 className="display-3">{name}</h2>
+          <ButtonGroup>
+            <Button size="sm" color="secondary">
+              Last updated
+            </Button>
+            <Button size="sm" color="success">
+              {updatedAt}
+            </Button>
+          </ButtonGroup>
+          <p>
+            <br />
+            <span className="text-muted font-italic">{`"${description}"`}</span>
+          </p>
+          <hr className="my-2" />
+        </Jumbotron>
       </div>
     )
   }
