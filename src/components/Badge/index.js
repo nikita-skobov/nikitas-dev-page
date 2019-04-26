@@ -2,6 +2,8 @@ import React from 'react'
 import { Button, ButtonGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 
+import './style.css'
+
 export function Badge(props) {
   const {
     colorA = 'secondary',
@@ -12,7 +14,7 @@ export function Badge(props) {
   } = props
 
   return (
-    <ButtonGroup>
+    <ButtonGroup className="ns-badge">
       <Button disabled style={{ opacity: 1 }} size={size} color={colorA}>
         {textA}
       </Button>
