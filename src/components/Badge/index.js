@@ -18,7 +18,7 @@ export function Badge(props) {
       <Button disabled style={{ opacity: 1 }} size={size} color={colorA}>
         {textA}
       </Button>
-      <Button disabled style={{ opacity: 1 }} size="sm" color={colorB}>
+      <Button disabled style={{ opacity: 1 }} size={size} color={colorB}>
         {textB}
       </Button>
     </ButtonGroup>
