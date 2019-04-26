@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import './style.css'
+import { GROUP_SPACER_COMPONENT_CLASS_NAME } from '../../constants'
 
 export function GroupSpacer(props) {
   const { children } = props
@@ -16,7 +17,12 @@ export function GroupSpacer(props) {
       componentList.push(<div className="ns-divider" />)
     }
   })
-  return componentList
+
+  return (
+    <div className={GROUP_SPACER_COMPONENT_CLASS_NAME}>
+      {componentList}
+    </div>
+  )
 }
 
 export default connect()(GroupSpacer)

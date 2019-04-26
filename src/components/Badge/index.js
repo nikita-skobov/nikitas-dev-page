@@ -3,6 +3,7 @@ import { Button, ButtonGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import './style.css'
+import { BADGE_COMPONENT_CLASS_NAME } from '../../constants'
 
 export function Badge(props) {
   const {
@@ -14,7 +15,7 @@ export function Badge(props) {
   } = props
 
   return (
-    <ButtonGroup className="ns-badge">
+    <ButtonGroup className={`ns-badge ${BADGE_COMPONENT_CLASS_NAME}`}>
       <Button disabled style={{ opacity: 1 }} size={size} color={colorA}>
         {textA}
       </Button>
