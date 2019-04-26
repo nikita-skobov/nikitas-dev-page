@@ -8,8 +8,10 @@ import ConnectedListItem from '../ListItem'
 
 export class List extends Component {
   componentDidMount() {
-    const { fetchList } = this.props
-    fetchList()
+    const { fetchList, noDataYet } = this.props
+    if (noDataYet) {
+      fetchList()
+    }
   }
 
   render() {
@@ -47,9 +49,17 @@ export class List extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ...state,
-})
+const mapStateToProps = (state) => {
+  const propObj = { ...state, noDataYet: true }
+
+  const { repoList } = state
+  const { list } = repoList
+  if (Array.isArray(list) && list.length > 0) {
+    propObj.noDataYet = false
+  }
+
+  return propObj
+}
 
 const mapActionsToProps = {
   fetchList: fetchRepoList,
