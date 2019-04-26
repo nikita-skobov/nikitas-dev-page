@@ -15,7 +15,7 @@ export function Badge(props) {
   } = props
 
   return (
-    <ButtonGroup className={`ns-badge ${BADGE_COMPONENT_CLASS_NAME}`}>
+    <ButtonGroup className={BADGE_COMPONENT_CLASS_NAME}>
       <Button disabled style={{ opacity: 1 }} size={size} color={colorA}>
         {textA}
       </Button>
