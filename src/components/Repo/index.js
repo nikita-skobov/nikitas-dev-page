@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import { Spinner, Container, Jumbotron, Button, ButtonGroup } from 'reactstrap'
 import { connect } from 'react-redux'
+import {
+  Spinner,
+  Container,
+  Jumbotron,
+} from 'reactstrap'
 
 import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
@@ -19,7 +23,13 @@ export class Repo extends Component {
 
   render() {
     const { repo, noDataYet } = this.props
-    const { name, size, description, updated_at: updatedAt } = repo
+    const {
+      name,
+      size,
+      description,
+      updated_at: updatedAt,
+    } = repo
+
     if (noDataYet) {
       return (
         <Container className="d-flex h-100">
