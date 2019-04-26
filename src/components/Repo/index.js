@@ -2,22 +2,22 @@ import React, { Component } from 'react'
 import { Spinner, Container } from 'reactstrap'
 import { connect } from 'react-redux'
 
+import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
-import { has, objectOnlyHas } from '../../utilities'
+import { has } from '../../utilities'
 
 export class Repo extends Component {
-  constructor(props) {
-    super(props)
-    const { name, updated_at: updatedAt } = props.repo
-    this.name = name
-    this.updatedAt = updatedAt
-    // props.repo should ALWAYS have name, but if it doesnt have
-    // anything else, that means no data was fetched yet
-    this.noDataYet = objectOnlyHas(props.repo, 'name')
+  componentDidMount() {
+    const { noDataYet, getRepo, repo } = this.props
+    const { name } = repo
+    if (noDataYet) {
+      getRepo(name)
+    }
   }
 
   render() {
-    const { name, updatedAt, noDataYet } = this
+    const { repo, noDataYet } = this.props
+    const { name, updated_at: updatedAt } = repo
     if (noDataYet) {
       return (
         <Container className="d-flex h-100">
@@ -36,11 +36,16 @@ export class Repo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const propObj = { ...state }
+  const propObj = { ...state, noDataYet: false }
   if (!has.call(propObj.repo, 'name')) {
     propObj.repo.name = ownProps.match.params.name
+    propObj.noDataYet = true
   }
   return propObj
 }
 
-export default connect(mapStateToProps)(Repo)
+const mapActionsToProps = {
+  getRepo: fetchRepo,
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Repo)
