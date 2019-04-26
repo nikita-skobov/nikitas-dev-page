@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 // eslint-disable-next-line
 import { mount } from 'enzyme'
 
-import { NAVLINK_CLICK_REPO, REPO_PATH_PREFIX } from '../../constants'
+import { NAVLINK_CLICK_REPO, REPO_PATH_PREFIX, LIST_ITEM_COMPONENT_CLASS_NAME } from '../../constants'
 import * as repoReducers from '../../reducers/repo'
 import ConnectedListItem, { ListItem } from './index'
 import { setupStore } from '../../setupStore'
@@ -19,7 +19,7 @@ describe('ListItem component', () => {
 
   it('should render', () => {
     const wrapper = mount(<Router><ListItem item={{ name: 'dsa' }} /></Router>)
-    expect(wrapper.find('.list-item').exists()).toBeTruthy()
+    expect(wrapper.find(`.${LIST_ITEM_COMPONENT_CLASS_NAME}`).exists()).toBeTruthy()
   })
 
   it('should have a navlink to the repository component', () => {

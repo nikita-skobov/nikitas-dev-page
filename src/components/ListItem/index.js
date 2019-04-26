@@ -13,7 +13,7 @@ import { NavLink } from 'react-router-dom'
 
 import './style.css'
 import { clickRepo } from '../../actions/navLinkClick'
-import { REPO_PATH_PREFIX } from '../../constants'
+import { REPO_PATH_PREFIX, LIST_ITEM_COMPONENT_CLASS_NAME } from '../../constants'
 import { getUpdateString } from '../../utilities'
 
 export function ListItem(props) {
@@ -28,7 +28,7 @@ export function ListItem(props) {
   const updatedAgo = getUpdateString(lastUpdated)
 
   return (
-    <div className="list-item p-3">
+    <div className={`${LIST_ITEM_COMPONENT_CLASS_NAME} p-3`}>
       <NavLink className="ns-link" onClick={repoClicked} to={`/${REPO_PATH_PREFIX}/${name}`}>
         <Card className="ns-card">
           <CardBody>

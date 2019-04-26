@@ -27,8 +27,8 @@ export class List extends Component {
 
     if (list.length === 0) {
       return (
-        <Container className="d-flex h-100">
-          <Spinner className={`mx-auto d-block align-self-center ${LIST_COMPONENT_CLASS_NAME}`} color="dark" />
+        <Container className={`d-flex h-100 ${LIST_COMPONENT_CLASS_NAME}`}>
+          <Spinner className="mx-auto d-block align-self-center" color="dark" />
         </Container>
       )
     }

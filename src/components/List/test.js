@@ -8,6 +8,7 @@ import { mount } from 'enzyme'
 import { flushAllPromises } from '../../utilities'
 import { setupStore } from '../../setupStore'
 import ConnectedList from './index'
+import { LIST_ITEM_COMPONENT_CLASS_NAME, LIST_COMPONENT_CLASS_NAME } from '../../constants'
 
 describe('the list component', () => {
   let store
@@ -18,7 +19,7 @@ describe('the list component', () => {
 
   it('should render', () => {
     const wrapper = mount(<Provider store={store}><Router><ConnectedList /></Router></Provider>)
-    const divElm = wrapper.find('div')
+    const divElm = wrapper.find(`.${LIST_COMPONENT_CLASS_NAME}`)
     expect(divElm.exists()).toBeTruthy()
   })
 
@@ -46,7 +47,7 @@ describe('the list component', () => {
     const wrapper = mount(<Provider store={store}><Router><ConnectedList /></Router></Provider>)
     await flushAllPromises()
     wrapper.update()
-    expect(wrapper.find('.list-item').length).toEqual(N)
+    expect(wrapper.find(`.${LIST_ITEM_COMPONENT_CLASS_NAME}`).length).toEqual(N)
   })
 
   it('should not render any repositories that are forks', async () => {
