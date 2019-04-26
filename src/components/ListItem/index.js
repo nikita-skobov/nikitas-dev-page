@@ -4,8 +4,6 @@ import {
   Card,
   CardBody,
   CardTitle,
-  CardText,
-  Container,
   Row,
   Col,
 } from 'reactstrap'

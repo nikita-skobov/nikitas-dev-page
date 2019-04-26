@@ -1,4 +1,4 @@
-/* global expect it describe jest fetch afterEach beforeEach */
+/* global expect it describe fetch afterEach beforeEach */
 import configureMockStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 

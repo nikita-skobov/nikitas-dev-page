@@ -1,4 +1,4 @@
-/* global expect describe it beforeEach jest */
+/* global expect describe it */
 import {
   getDaysAgo,
   getHoursAgo,
