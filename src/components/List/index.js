@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Spinner } from 'reactstrap'
+import { Spinner, Container } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { LIST_COMPONENT_CLASS_NAME } from '../../constants'
@@ -27,7 +27,9 @@ export class List extends Component {
 
     if (list.length === 0) {
       return (
-        <Spinner className={LIST_COMPONENT_CLASS_NAME} color="dark" />
+        <Container className="d-flex h-100">
+          <Spinner className={`mx-auto d-block align-self-center ${LIST_COMPONENT_CLASS_NAME}`} color="dark" />
+        </Container>
       )
     }
 

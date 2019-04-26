@@ -1,3 +1,7 @@
 .app-container {
   background-color: red;
 }
+
+html, body, #root, .app-root {
+  height: 100%;
+}

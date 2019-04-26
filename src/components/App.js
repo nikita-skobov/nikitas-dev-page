@@ -10,7 +10,7 @@ import { REPO_PATH_PREFIX } from '../constants'
 
 export function App() {
   return (
-    <div>
+    <div className="app-root">
       <Switch>
         <Route exact path={`/${REPO_PATH_PREFIX}`} component={ConnectedList} />
         <Route path={`/${REPO_PATH_PREFIX}/:name`} component={ConnectedRepo} />
