@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import { Spinner, Container, Jumbotron, Button, ButtonGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 
-import './style.css'
 import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
 import { has } from '../../utilities'
 import { Badge } from '../Badge'
+import { GroupSpacer } from '../GroupSpacer'
 
 export class Repo extends Component {
   componentDidMount() {
@@ -32,9 +32,10 @@ export class Repo extends Component {
       <div className={REPO_COMPONENT_CLASS_NAME}>
         <Jumbotron>
           <h2 className="display-3">{name}</h2>
-          <Badge textA="Last updated" textB={updatedAt} />
-          <div className="badge-divider" />
-          <Badge textA="Size" textB={size} />
+          <GroupSpacer>
+            <Badge textA="Last updated" textB={updatedAt} />
+            <Badge textA="Size" textB={size} />
+          </GroupSpacer>
           <p>
             <br />
             <span className="text-muted font-italic">{`"${description}"`}</span>
