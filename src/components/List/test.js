@@ -1,4 +1,4 @@
-/* global expect describe it beforeEach fetch */
+/* global expect describe it beforeEach fetch jest */
 import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
@@ -14,6 +14,10 @@ describe('the list component', () => {
   let store
 
   beforeEach(() => {
+    fetch.mock.calls = []
+    fetch.mock.instances = []
+    fetch.mock.invocationCallOrder = []
+    fetch.mock.results = []
     store = setupStore()
   })
 
@@ -30,8 +34,8 @@ describe('the list component', () => {
   })
 
   it('should render an error if list is not an array', () => {
-    store = setupStore(undefined, { repoList: { list: undefined } })
-    const wrapper = mount(<Provider store={store}><Router><ConnectedList /></Router></Provider>)
+    const store2 = setupStore(undefined, { repoList: { list: undefined } })
+    const wrapper = mount(<Provider store={store2}><Router><ConnectedList /></Router></Provider>)
     const htmlstring = wrapper.html()
     expect(htmlstring).not.toContain('spinner-border')
   })
@@ -63,5 +67,19 @@ describe('the list component', () => {
     await flushAllPromises()
     wrapper.update()
     expect(wrapper.find('.list-item').length).not.toEqual(N + 1)
+  })
+
+  it('should fetch if the list is empty', async () => {
+    const store2 = setupStore(undefined, { repoList: { list: [] } })
+    mount(<Provider store={store2}><Router><ConnectedList /></Router></Provider>)
+    await flushAllPromises()
+    expect(fetch.mock.calls.length).toBe(1)
+  })
+
+  it('should NOT fetch if the list is not empty', async () => {
+    const store2 = setupStore(undefined, { repoList: { list: [{ some: 'object' }] } })
+    mount(<Provider store={store2}><Router><ConnectedList /></Router></Provider>)
+    await flushAllPromises()
+    expect(fetch.mock.calls.length).toBe(0)
   })
 })
