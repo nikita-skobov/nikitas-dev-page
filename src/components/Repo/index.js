@@ -67,6 +67,7 @@ export class Repo extends Component {
             <span className="text-muted font-italic">{`"${description}"`}</span>
           </p>
           <hr className="my-2" />
+          <a rel="noopener noreferrer" target="_blank" href={htmlUrl}>{htmlUrl}</a>
         </Jumbotron>
       </div>
     )
