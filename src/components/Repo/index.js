@@ -43,8 +43,8 @@ export class Repo extends Component {
         <Jumbotron>
           <h2 className="display-3">{name}</h2>
           <GroupSpacer>
-            <Badge textA="Last updated" textB={updatedAt} />
-            <Badge textA="Size" textB={size} />
+            <Badge key={`updated${updatedAt}`} textA="Last updated" textB={updatedAt} />
+            <Badge key={`size${size}`} textA="Size" textB={size} />
           </GroupSpacer>
           <p>
             <br />

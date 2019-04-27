@@ -20,9 +20,10 @@ export function GroupSpacer(props) {
   children.forEach((child, index) => {
     componentList.push(child)
     if (index !== lastBadgeIndex) {
+      const childJson = JSON.stringify(child.props)
       // add a divider component between all the children
       // do not add a divider at the end of the list, though
-      componentList.push(<div className="ns-divider" />)
+      componentList.push(<div key={childJson} className="ns-divider" />)
     }
   })
 
