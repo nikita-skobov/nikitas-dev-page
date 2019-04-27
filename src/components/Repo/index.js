@@ -23,6 +23,15 @@ export class Repo extends Component {
 
   render() {
     const { repo, noDataYet } = this.props
+
+    if (noDataYet) {
+      return (
+        <Container className={`d-flex h-100 ${REPO_COMPONENT_CLASS_NAME}`}>
+          <Spinner className="mx-auto d-block align-self-center" color="dark" />
+        </Container>
+      )
+    }
+
     const {
       name,
       size,
@@ -41,15 +50,9 @@ export class Repo extends Component {
       open_issues: openIssues,
     } = repo
 
-    const updateStr = getUpdateString(updatedAt)
+    const { name: licenseName } = license
 
-    if (noDataYet) {
-      return (
-        <Container className={`d-flex h-100 ${REPO_COMPONENT_CLASS_NAME}`}>
-          <Spinner className="mx-auto d-block align-self-center" color="dark" />
-        </Container>
-      )
-    }
+    const updateStr = getUpdateString(updatedAt)
 
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
