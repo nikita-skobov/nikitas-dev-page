@@ -64,7 +64,6 @@ export class Repo extends Component {
             <br />
             <span className="text-muted font-italic">{`"${description}"`}</span>
           </p>
-          <hr className="my-2" />
           <a rel="noopener noreferrer" target="_blank" href={htmlUrl}>{htmlUrl}</a>
           <br />
           <br />
