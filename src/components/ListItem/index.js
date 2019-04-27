@@ -17,7 +17,7 @@ import { getUpdateString } from '../../utilities'
 export function ListItem(props) {
   const { item, clickRepoFunc } = props
   // eslint-disable-next-line
-  const { name, html_url: htmlUrl, updated_at: lastUpdated } = item
+  const { name, html_url: htmlUrl, pushed_at: lastUpdated } = item
 
   const repoClicked = () => {
     clickRepoFunc(item)

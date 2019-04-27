@@ -8,7 +8,7 @@ import {
 
 import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
-import { has } from '../../utilities'
+import { has, getUpdateString } from '../../utilities'
 import { Badge } from '../Badge'
 import { GroupSpacer } from '../GroupSpacer'
 
@@ -26,9 +26,22 @@ export class Repo extends Component {
     const {
       name,
       size,
+      forks,
+      language,
+      license,
       description,
-      updated_at: updatedAt,
+      pushed_at: updatedAt,
+      created_at: createdAt,
+      html_url: htmlUrl,
+      stargazers_count: stars,
+      has_issues: issues,
+      has_pages: pages,
+      has_projects: projects,
+      has_wiki: wiki,
+      open_issues: openIssues,
     } = repo
+
+    const updateStr = getUpdateString(updatedAt)
 
     if (noDataYet) {
       return (
@@ -43,7 +56,7 @@ export class Repo extends Component {
         <Jumbotron>
           <h2 className="display-3">{name}</h2>
           <GroupSpacer>
-            <Badge key={`updated${updatedAt}`} textA="Last updated" textB={updatedAt} />
+            <Badge key={`updated${updateStr}`} textA="Last updated" textB={updateStr} />
             <Badge key={`size${size}`} textA="Size" textB={size} />
           </GroupSpacer>
           <p>
