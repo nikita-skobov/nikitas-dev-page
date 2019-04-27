@@ -54,7 +54,7 @@ export class Repo extends Component {
 
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
-        <Jumbotron>
+        <Jumbotron className="bg-white">
           <h2 className="display-3">{name}</h2>
           <GroupSpacer>
             <Badge key={`updated${updateStr}`} textA="Last updated" textB={updateStr} />
