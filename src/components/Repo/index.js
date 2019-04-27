@@ -4,6 +4,7 @@ import {
   Spinner,
   Container,
   Jumbotron,
+  Table,
 } from 'reactstrap'
 
 import { fetchRepo } from '../../actions/fetchRepo'
@@ -43,16 +44,13 @@ export class Repo extends Component {
       created_at: createdAt,
       html_url: htmlUrl,
       stargazers_count: stars,
-      has_issues: issues,
-      has_pages: pages,
-      has_projects: projects,
-      has_wiki: wiki,
       open_issues: openIssues,
     } = repo
 
     const { name: licenseName } = license
 
     const updateStr = getUpdateString(updatedAt)
+    const createStr = getUpdateString(createdAt)
 
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
@@ -68,6 +66,54 @@ export class Repo extends Component {
           </p>
           <hr className="my-2" />
           <a rel="noopener noreferrer" target="_blank" href={htmlUrl}>{htmlUrl}</a>
+          <br />
+          <br />
+          <Table responsive striped>
+            <tbody>
+              <tr>
+                <th scope="row">Created</th>
+                <td>{createStr}</td>
+                <td />
+                <td />
+              </tr>
+              <tr>
+                <th scope="row">Language</th>
+                <td>{language}</td>
+                <td />
+                <td />
+              </tr>
+              <tr>
+                <th scope="row">License</th>
+                <td>{licenseName}</td>
+                <td />
+                <td />
+              </tr>
+              <tr>
+                <th scope="row">Forks</th>
+                <td>{forks}</td>
+                <td />
+                <td />
+              </tr>
+              <tr>
+                <th scope="row">Forks</th>
+                <td>{forks}</td>
+                <td />
+                <td />
+              </tr>
+              <tr>
+                <th scope="row">Stars</th>
+                <td>{stars}</td>
+                <td />
+                <td />
+              </tr>
+              <tr>
+                <th scope="row">Open Issues</th>
+                <td>{openIssues}</td>
+                <td />
+                <td />
+              </tr>
+            </tbody>
+          </Table>
         </Jumbotron>
       </div>
     )
