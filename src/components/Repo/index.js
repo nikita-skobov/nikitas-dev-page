@@ -47,7 +47,10 @@ export class Repo extends Component {
       open_issues: openIssues,
     } = repo
 
-    const { name: licenseName } = license
+    // destructure the license object to get the name property, and rename
+    // the name property to licenseName (since name is already defined above)
+    // if license is null, destructure from { name: 'None :(' } instead
+    const { name: licenseName } = license === null ? { name: 'None :(' } : license
 
     const updateStr = getUpdateString(updatedAt)
     const createStr = getUpdateString(createdAt)
@@ -70,7 +73,7 @@ export class Repo extends Component {
           <Table responsive striped>
             <tbody>
               <tr>
-                <th scope="row">Created</th>
+                <th>Created</th>
                 <td>{createStr}</td>
                 <td />
                 <td />
