@@ -11,6 +11,8 @@ import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
 import { has, getUpdateString } from '../../utilities'
 import { Badge } from '../Badge'
+import { DetailTable } from '../DetailTable'
+import { DetailTableEntry as Dte } from '../DetailTableEntry'
 import { GroupSpacer } from '../GroupSpacer'
 
 export class Repo extends Component {
@@ -70,52 +72,14 @@ export class Repo extends Component {
           <a rel="noopener noreferrer" target="_blank" href={htmlUrl}>{htmlUrl}</a>
           <br />
           <br />
-          <Table responsive striped>
-            <tbody>
-              <tr>
-                <th>Created</th>
-                <td>{createStr}</td>
-                <td />
-                <td />
-              </tr>
-              <tr>
-                <th scope="row">Language</th>
-                <td>{language}</td>
-                <td />
-                <td />
-              </tr>
-              <tr>
-                <th scope="row">License</th>
-                <td>{licenseName}</td>
-                <td />
-                <td />
-              </tr>
-              <tr>
-                <th scope="row">Forks</th>
-                <td>{forks}</td>
-                <td />
-                <td />
-              </tr>
-              <tr>
-                <th scope="row">Forks</th>
-                <td>{forks}</td>
-                <td />
-                <td />
-              </tr>
-              <tr>
-                <th scope="row">Stars</th>
-                <td>{stars}</td>
-                <td />
-                <td />
-              </tr>
-              <tr>
-                <th scope="row">Open Issues</th>
-                <td>{openIssues}</td>
-                <td />
-                <td />
-              </tr>
-            </tbody>
-          </Table>
+          <DetailTable>
+            <Dte label="Created">{createStr}</Dte>
+            <Dte label="Language">{language}</Dte>
+            <Dte label="License">{licenseName}</Dte>
+            <Dte label="Forks">{forks}</Dte>
+            <Dte label="Stars">{stars}</Dte>
+            <Dte label="Open Issues">{openIssues}</Dte>
+          </DetailTable>
         </Jumbotron>
       </div>
     )
