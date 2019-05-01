@@ -60,18 +60,18 @@ export class Repo extends Component {
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
         <Jumbotron className="bg-white">
-          <h2 className="display-3">{name}</h2>
-          <GroupSpacer>
-            <Badge key={`updated${updateStr}`} textA="Last updated" textB={updateStr} />
-            <Badge key={`size${size}`} textA="Size" textB={size} />
-          </GroupSpacer>
-          <p>
+          <div className="repo-main-info">
+            <h2 className="display-3">{name}</h2>
+            <GroupSpacer>
+              <Badge key={`updated${updateStr}`} textA="Last updated" textB={updateStr} />
+              <Badge key={`size${size}`} textA="Size" textB={size} />
+            </GroupSpacer>
             <br />
-            <span className="text-muted font-italic">{`"${description}"`}</span>
-          </p>
-          <a rel="noopener noreferrer" target="_blank" href={htmlUrl}>{htmlUrl}</a>
-          <br />
-          <br />
+            <p className="text-muted font-italic">{`"${description}"`}</p>
+            <a rel="noopener noreferrer" target="_blank" href={htmlUrl}>{htmlUrl}</a>
+            <br />
+            <br />
+          </div>
           <DetailTable>
             <Dte label="Created">{createStr}</Dte>
             <Dte label="Language">{language}</Dte>
