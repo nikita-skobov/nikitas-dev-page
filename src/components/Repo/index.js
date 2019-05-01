@@ -4,7 +4,6 @@ import {
   Spinner,
   Container,
   Jumbotron,
-  Table,
 } from 'reactstrap'
 
 import { fetchRepo } from '../../actions/fetchRepo'
