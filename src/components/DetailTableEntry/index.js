@@ -18,7 +18,7 @@ export function DetailTableEntry(props) {
 
   return (
     <tr className={DETAIL_TABLE_ENTRY_COMPONENT_CLASS_NAME}>
-      <th>{label}</th>
+      <th scope="row">{label}</th>
       <td>{child}</td>
       {paddingCells}
     </tr>
