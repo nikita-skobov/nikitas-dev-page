@@ -58,7 +58,7 @@ export class Repo extends Component {
 
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
-        <Jumbotron className="bg-white">
+        <Jumbotron style={{ paddingTop: 0 }} className="bg-white">
           <div className="repo-main-info">
             <h2 className="display-3">{name}</h2>
             <GroupSpacer>

@@ -39,6 +39,19 @@ describe('Repo component', () => {
     expect(divElm.exists()).toBeTruthy()
   })
 
+  it('should have the jumbotron have padding-top be 0', () => {
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null } })
+    const wrapper = mount(
+      <Provider store={store2}>
+        <Router>
+          <ConnectedRepo {...ownProps} />
+        </Router>
+      </Provider>,
+    )
+    const jumbotron = wrapper.find('.jumbotron')
+    expect(jumbotron.props().style.paddingTop).toBe(0)
+  })
+
   it('should fetch if store does not have repo data', async () => {
     mount(
       <Provider store={store}>
