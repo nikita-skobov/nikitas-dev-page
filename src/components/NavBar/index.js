@@ -23,7 +23,7 @@ export function NavBar() {
         </NavLink>
         <Nav className="ml-auto" navbar>
           <NavItem>
-            <NavLink to={`/${REPO_PATH_PREFIX}/`}>
+            <NavLink to={`/${REPO_PATH_PREFIX}`}>
               <ReactstrapNavlink className="text-white">
                 {capitalize(REPO_PATH_PREFIX)}
               </ReactstrapNavlink>

@@ -52,7 +52,7 @@ describe('the navbar component', () => {
       </Provider>,
     )
 
-    const navlink = wrapper.find(`a[href="/${REPO_PATH_PREFIX}/"]`)
+    const navlink = wrapper.find(`a[href="/${REPO_PATH_PREFIX}"]`)
     expect(navlink.childAt(0).text()).toBe(capitalize(REPO_PATH_PREFIX))
   })
 })
