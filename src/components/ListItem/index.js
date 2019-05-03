@@ -6,6 +6,9 @@ import {
   CardTitle,
   Row,
   Col,
+  ListGroupItem,
+  ListGroupItemHeading,
+  ListGroupItemText,
 } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
@@ -28,22 +31,10 @@ export function ListItem(props) {
   return (
     <div className={`${LIST_ITEM_COMPONENT_CLASS_NAME} p-3`}>
       <NavLink className="ns-link" onClick={repoClicked} to={`/${REPO_PATH_PREFIX}/${name}`}>
-        <Card className="ns-card">
-          <CardBody>
-            <Row>
-              <Col xs="auto">
-                <CardTitle>
-                  {name}
-                </CardTitle>
-              </Col>
-              <Col xs="auto">
-                <CardTitle>
-                  Last updated {updatedAgo}
-                </CardTitle>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
+        <ListGroupItem>
+          <ListGroupItemHeading>{name}</ListGroupItemHeading>
+          <ListGroupItemText>Last updated {updatedAgo}</ListGroupItemText>
+        </ListGroupItem>
       </NavLink>
     </div>
   )
