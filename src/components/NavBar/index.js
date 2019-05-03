@@ -9,7 +9,8 @@ import {
 } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
-import { REPO_PATH_PREFIX, NAVBAR_COMPONENT_CLASS_NAME } from '../../constants'
+import { capitalize } from '../../utilities'
+import { REPO_PATH_PREFIX, NAVBAR_COMPONENT_CLASS_NAME, SITE_NAME } from '../../constants'
 
 export function NavBar() {
   return (
@@ -17,14 +18,14 @@ export function NavBar() {
       <Navbar color="primary" light expand="md">
         <NavLink to="/">
           <NavbarBrand className="text-white">
-            Sample Dev Page
+            {SITE_NAME}
           </NavbarBrand>
         </NavLink>
         <Nav className="ml-auto" navbar>
           <NavItem>
             <NavLink to={`/${REPO_PATH_PREFIX}/`}>
               <ReactstrapNavlink className="text-white">
-                Repos
+                {capitalize(REPO_PATH_PREFIX)}
               </ReactstrapNavlink>
             </NavLink>
           </NavItem>
