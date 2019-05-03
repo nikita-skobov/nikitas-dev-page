@@ -37,7 +37,7 @@ export class List extends Component {
 
     return (
       <div className={LIST_COMPONENT_CLASS_NAME}>
-        <ListGroup className="pb-3">
+        <ListGroup className="py-3">
           {list.map((item) => {
             if (item.fork) {
               // dont show repositories that are forks
