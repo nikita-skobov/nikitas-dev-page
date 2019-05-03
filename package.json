@@ -1,5 +1,5 @@
 {
-  "name": "nikitas-dev-page",
+  "name": "sample-dev-site",
   "version": "1.0.0",
   "description": "A",
   "main": "index.js",
@@ -23,14 +23,14 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nikita-skobov/nikitas-dev-page.git"
+    "url": "git+https://github.com/nikita-skobov/sample-dev-site.git"
   },
   "author": "Nikita Skobov",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/nikita-skobov/nikitas-dev-page/issues"
+    "url": "https://github.com/nikita-skobov/sample-dev-site/issues"
   },
-  "homepage": "https://github.com/nikita-skobov/nikitas-dev-page#readme",
+  "homepage": "https://github.com/nikita-skobov/sample-dev-site#readme",
   "dependencies": {
     "bootstrap": "^4.3.1",
     "react": "^16.8.6",
