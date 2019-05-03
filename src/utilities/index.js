@@ -40,6 +40,17 @@ export function handleErrors(response) {
   return response
 }
 
+export function capitalize(str, char = 0) {
+  if (str.length - 1 < char) {
+    throw new Error(`Cannot capitalize character at index: ${char}. String is only ${str.length} characters long`)
+  }
+
+  const beforeCapChar = str.slice(0, char)
+  const capitalizedChar = str.charAt(char).toUpperCase()
+  const afterCapChar = str.slice(char + 1)
+  return `${beforeCapChar}${capitalizedChar}${afterCapChar}`
+}
+
 export function getDaysAgo(dayOld, dayNew) {
   const millisecondsInADay = 86400000 // 1000 * 60 * 60 * 24
   return Math.floor((dayNew.getTime() - dayOld.getTime()) / millisecondsInADay)
