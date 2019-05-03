@@ -1,4 +1,4 @@
-/* global expect it describe fetch beforeEach */
+/* global expect it describe beforeEach */
 import * as React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { Provider } from 'react-redux'
