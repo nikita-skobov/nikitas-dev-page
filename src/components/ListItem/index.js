@@ -31,7 +31,7 @@ export function ListItem(props) {
   return (
     <div className={`${LIST_ITEM_COMPONENT_CLASS_NAME} px-3`}>
       <NavLink className="ns-link" onClick={repoClicked} to={`/${REPO_PATH_PREFIX}/${name}`}>
-        <ListGroupItem>
+        <ListGroupItem className="border-white" active>
           <ListGroupItemHeading>{name}</ListGroupItemHeading>
           <ListGroupItemText>Last updated {updatedAgo}</ListGroupItemText>
         </ListGroupItem>
