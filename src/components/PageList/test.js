@@ -9,7 +9,7 @@ import { setupStore } from '../../setupStore'
 import ConnectedPageList from './index'
 import { PAGE_LIST_COMPONENT_CLASS_NAME, REPO_PATH_PREFIX } from '../../constants'
 
-describe('the list component', () => {
+describe('the page list component', () => {
   let store
 
   beforeEach(() => {
