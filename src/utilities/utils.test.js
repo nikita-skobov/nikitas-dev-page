@@ -4,6 +4,7 @@ import {
   getHoursAgo,
   getUpdateString,
   handleErrors,
+  capitalize,
 } from './index'
 
 describe('utility functions', () => {
@@ -14,6 +15,33 @@ describe('utility functions', () => {
 
     it('should throw an error if the ok property is not truthy', () => {
       const func = () => { handleErrors({ ok: 0 }) }
+      expect(func).toThrow()
+    })
+  })
+
+  describe('capitalize function', () => {
+    const inputStr = 'hello world'
+    it('should capitalize the first letter by default', () => {
+      expect(capitalize(inputStr)).toBe('Hello world')
+    })
+
+    it('should not modify the input string', () => {
+      // eslint-disable-next-line
+      let input = 'will this change?'
+      capitalize(input)
+      expect(input).toBe('will this change?')
+    })
+
+    it('should capitalize a letter other than first if specified', () => {
+      expect(capitalize(inputStr, 3)).toBe('helLo world')
+    })
+
+    it('should be able to capitalize the last character', () => {
+      expect(capitalize(inputStr, 10)).toBe('hello worlD')
+    })
+
+    it('should throw an error if the optional index is beyond the length of the string', () => {
+      const func = () => { capitalize(inputStr, 11) }
       expect(func).toThrow()
     })
   })
