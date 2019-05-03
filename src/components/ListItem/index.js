@@ -1,11 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import {
-  Card,
-  CardBody,
-  CardTitle,
-  Row,
-  Col,
   ListGroupItem,
   ListGroupItemHeading,
   ListGroupItemText,
