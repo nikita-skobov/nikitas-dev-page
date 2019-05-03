@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Spinner, Container } from 'reactstrap'
+import { Spinner, Container, ListGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import { LIST_COMPONENT_CLASS_NAME } from '../../constants'
@@ -37,13 +37,15 @@ export class List extends Component {
 
     return (
       <div className={LIST_COMPONENT_CLASS_NAME}>
-        {list.map((item) => {
-          if (item.fork) {
-            // dont show repositories that are forks
-            return null
-          }
-          return <ConnectedListItem key={item.node_id} item={item} />
-        })}
+        <ListGroup>
+          {list.map((item) => {
+            if (item.fork) {
+              // dont show repositories that are forks
+              return null
+            }
+            return <ConnectedListItem key={item.node_id} item={item} />
+          })}
+        </ListGroup>
       </div>
     )
   }
