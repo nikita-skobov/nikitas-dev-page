@@ -34,7 +34,7 @@ export function PageList(props) {
 
   return (
     <div className={PAGE_LIST_COMPONENT_CLASS_NAME}>
-      <Breadcrumb tag="nav" listTag="div">
+      <Breadcrumb style={{ marginBottom: '-1em' }} tag="nav" listTag="div">
         {crumbItems}
       </Breadcrumb>
     </div>
