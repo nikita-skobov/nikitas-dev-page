@@ -17,4 +17,4 @@ export const PAGE_LIST_COMPONENT_CLASS_NAME = 'ns-page-list'
 export const NAVBAR_COMPONENT_CLASS_NAME = 'ns-nav-bar'
 
 export const REPO_PATH_PREFIX = 'repos'
-export const SITE_NAME = 'Sample Dev Page'
+export const SITE_NAME = 'Sample Dev Site'
