@@ -7,6 +7,7 @@ import {
 import { NavLink } from 'react-router-dom'
 
 import { PAGE_LIST_COMPONENT_CLASS_NAME, REPO_PATH_PREFIX } from '../../constants'
+import { capitalize } from '../../utilities'
 
 export function PageList(props) {
   const { pathname, numSlashes } = props
@@ -23,11 +24,11 @@ export function PageList(props) {
 
   if (numSlashes === 2) {
     crumbItems.push(<BreadcrumbItem key="paths22" tag="span">{paths[2]}</BreadcrumbItem>)
-    crumbItems.push(<BreadcrumbItem key="repos2" tag="span"><NavLink className="ns-link" to={`/${REPO_PATH_PREFIX}`}>Repos</NavLink></BreadcrumbItem>)
+    crumbItems.push(<BreadcrumbItem key="repos2" tag="span"><NavLink className="ns-link" to={`/${REPO_PATH_PREFIX}`}>{capitalize(REPO_PATH_PREFIX)}</NavLink></BreadcrumbItem>)
     crumbItems.push(<BreadcrumbItem key="home2" tag="span"><NavLink className="ns-link" to="/">Home</NavLink></BreadcrumbItem>)
   }
   if (numSlashes === 1) {
-    crumbItems.push(<BreadcrumbItem key="repos1" tag="span">Repos</BreadcrumbItem>)
+    crumbItems.push(<BreadcrumbItem key="repos1" tag="span">{capitalize(REPO_PATH_PREFIX)}</BreadcrumbItem>)
     crumbItems.push(<BreadcrumbItem key="home1" tag="span"><NavLink className="ns-link" to="/">Home</NavLink></BreadcrumbItem>)
   }
   crumbItems = crumbItems.reverse()
