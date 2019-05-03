@@ -4,8 +4,6 @@ import {
   Navbar,
   Nav,
   NavItem,
-  NavbarBrand,
-  NavLink as ReactstrapNavlink,
 } from 'reactstrap'
 import { NavLink } from 'react-router-dom'
 
@@ -17,16 +15,16 @@ export function NavBar() {
     <div className={NAVBAR_COMPONENT_CLASS_NAME}>
       <Navbar color="primary" light expand="md">
         <NavLink to="/">
-          <NavbarBrand className="text-white">
+          <div className="text-white navbar-brand">
             {SITE_NAME}
-          </NavbarBrand>
+          </div>
         </NavLink>
         <Nav className="ml-auto" navbar>
           <NavItem>
             <NavLink to={`/${REPO_PATH_PREFIX}`}>
-              <ReactstrapNavlink className="text-white">
+              <div className="text-white nav-link">
                 {capitalize(REPO_PATH_PREFIX)}
-              </ReactstrapNavlink>
+              </div>
             </NavLink>
           </NavItem>
         </Nav>
