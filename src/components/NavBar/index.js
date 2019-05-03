@@ -13,7 +13,7 @@ import { REPO_PATH_PREFIX, NAVBAR_COMPONENT_CLASS_NAME, SITE_NAME } from '../../
 export function NavBar() {
   return (
     <div className={NAVBAR_COMPONENT_CLASS_NAME}>
-      <Navbar color="primary" light expand="md">
+      <Navbar color="primary">
         <NavLink to="/">
           <div className="text-white navbar-brand">
             {SITE_NAME}
