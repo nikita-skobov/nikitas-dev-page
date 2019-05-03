@@ -30,7 +30,7 @@ describe('badge component', () => {
     expect(button1.props.className).toMatch('sm')
 
     // second button should have colorB default: success
-    expect(button2.props.className).toMatch('success')
+    expect(button2.props.className).toMatch('primary')
     // second button should have size default: sm
     expect(button2.props.className).toMatch('sm')
   })

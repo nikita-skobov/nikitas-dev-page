@@ -8,7 +8,7 @@ import { BADGE_COMPONENT_CLASS_NAME } from '../../constants'
 export function Badge(props) {
   const {
     colorA = 'secondary',
-    colorB = 'success',
+    colorB = 'primary',
     textA,
     textB,
     size = 'sm',
