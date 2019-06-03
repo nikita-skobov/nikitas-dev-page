@@ -2,8 +2,18 @@ pipeline {
   agent any
 
   stages {
+    stage('Setup') {
+        steps {
+            NODE_MODULES_EXISTS = sh (
+                script: "[ -d ./node_modules/ ]",
+                returnStatus: true
+            ) == 0
+            sh "echo Node modules exists: ${NODE_MODULES_EXISTS}"
+        }
+    }
     stage('Test') {
       steps {
+        sh "echo Node modules exists: ${NODE_MODULES_EXISTS}"
         sh 'node -v'
         sh 'npm -v'
         sh 'npm install'
