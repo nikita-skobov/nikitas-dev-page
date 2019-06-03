@@ -13,8 +13,12 @@ pipeline {
         steps {
             script {
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
-                CHANGED_FILES = sh(script:"git diff-tree -r --name-only --no-commit-id HEAD", returnStdout: true)
+                echo "${GIT_PREVIOUS_COMMIT}"
+                echo "${GIT_COMMIT}"
+                CHANGED_FILES = sh(script:"git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}", returnStdout: true)
+                echo "${CHANGED_FILES}"
                 PACKAGE_WAS_CHANGED = sh(script:"echo $changed_files | grep --quiet \"package.json\"", returnStatus: true)
+                echo "package was changed? ${PACKAGE_WAS_CHANGED}"
 
                 if (NODE_MODULES_EXISTS == 1) {
                     // 1 means it does NOT exist
