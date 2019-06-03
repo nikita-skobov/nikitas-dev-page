@@ -62,6 +62,19 @@ pipeline {
             // if these tests are successful, deploy to production?
         }
     }
+
+    stage('Building') {
+        steps {
+            sh 'npm run build'
+            sh 'bash ./scripts/gzipAll.sh'
+        }
+    }
+
+    stage('Deploying') {
+        steps {
+            sh 'bash ./scripts/deployAll.sh --bucket=staging-projects.nikitas.link'
+        }
+    }
   }
 
   post {
