@@ -3,7 +3,6 @@ pipeline {
 
   environment {
       NODE_MODULES_EXISTS = 0
-      EPOCH = 0
       PACKAGE_WAS_CHANGED = 0
   }
 
@@ -25,7 +24,7 @@ pipeline {
                     echo "package.json has changed. running npm install"
                     sh 'npm install'
                 } else {
-                    echo "package.json is the same as it was last time. skipping npm install"
+                    echo "package-lock.json is the same as it was last time. skipping npm install"
                 }
             }
         }
