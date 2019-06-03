@@ -14,7 +14,7 @@ pipeline {
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "${GIT_PREVIOUS_COMMIT}"
                 echo "${GIT_COMMIT}"
-                PACKAGE_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "package.json"', returnStatus: true)
+                PACKAGE_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "package-lock.json"', returnStatus: true)
                 echo "package was changed? ${PACKAGE_WAS_CHANGED}"
 
                 if (NODE_MODULES_EXISTS == 1) {
