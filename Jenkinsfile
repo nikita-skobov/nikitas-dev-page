@@ -55,6 +55,13 @@ pipeline {
             }
         }
     }
+
+    stage('Infrastructure Testing') {
+        steps {
+            echo "Test routes and buckets and such here..."
+            // if these tests are successful, deploy to production?
+        }
+    }
   }
 
   post {
