@@ -9,6 +9,7 @@ pipeline {
   stages {
     stage('Setup') {
         steps {
+            echo "${env.AWS_ACCOUNT_NUMBER}"
             script {
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "${GIT_PREVIOUS_COMMIT}"
