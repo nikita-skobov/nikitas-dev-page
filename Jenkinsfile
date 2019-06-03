@@ -15,7 +15,7 @@ pipeline {
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "${GIT_PREVIOUS_COMMIT}"
                 echo "${GIT_COMMIT}"
-                CHANGED_FILES = sh(script:"git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}", returnStdout: true)
+                CHANGED_FILES = sh(script:"git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}", returnStdout: true).trim()
                 echo "${CHANGED_FILES}"
                 PACKAGE_WAS_CHANGED = sh(script:"echo ${CHANGED_FILES} | grep --quiet \"package.json\"", returnStatus: true)
                 echo "package was changed? ${PACKAGE_WAS_CHANGED}"
