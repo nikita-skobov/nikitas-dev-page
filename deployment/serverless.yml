@@ -1,5 +1,5 @@
 # merge fixer
-service: popithere # NOTE: update this with your service name
+service: projects-nikitas-link # NOTE: update this with your service name
 provider:
   name: aws
   runtime: nodejs8.10
