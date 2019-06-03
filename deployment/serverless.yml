@@ -1,9 +1,3 @@
-# STAGING COMMAND:
-# sls deploy --stage staging --account 775818059531 --bucket staging.popithere.com --uasecret stagingsecret1221 --certid 86ac355f-3c0b-4809-bf21-96b8019980ae --logbucket popithere-logging --hzname popithere.com
-
-# PRODUCTION COMMAND:
-# sls deploy --stage production --account 775818059531 --bucket popithere.com --uasecret production911secret1221 --certid 86ac355f-3c0b-4809-bf21-96b8019980ae --logbucket popithere-logging --hzname popithere.com
-
 # merge fixer
 service: popithere # NOTE: update this with your service name
 provider:
