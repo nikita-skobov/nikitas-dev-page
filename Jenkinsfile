@@ -1,13 +1,16 @@
 pipeline {
   agent any
 
+  environment {
+      NODE_MODULES_EXISTS = 0
+  }
+
   stages {
     stage('Setup') {
         steps {
-            NODE_MODULES_EXISTS = sh (
-                script: "[ -d ./node_modules/ ]",
-                returnStatus: true
-            ) == 0
+            script {
+                NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
+            }
             sh "echo Node modules exists: ${NODE_MODULES_EXISTS}"
         }
     }
