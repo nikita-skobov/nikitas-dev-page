@@ -50,6 +50,7 @@ pipeline {
     }
     success {
       echo 'Nice!!!'
+      sh "cd deployment/ && sls deploy --stage staging --account ${AWS_ACCOUNT_NUMBER} --bucket staging-projects.nikitas.link --uasecret ${STAGING_SAMPLE_DEV_SITE_UASECRET} --certid ${STAGING_SAMPLE_DEV_SITE_CERTID} --logbucket ${LOGBUCKET_NAME} --hzname nikitas.link"
     }
     unstable {
       echo 'Are we unstable?? why?'
