@@ -72,7 +72,8 @@ pipeline {
 
     stage('Deploying') {
         steps {
-            sh 'bash ./scripts/deployAll.sh --bucket=staging-projects.nikitas.link'
+            sh 'aws s3 rm s3://staging-projects.nikitas.link --recursive'
+            sh 'bash ./scripts/deployAll.sh --bucket=staging-projects.nikitas.link --ttl=public,max-age=20'
         }
     }
   }
