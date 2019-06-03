@@ -17,7 +17,7 @@ pipeline {
                 echo "${GIT_COMMIT}"
                 CHANGED_FILES = sh(script:"git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}", returnStdout: true)
                 echo "${CHANGED_FILES}"
-                PACKAGE_WAS_CHANGED = sh(script:"echo $changed_files | grep --quiet \"package.json\"", returnStatus: true)
+                PACKAGE_WAS_CHANGED = sh(script:"echo ${CHANGED_FILES} | grep --quiet \"package.json\"", returnStatus: true)
                 echo "package was changed? ${PACKAGE_WAS_CHANGED}"
 
                 if (NODE_MODULES_EXISTS == 1) {
