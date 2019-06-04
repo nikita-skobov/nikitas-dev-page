@@ -74,6 +74,7 @@ pipeline {
     stage('Deploying') {
         steps {
             sh 'aws s3 rm s3://staging-projects.nikitas.link --recursive'
+            // remove all items from website before updating it
             sh 'bash ./scripts/deployAll.sh --bucket=staging-projects.nikitas.link --ttl=public,max-age=20'
         }
     }
