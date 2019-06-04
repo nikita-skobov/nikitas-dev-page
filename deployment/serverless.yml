@@ -31,6 +31,14 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.report-bucket}
+        CorsConfiguration:
+          CorsRules:
+            - AllowedOrigins:
+                - "*"
+              AllowedMethods:
+                - "GET"
+              AllowedHeader:
+                - "*"
     ReportBucketOAI:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
       Properties:
