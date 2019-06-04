@@ -135,6 +135,14 @@ WebAppDistribution:
           OriginCustomHeaders:
             - HeaderName: User-Agent
               HeaderValue: ${self:custom.cloudfront-app.useragentsecret}
+          S3OriginConfig:
+            OriginAccessIdentity:
+              Fn::Join:
+                - "/"
+                - - origin-access-identity
+                  - cloudfront
+                  - Ref: ReportBucketAOI
+
         - DomainName: "${self:custom.cloudfront-app.bucketName}.s3-website.${self:custom.cloudfront-app.region}.amazonaws.com"
           Id: "S3-ID=${self:custom.cloudfront-app.bucketName}"
           OriginCustomHeaders:

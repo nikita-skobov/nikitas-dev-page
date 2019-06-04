@@ -31,6 +31,11 @@ resources:
       Type: AWS::S3::Bucket
       Properties:
         BucketName: ${self:custom.report-bucket}
+    ReportBucketOAI:
+      Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: "This OAI is applied to the distribution for ${self:service}. in order to prevent public access directly to the report bucket"
     ReportS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
@@ -40,14 +45,9 @@ resources:
           Statement:
             - Sid: PublicReadGetObject
               Effect: Allow
-              Principal: "*"
+              Principal:
+                CanonicalUser:
+                  Ref: ReportBucketOAI
               Action:
                 - s3:GetObject
               Resource: arn:aws:s3:::${self:custom.report-bucket}/*
-              Condition:
-                StringLike:
-                  ## only allow get requests to this bucket if they include a
-                  ## secret user agent string... this is an easy way to only allow
-                  ## access from a designated cloudfront distribution, but a poor
-                  ## security solution, because it relies on security by obfuscration
-                  aws:UserAgent: ${self:custom.cloudfront-app.useragentsecret}
