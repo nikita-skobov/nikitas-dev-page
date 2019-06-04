@@ -49,6 +49,7 @@ pipeline {
                     // 0 means it WAS changed
                     echo "serverless was changed"
                     sh "cd deployment/ && sls deploy --stage staging --account ${AWS_ACCOUNT_NUMBER} --bucket staging-projects.nikitas.link --uasecret ${STAGING_SAMPLE_DEV_SITE_UASECRET} --certid ${STAGING_SAMPLE_DEV_SITE_CERTID} --logbucket ${LOGBUCKET_NAME} --hzname nikitas.link"
+                    sh "bash ./deployment/create-reports-folder.sh staging-projects.nikitas.link-reports"
                 } else {
                     echo "serverless was the same since last commit. skipping serverless deploy"
                 }
