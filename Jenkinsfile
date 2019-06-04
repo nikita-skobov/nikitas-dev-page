@@ -59,8 +59,7 @@ pipeline {
 
     stage('Infrastructure Testing') {
         steps {
-            echo "Test routes and buckets and such here..."
-            // if these tests are successful, deploy to production?
+            sh "bash ./deployment/test-all.sh --web-bucket staging-projects.nikitas.link --report-bucket staging-projects.nikitas.link-reports"
         }
     }
 
