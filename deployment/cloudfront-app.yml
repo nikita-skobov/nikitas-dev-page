@@ -130,6 +130,11 @@ WebAppDistribution:
     DistributionConfig:
       HttpVersion: "http2"
       Origins:
+        - DomainName: "${self:custom.report-bucket}.s3.amazonaws.com"
+          Id: "S3-ID=${self:custom.report-bucket}"
+          OriginCustomHeaders:
+            - HeaderName: User-Agent
+              HeaderValue: ${self:custom.cloudfront-app.useragentsecret}
         - DomainName: "${self:custom.cloudfront-app.bucketName}.s3-website.${self:custom.cloudfront-app.region}.amazonaws.com"
           Id: "S3-ID=${self:custom.cloudfront-app.bucketName}"
           OriginCustomHeaders:
@@ -144,6 +149,23 @@ WebAppDistribution:
       Enabled: 'true'
       Aliases:
         - ${self:custom.cloudfront-app.alias}
+      CacheBehaviors:
+        # this is for the report bucket
+        - TargetOriginId: "S3-ID=${self:custom.report-bucket}"
+          AllowedMethods:
+            - HEAD
+            - GET
+          MaxTTL: 60
+          MinTTL: 0
+          DefaultTTL: 60
+          ForwardedValues:
+            QueryString: 'false'
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: redirect-to-https
+          PathPattern: reports/**
+
+
       DefaultCacheBehavior:
         AllowedMethods:
           - GET
