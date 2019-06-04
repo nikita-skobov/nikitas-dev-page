@@ -35,7 +35,7 @@ resources:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
       Properties:
         CloudFrontOriginAccessIdentityConfig:
-          Comment: "This OAI is applied to the distribution for ${self:service}. in order to prevent public access directly to the report bucket"
+          Comment: "${self:provider.stage}-${self:service}"
     ReportS3BucketPolicy:
       Type: AWS::S3::BucketPolicy
       Properties:
