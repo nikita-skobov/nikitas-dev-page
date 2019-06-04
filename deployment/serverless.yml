@@ -17,7 +17,7 @@ custom:
     logbucket-prefix: "${self:provider.stage}-${self:service}"
     alias: ${opt:bucket}
     hostedzonename: ${opt:hzname}
-  report-bucket: "${opt:bucket}-REPORTS"
+  report-bucket: "${opt:bucket}-reports"
 resources:
   Resources:
     WebRedirectS3Bucket: ${file(cloudfront-app.yml):WebRedirectS3Bucket}
