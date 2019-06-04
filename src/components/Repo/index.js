@@ -13,13 +13,24 @@ import { Badge } from '../Badge'
 import { DetailTable } from '../DetailTable'
 import { DetailTableEntry as Dte } from '../DetailTableEntry'
 import { GroupSpacer } from '../GroupSpacer'
+import { fetchReport } from '../../actions/fetchRepoReport'
 
 export class Repo extends Component {
   componentDidMount() {
-    const { noDataYet, getRepo, repo } = this.props
-    const { name } = repo
+    const {
+      noDataYet,
+      getRepo,
+      getRepoReport,
+      repo,
+    } = this.props
+
+    const { name, hasReport } = repo
+
     if (noDataYet) {
       getRepo(name)
+    }
+    if (!hasReport) {
+      getRepoReport(name)
     }
   }
 
@@ -96,6 +107,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapActionsToProps = {
   getRepo: fetchRepo,
+  getRepoReport: fetchReport,
 }
 
 export default connect(mapStateToProps, mapActionsToProps)(Repo)

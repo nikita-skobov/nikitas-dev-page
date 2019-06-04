@@ -1,4 +1,6 @@
-console.log(process.env.NODE_ENV)
+/* global window */
+const { hostname } = window.location
+const { NODE_ENV } = process.env
 
 export const FETCH_REPO_LIST_BEGIN = 'FETCH_REPO_LIST_BEGIN'
 export const FETCH_REPO_LIST_SUCCESS = 'FETCH_REPO_LIST_SUCCESS'
@@ -23,3 +25,18 @@ export const NAVBAR_COMPONENT_CLASS_NAME = 'ns-nav-bar'
 
 export const REPO_PATH_PREFIX = 'repos'
 export const SITE_NAME = 'Sample Dev Site'
+
+let apiDomain = ''
+if (NODE_ENV === 'production' && hostname === 'staging-projects.nikitas.link') {
+  // staging live domain
+  apiDomain = 'staging-projects.nikitas.link'
+} else if (NODE_ENV === 'production') {
+  // production live domain
+  apiDomain = 'projects.nikitas.link'
+} else {
+  // localhost test
+  apiDomain = 'staging-projects.nikitas.link'
+}
+
+
+export const SITE_DOMAIN = apiDomain
