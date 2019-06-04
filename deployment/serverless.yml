@@ -47,7 +47,9 @@ resources:
               Effect: Allow
               Principal:
                 CanonicalUser:
-                  Ref: ReportBucketOAI
+                  Fn::GetAtt:
+                    - ReportBucketOAI
+                    - S3CanonicalUserId
               Action:
                 - s3:GetObject
               Resource: arn:aws:s3:::${self:custom.report-bucket}/*
