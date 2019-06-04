@@ -56,6 +56,7 @@ describe('fetch repo list function', () => {
   let store
 
   beforeEach(() => {
+    jest.resetModules()
     const middlewares = [thunk]
     const mockStore = configureMockStore(middlewares)
     store = mockStore({})
@@ -74,6 +75,23 @@ describe('fetch repo list function', () => {
 
     fetchReport.fetchReport('reponame')(() => {})
     expect(fetch.mock.calls[0][0]).toEqual('https://staging-projects.nikitas.link/reports/reponame/latest.json')
+  })
+
+  it('should fetch from the production domain if in production', () => {
+    process.env.NODE_ENV = 'production'
+
+    // eslint-disable-next-line
+    const thisModule = require('./fetchRepoReport')
+
+    fetch.mockResponseOnce(JSON.stringify(
+      {
+        badges: [],
+      },
+    ))
+
+    thisModule.fetchReport('reponame')(() => {})
+
+    expect(fetch.mock.calls[0][0]).toEqual('https://projects.nikitas.link/reports/reponame/latest.json')
   })
 
   it('should dispatch FETCH_REPORT_BEGIN and FETCH_REPORT_SUCCESS if fetch is successful', async () => {
