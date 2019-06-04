@@ -141,7 +141,7 @@ WebAppDistribution:
                 - "/"
                 - - origin-access-identity
                   - cloudfront
-                  - Ref: ReportBucketAOI
+                  - Ref: ReportBucketOAI
 
         - DomainName: "${self:custom.cloudfront-app.bucketName}.s3-website.${self:custom.cloudfront-app.region}.amazonaws.com"
           Id: "S3-ID=${self:custom.cloudfront-app.bucketName}"
