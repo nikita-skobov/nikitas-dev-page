@@ -167,6 +167,10 @@ WebAppDistribution:
           MinTTL: 0
           DefaultTTL: 60
           ForwardedValues:
+            Headers:
+              - Origin
+              - Access-Control-Request-Headers
+              - Access-Control-Request-Method
             QueryString: 'false'
             Cookies:
               Forward: none
