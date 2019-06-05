@@ -84,10 +84,10 @@ pipeline {
       echo 'maybe delete some stuff here?'
       sh 'echo $(ls)'
       sh 'sudo npm update -g local-badges'
-      sh "npm run badges -- ${currentBuild.result}"
-      sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
-      // sh 'node /home/linaro/Desktop/coverage/node_modules/coverage-badger/lib/cli.js -e 90 -g 65 -r ./coverage/clover.xml -d ./reports/'
-      // sh 'sudo curl http://localhost:8080/buildStatus/icon?job=react-redux-jest-template -o ./reports/buildstatus.svg'
+      // sh "npm run badges -- ${currentBuild.result}"
+      // sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
+      sh "node runReport.js --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
+      sh "bash ./scripts/sendReport.sh --report-bucket staging-projects.nikitas.link-reports --project-name ${env.JOB_NAME}"
     }
     success {
       echo 'Nice!!!'
