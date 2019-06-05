@@ -1,29 +1,30 @@
 import React from 'react'
-import { Button, ButtonGroup } from 'reactstrap'
 import { connect } from 'react-redux'
 
 import './style.css'
+import { makeBadge } from '../../utilities/badges'
 import { BADGE_COMPONENT_CLASS_NAME } from '../../constants'
 
 export function Badge(props) {
   const {
-    colorA = 'secondary',
-    colorB = 'primary',
+    colorA = '#6c757d', // bootstrap secondary
+    colorB = '#007bff', // bootstrap primary
     textA,
     textB,
-    size = 'sm',
+    template = 'flat',
   } = props
 
-  return (
-    <ButtonGroup className={BADGE_COMPONENT_CLASS_NAME}>
-      <Button disabled style={{ opacity: 1 }} size={size} color={colorA}>
-        {textA}
-      </Button>
-      <Button disabled style={{ opacity: 1 }} size={size} color={colorB}>
-        {textB}
-      </Button>
-    </ButtonGroup>
-  )
+  const badge = makeBadge({
+    template,
+    colorA,
+    colorB,
+    text: [textA, textB],
+  })
+
+  const svgencoded = encodeURIComponent(badge)
+  const datauri = `data:image/svg+xml,${svgencoded}`
+
+  return <img className={BADGE_COMPONENT_CLASS_NAME} src={datauri} alt="Unable to load svg badge" />
 }
 
 export default connect()(Badge)
