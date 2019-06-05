@@ -80,22 +80,37 @@ init_args $@
 
 
 latest_json="$(aws s3api head-object --bucket $report_bucket --key reports/$project_name/latest.json --query Metadata.number 2>&1)"
+my_file=$(<latest.json)
+
 
 if [ "${latest_json:0:1}" == "\"" ]
 then
   without_last_quote="${latest_json%\"}"
   without_first_quote="${without_last_quote#\"}"
   report_number=$(($without_first_quote+1))
+  
+  # set the build_number property in the json file:
+  build_number="\"build_number\":\"$report_number\","
+  my_final_file="{$build_number${my_file:1}"
+  echo "$my_final_file" > latest.json
+  
   echo "Moving previous latest.json into: report_$without_first_quote.json"
   aws s3 mv s3://$report_bucket/reports/$project_name/latest.json s3://$report_bucket/reports/$project_name/report_$without_first_quote.json
   echo "Uploading report number: $report_number as latest.json"
-  aws s3 cp latest.json s3://$report_bucket/reports/$project_name/latest.json --metadata "number=$report_number"
+  aws s3 cp latest.json s3://$report_bucket/reports/$project_name/latest.json --metadata "number=$report_number" --cache-control "public,max-age=30"
 else
   # otherwise that means there is no latest.json file
   # so this is the first one
+
+  # set the build_number property in the json file:
+  build_number="\"build_number\":\"1\","
+  my_final_file="{$build_number${my_file:1}"
+  echo "$my_final_file" > latest.json
+
   echo "Uploading report number: 1 as latest.json"
-  aws s3 cp latest.json s3://$report_bucket/reports/$project_name/latest.json --metadata "number=1"
+  aws s3 cp latest.json s3://$report_bucket/reports/$project_name/latest.json --metadata "number=1" --cache-control "public,max-age=30"
 fi
 
 
+rm latest.json
 exit 0
