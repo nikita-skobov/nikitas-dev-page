@@ -73,8 +73,8 @@ export class Repo extends Component {
           <div className="repo-main-info">
             <h2 className="display-3">{name}</h2>
             <GroupSpacer>
-              <Badge key={`updated${updateStr}`} textA="Last updated" textB={updateStr} />
-              <Badge key={`size${size}`} textA="Size" textB={size} />
+              <Badge key={`updated${updateStr}`} template="flat-square" textA="Last updated" textB={updateStr} />
+              <Badge key={`size${size}`} template="flat-square" textA="Size" textB={size} />
             </GroupSpacer>
             <br />
             <p className="text-muted font-italic">{`"${description}"`}</p>
