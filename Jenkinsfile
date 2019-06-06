@@ -10,8 +10,8 @@ pipeline {
       REPORT_BUCKET_MASTER = "projects.nikitas.link-reports"
       DEPLOYMENT_STAGE = "staging"
       HOSTED_ZONE_NAME = "nikitas.link"
-      UA_SECRET = env.STAGING_SAMPLE_DEV_SITE_UASECRET
-      CERTID = env.STAGING_SAMPLE_DEV_SITE_CERTID
+      UA_SECRET = "${env.STAGING_SAMPLE_DEV_SITE_UASECRET}"
+      CERTID = "${env.STAGING_SAMPLE_DEV_SITE_CERTID}"
   }
 
   stages {
@@ -23,8 +23,8 @@ pipeline {
                   WEB_BUCKET = "projects.nikitas.link"
                   REPORT_BUCKET = "projects.nikitas.link-reports"
                   DEPLOYMENT_STAGE = "production"
-                  UA_SECRET = env.PRODUCTION_SAMPLE_DEV_SITE_UASECRET
-                  CERTID = env.PRODUCTION_SAMPLE_DEV_SITE_CERTID
+                  UA_SECRET = "${env.PRODUCTION_SAMPLE_DEV_SITE_UASECRET}"
+                  CERTID = "${env.PRODUCTION_SAMPLE_DEV_SITE_CERTID}"
                 }
 
 
