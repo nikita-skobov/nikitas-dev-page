@@ -26,12 +26,13 @@ export function reportReducer(state = initialState, action) {
       return retObj
     }
     case FETCH_REPORT_SUCCESS: {
-      const { repoName } = action.payload
+      const { repoName, body } = action.payload
       const retObj = { ...state }
       if (has.call(retObj, repoName)) {
         retObj[repoName].hasReport = true
+        retObj[repoName].reportData = { ...body }
       } else {
-        retObj[repoName] = { hasReport: true }
+        retObj[repoName] = { hasReport: true, reportData: { ...body } }
       }
 
       return retObj
