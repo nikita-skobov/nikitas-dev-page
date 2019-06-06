@@ -64,7 +64,7 @@ describe('Repo component', () => {
     expect(fetch.mock.calls.length).toBe(1)
   })
 
-  it('should NOT fetch if store does have repo data', async () => {
+  it('should NOT fetch if store does have repo data and report', async () => {
     const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { hasReport: true } } })
 
     mount(
@@ -79,7 +79,7 @@ describe('Repo component', () => {
   })
 
   it('should fetch if store does not have report', async () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, hasReport: false, license: null } })
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { hasReport: false }} })
 
     mount(
       <Provider store={store2}>
@@ -90,6 +90,20 @@ describe('Repo component', () => {
     )
     await flushAllPromises()
     expect(fetch.mock.calls[0][0]).toBe(`https://staging-projects.nikitas.link/reports/${someRepoName}/latest.json`)
+  })
+
+  it('should only fetch repo data if the store already has a report', async () => {
+    const store2 = setupStore(undefined, { repo: { }, reports: { [someRepoName]: { hasReport: true }} })
+
+    mount(
+      <Provider store={store2}>
+        <Router>
+          <ConnectedRepo {...ownProps} />
+        </Router>
+      </Provider>,
+    )
+    await flushAllPromises()
+    expect(fetch.mock.calls[0][0]).not.toBe(`https://staging-projects.nikitas.link/reports/${someRepoName}/latest.json`)
   })
 
   it('should render the name, and description of the repo', () => {
