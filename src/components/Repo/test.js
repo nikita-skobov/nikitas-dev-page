@@ -65,7 +65,13 @@ describe('Repo component', () => {
   })
 
   it('should NOT fetch if store does have repo data and report', async () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { hasReport: true } } })
+    const store2 = setupStore(
+      undefined,
+      {
+        repo: { name: someRepoName, license: null },
+        reports: { [someRepoName]: { hasReport: true, reportData: { badges: [] } } },
+      },
+    )
 
     mount(
       <Provider store={store2}>
