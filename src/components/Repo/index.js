@@ -106,7 +106,8 @@ const mapStateToProps = (state, ownProps) => {
     propObj.repo.name = ownProps.match.params.name
     propObj.noDataYet = true
   }
-  propObj.hasReport = state.reports[propObj.repo.name]
+  const repoName = propObj.repo.name
+  propObj.hasReport = state.reports[repoName] ? state.reports[repoName].hasReport : false
   return propObj
 }
 
