@@ -22,9 +22,10 @@ export class Repo extends Component {
       getRepo,
       getRepoReport,
       repo,
+      hasReport,
     } = this.props
 
-    const { name, hasReport } = repo
+    const { name } = repo
 
     if (noDataYet) {
       getRepo(name)
@@ -105,6 +106,7 @@ const mapStateToProps = (state, ownProps) => {
     propObj.repo.name = ownProps.match.params.name
     propObj.noDataYet = true
   }
+  propObj.hasReport = state.reports[propObj.repo.name]
   return propObj
 }
 
