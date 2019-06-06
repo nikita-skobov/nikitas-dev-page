@@ -7,7 +7,8 @@ pipeline {
       SERVERLESS_WAS_CHANGED = 0
       WEB_BUCKET = "staging-projects.nikitas.link"
       REPORT_BUCKET = "staging-projects.nikitas.link-reports"
-      REPORT_BUCKET_MASTER = "projects.nikitas.link-reports"
+      REPORT_BUCKET_PRODUCTION = "projects.nikitas.link-reports"
+      REPORT_BUCKET_STAGING = "staging-projects.nikitas.link-reports"
       DEPLOYMENT_STAGE = "staging"
       HOSTED_ZONE_NAME = "nikitas.link"
       UA_SECRET = "${env.STAGING_SAMPLE_DEV_SITE_UASECRET}"
@@ -103,7 +104,15 @@ pipeline {
       // sh "npm run badges -- ${currentBuild.result}"
       // sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
       sh "node runReport.js --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
-      sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET} --project-name ${env.JOB_NAME}"
+      script {
+        if (DEPLOYMENT_STAGE == "staging") {
+          // if in staging we want to send a report to both the production bucket
+          // (because this is still a build, and we want to see a history of builds)
+          // as well as the staging bucket for testing the infrastructure
+          sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_STAGING} --project-name ${env.JOB_NAME}"    
+        }
+      }
+      sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_PRODUCTION} --project-name ${env.JOB_NAME}"
     }
     success {
       echo 'Nice!!!'
