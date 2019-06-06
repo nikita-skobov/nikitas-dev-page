@@ -58,7 +58,7 @@ pipeline {
     stage('Infrastructure Deployment') {
         steps {
             script {
-                SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${env.GIT_PREVIOUS_COMMIT} ${env.GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
+                SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
                 echo "serverless was changed? ${PACKAGE_WAS_CHANGED}"
 
                 if (SERVERLESS_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
