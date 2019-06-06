@@ -68,7 +68,11 @@ export class Repo extends Component {
     const updateStr = getUpdateString(updatedAt)
     const createStr = getUpdateString(createdAt)
 
-    const reportBadges = []
+    const badges = [
+      <Badge key={`updated${updateStr}`} template="flat-square" textA="Last updated" textB={updateStr} />,
+      <Badge key={`size${size}`} template="flat-square" textA="Size" textB={size} />,
+    ]
+
     if (hasReport) {
       reportData.badges.forEach((badgeData) => {
         const badgeKeys = {
@@ -77,7 +81,7 @@ export class Repo extends Component {
           ...badgeData,
         }
 
-        reportBadges.push(
+        badges.push(
           <Badge
             key={`${name}_report_${badgeKeys.textA}`}
             template="flat-square"
@@ -93,9 +97,7 @@ export class Repo extends Component {
           <div className="repo-main-info">
             <h2 className="display-3">{name}</h2>
             <GroupSpacer>
-              <Badge key={`updated${updateStr}`} template="flat-square" textA="Last updated" textB={updateStr} />
-              <Badge key={`size${size}`} template="flat-square" textA="Size" textB={size} />
-              {reportBadges}
+              {badges}
             </GroupSpacer>
             <br />
             <p className="text-muted font-italic">{`"${description}"`}</p>
