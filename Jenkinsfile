@@ -112,7 +112,7 @@ pipeline {
       sh 'sudo npm update -g local-badges'
       // sh "npm run badges -- ${currentBuild.result}"
       // sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
-      sh "node runReport.js --num-commits ${NUMBER_OF_COMMITS} --branch ${env.GIT_BRANCH} --build-start ${BUILD_START_TIME} --build-end ${BUILD_END_TIME} --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
+      sh "node runReport.js --current-commit ${env.GIT_COMMIT} --num-commits ${NUMBER_OF_COMMITS} --branch ${env.GIT_BRANCH} --build-start ${BUILD_START_TIME} --build-end ${BUILD_END_TIME} --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
       script {
         if (DEPLOYMENT_STAGE == "staging") {
           // if in staging we want to send a report to both the production bucket
