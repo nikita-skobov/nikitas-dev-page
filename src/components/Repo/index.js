@@ -97,7 +97,10 @@ export class Repo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const propObj = { ...state, noDataYet: false }
+  const propObj = {
+    repo: { ...state.repo },
+    noDataYet: false,
+  }
   if (!has.call(propObj.repo, 'name')) {
     propObj.repo.name = ownProps.match.params.name
     propObj.noDataYet = true
