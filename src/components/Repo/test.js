@@ -20,7 +20,7 @@ describe('Repo component', () => {
     // need to explicitly say repo: {} here for initial state
     // because for some reason multiple tests cause the store
     // to retain properties from previous tests
-    store = setupStore(undefined, { repo: { hasReport: true } })
+    store = setupStore(undefined, { repo: {}, reports: { [someRepoName]: { hasReport: true } } })
     fetch.mock.calls = []
     fetch.mock.instances = []
     fetch.mock.invocationCallOrder = []
@@ -65,7 +65,7 @@ describe('Repo component', () => {
   })
 
   it('should NOT fetch if store does have repo data', async () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, hasReport: true, license: null } })
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { hasReport: true } } })
 
     mount(
       <Provider store={store2}>
