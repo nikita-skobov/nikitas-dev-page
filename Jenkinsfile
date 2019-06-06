@@ -13,6 +13,7 @@ pipeline {
       HOSTED_ZONE_NAME = "nikitas.link"
       UA_SECRET = "${env.STAGING_SAMPLE_DEV_SITE_UASECRET}"
       CERTID = "${env.STAGING_SAMPLE_DEV_SITE_CERTID}"
+      NUMBER_OF_COMMITS = 0
   }
 
   stages {
@@ -28,7 +29,8 @@ pipeline {
                   CERTID = "${env.PRODUCTION_SAMPLE_DEV_SITE_CERTID}"
                 }
 
-
+                NUMBER_OF_COMMITS = sh(script: 'git log ${GIT_PREVIOUS_COMMIT}..${GITCOMMIT} --pretty=oneline | wc -l', returnStdout: true)
+                echo "number of commits: ${NUMBER_OF_COMMITS}"
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "previous commit: ${env.GIT_PREVIOUS_COMMIT}"
                 echo "current commit: ${env.GIT_COMMIT}"
