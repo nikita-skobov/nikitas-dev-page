@@ -56,6 +56,10 @@ case $key in
 		report_bucket="$2"
 		shift 2
 		;;
+  --dont-delete)
+		dont_delete="$2"
+		shift 2
+		;;
 	*)
 		POSITIONAL+=("$1") # saves unknown option in array
 		shift
@@ -111,6 +115,10 @@ else
   aws s3 cp latest.json s3://$report_bucket/reports/$project_name/latest.json --metadata "number=1" --cache-control "public,max-age=30"
 fi
 
+if [ "$dont_delete" != "true" ]
+then
+  echo "deleting latest.json"
+  rm latest.json
+fi
 
-rm latest.json
 exit 0
