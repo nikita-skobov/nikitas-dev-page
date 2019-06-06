@@ -47,8 +47,8 @@ describe('setup store function', () => {
   it('should allow the user to override the initial state by passing in the second argument', () => {
     const overrideStore = setup.setupStore(undefined, { repo: 'state' })
     const specificStore = createStore(reducers, { repo: 'state' }, applyMiddleware(thunk))
-    expect(overrideStore.getState()).toEqual({ repo: 'state', repoList: { list: [] } })
-    expect(specificStore.getState()).toEqual({ repo: 'state', repoList: { list: [] } })
+    expect(overrideStore.getState()).toEqual({ repo: 'state', repoList: { list: [] }, reports: {} })
+    expect(specificStore.getState()).toEqual({ repo: 'state', repoList: { list: [] }, reports: {} })
   })
 
   it('should allow the user to override the reducers by passing in the third argument', () => {

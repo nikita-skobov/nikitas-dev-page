@@ -108,6 +108,7 @@ describe('fetch repo list function', () => {
           type: FETCH_REPORT_SUCCESS,
           payload: {
             body,
+            repoName: 'reponame',
           },
         },
       ],

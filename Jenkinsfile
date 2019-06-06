@@ -5,6 +5,9 @@ pipeline {
       NODE_MODULES_EXISTS = 0
       PACKAGE_WAS_CHANGED = 0
       SERVERLESS_WAS_CHANGED = 0
+      WEB_BUCKET = "staging-projects.nikitas.link"
+      REPORT_BUCKET = "staging-projects.nikitas.link-reports"
+      REPORT_BUCKET_MASTER = "projects.nikitas.link-reports"
   }
 
   stages {
@@ -12,6 +15,12 @@ pipeline {
         steps {
             echo "${env.AWS_ACCOUNT_NUMBER}"
             script {
+                echo "${GIT_BRANCH}"
+                if (GIT_BRANCH == "master-production") {
+                  echo "change web and report bucket"
+                }
+
+
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "${GIT_PREVIOUS_COMMIT}"
                 echo "${GIT_COMMIT}"

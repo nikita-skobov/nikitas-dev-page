@@ -1,4 +1,4 @@
-import { NAVLINK_CLICK_REPO, FETCH_REPO_SUCCESS, FETCH_REPORT_SUCCESS } from '../../constants'
+import { NAVLINK_CLICK_REPO, FETCH_REPO_SUCCESS } from '../../constants'
 
 export const initialState = { hasReport: false }
 
@@ -14,12 +14,6 @@ export function repoReducer(state = initialState, action) {
       return {
         ...state,
         ...action.payload.body,
-      }
-    }
-    case FETCH_REPORT_SUCCESS: {
-      return {
-        ...state,
-        hasReport: true,
       }
     }
     default:

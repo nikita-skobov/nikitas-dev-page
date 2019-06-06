@@ -22,9 +22,10 @@ export class Repo extends Component {
       getRepo,
       getRepoReport,
       repo,
+      hasReport,
     } = this.props
 
-    const { name, hasReport } = repo
+    const { name } = repo
 
     if (noDataYet) {
       getRepo(name)
@@ -35,7 +36,7 @@ export class Repo extends Component {
   }
 
   render() {
-    const { repo, noDataYet } = this.props
+    const { repo, noDataYet, hasReport, reportData } = this.props
 
     if (noDataYet) {
       return (
@@ -67,14 +68,36 @@ export class Repo extends Component {
     const updateStr = getUpdateString(updatedAt)
     const createStr = getUpdateString(createdAt)
 
+    const badges = [
+      <Badge key={`updated${updateStr}`} template="flat-square" textA="Last updated" textB={updateStr} />,
+      <Badge key={`size${size}`} template="flat-square" textA="Size" textB={size} />,
+    ]
+
+    if (hasReport) {
+      reportData.badges.forEach((badgeData) => {
+        const badgeKeys = {
+          textA: badgeData.text[0],
+          textB: badgeData.text[1],
+          ...badgeData,
+        }
+
+        badges.push(
+          <Badge
+            key={`${name}_report_${badgeKeys.textA}`}
+            template="flat-square"
+            {...badgeKeys}
+          />,
+        )
+      })
+    }
+
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
         <Jumbotron style={{ paddingTop: 0 }} className="bg-white">
           <div className="repo-main-info">
             <h2 className="display-3">{name}</h2>
             <GroupSpacer>
-              <Badge key={`updated${updateStr}`} template="flat-square" textA="Last updated" textB={updateStr} />
-              <Badge key={`size${size}`} template="flat-square" textA="Size" textB={size} />
+              {badges}
             </GroupSpacer>
             <br />
             <p className="text-muted font-italic">{`"${description}"`}</p>
@@ -97,10 +120,18 @@ export class Repo extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  const propObj = { ...state, noDataYet: false }
+  const propObj = {
+    repo: { ...state.repo },
+    noDataYet: false,
+  }
   if (!has.call(propObj.repo, 'name')) {
     propObj.repo.name = ownProps.match.params.name
     propObj.noDataYet = true
+  }
+  const repoName = propObj.repo.name
+  propObj.hasReport = state.reports[repoName] ? state.reports[repoName].hasReport : false
+  if (propObj.hasReport) {
+    propObj.reportData = { ...state.reports[repoName].reportData }
   }
   return propObj
 }
