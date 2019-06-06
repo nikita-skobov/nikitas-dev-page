@@ -109,7 +109,7 @@ pipeline {
           // if in staging we want to send a report to both the production bucket
           // (because this is still a build, and we want to see a history of builds)
           // as well as the staging bucket for testing the infrastructure
-          sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_STAGING} --project-name ${env.JOB_NAME}"    
+          sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_STAGING} --project-name ${env.JOB_NAME} --dont-delete true"    
         }
       }
       sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_PRODUCTION} --project-name ${env.JOB_NAME}"
