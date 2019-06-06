@@ -8,22 +8,29 @@ pipeline {
       WEB_BUCKET = "staging-projects.nikitas.link"
       REPORT_BUCKET = "staging-projects.nikitas.link-reports"
       REPORT_BUCKET_MASTER = "projects.nikitas.link-reports"
+      DEPLOYMENT_STAGE = "staging"
+      HOSTED_ZONE_NAME = "nikitas.link"
+      UA_SECRET = env.STAGING_SAMPLE_DEV_SITE_UASECRET
+      CERTID = env.STAGING_SAMPLE_DEV_SITE_CERTID
   }
 
   stages {
     stage('Setup') {
         steps {
-            echo "${env.AWS_ACCOUNT_NUMBER}"
             script {
-                echo "${env.GIT_BRANCH}"
-                if (env.GIT_BRANCH == "master-production") {
-                  echo "change web and report bucket"
+                if (env.GIT_BRANCH == "origin/master-production") {
+                  echo "THIS IS A PRODUCTION BUILD"
+                  WEB_BUCKET = "projects.nikitas.link"
+                  REPORT_BUCKET = "projects.nikitas.link-reports"
+                  DEPLOYMENT_STAGE = "production"
+                  UA_SECRET = env.PRODUCTION_SAMPLE_DEV_SITE_UASECRET
+                  CERTID = env.PRODUCTION_SAMPLE_DEV_SITE_CERTID
                 }
 
 
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
-                echo "${env.GIT_PREVIOUS_COMMIT}"
-                echo "${env.GIT_COMMIT}"
+                echo "previous commit: ${env.GIT_PREVIOUS_COMMIT}"
+                echo "current commit: ${env.GIT_COMMIT}"
                 PACKAGE_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${env.GIT_PREVIOUS_COMMIT} ${env.GIT_COMMIT}) | grep --quiet "package.json"', returnStatus: true)
                 echo "package was changed? ${PACKAGE_WAS_CHANGED}"
 
@@ -54,11 +61,11 @@ pipeline {
                 SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${env.GIT_PREVIOUS_COMMIT} ${env.GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
                 echo "serverless was changed? ${PACKAGE_WAS_CHANGED}"
 
-                if (SERVERLESS_WAS_CHANGED == 0) {
+                if (SERVERLESS_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
                     // 0 means it WAS changed
-                    echo "serverless was changed"
-                    sh "cd deployment/ && sls deploy --stage staging --account ${env.AWS_ACCOUNT_NUMBER} --bucket staging-projects.nikitas.link --uasecret ${env.STAGING_SAMPLE_DEV_SITE_UASECRET} --certid ${env.STAGING_SAMPLE_DEV_SITE_CERTID} --logbucket ${env.LOGBUCKET_NAME} --hzname nikitas.link"
-                    sh "bash ./deployment/create-reports-folder.sh staging-projects.nikitas.link-reports"
+                    echo "Running serverless deploy"
+                    sh "cd deployment/ && sls deploy --stage ${DEPLOYMENT_STAGE} --account ${env.AWS_ACCOUNT_NUMBER} --bucket ${WEB_BUCKET} --uasecret ${UA_SECRET} --certid ${CERTID} --logbucket ${env.LOGBUCKET_NAME} --hzname ${HOSTED_ZONE_NAME}"
+                    sh "bash ./deployment/create-reports-folder.sh ${REPORT_BUCKET}"
                 } else {
                     echo "serverless was the same since last commit. skipping serverless deploy"
                 }
@@ -68,7 +75,7 @@ pipeline {
 
     stage('Infrastructure Testing') {
         steps {
-            sh "bash ./deployment/test-all.sh --web-bucket staging-projects.nikitas.link --report-bucket staging-projects.nikitas.link-reports"
+            sh "bash ./deployment/test-all.sh --web-bucket ${WEB_BUCKET} --report-bucket ${REPORT_BUCKET}"
         }
     }
 
@@ -81,9 +88,9 @@ pipeline {
 
     stage('Deploying') {
         steps {
-            sh 'aws s3 rm s3://staging-projects.nikitas.link --recursive'
+            sh "aws s3 rm s3://${WEB_BUCKET} --recursive"
             // remove all items from website before updating it
-            sh 'bash ./scripts/deployAll.sh --bucket=staging-projects.nikitas.link --ttl=public,max-age=20'
+            sh "bash ./scripts/deployAll.sh --bucket=${WEB_BUCKET} --ttl=public,max-age=20"
         }
     }
   }
@@ -96,7 +103,7 @@ pipeline {
       // sh "npm run badges -- ${currentBuild.result}"
       // sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
       sh "node runReport.js --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
-      sh "bash ./scripts/sendReport.sh --report-bucket staging-projects.nikitas.link-reports --project-name ${env.JOB_NAME}"
+      sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET} --project-name ${env.JOB_NAME}"
     }
     success {
       echo 'Nice!!!'
