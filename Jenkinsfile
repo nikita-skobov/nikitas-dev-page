@@ -15,16 +15,16 @@ pipeline {
         steps {
             echo "${env.AWS_ACCOUNT_NUMBER}"
             script {
-                echo "${GIT_BRANCH}"
-                if (GIT_BRANCH == "master-production") {
+                echo "${env.GIT_BRANCH}"
+                if (env.GIT_BRANCH == "master-production") {
                   echo "change web and report bucket"
                 }
 
 
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
-                echo "${GIT_PREVIOUS_COMMIT}"
-                echo "${GIT_COMMIT}"
-                PACKAGE_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "package.json"', returnStatus: true)
+                echo "${env.GIT_PREVIOUS_COMMIT}"
+                echo "${env.GIT_COMMIT}"
+                PACKAGE_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${env.GIT_PREVIOUS_COMMIT} ${env.GIT_COMMIT}) | grep --quiet "package.json"', returnStatus: true)
                 echo "package was changed? ${PACKAGE_WAS_CHANGED}"
 
                 if (NODE_MODULES_EXISTS == 1) {
@@ -51,13 +51,13 @@ pipeline {
     stage('Infrastructure Deployment') {
         steps {
             script {
-                SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
+                SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${env.GIT_PREVIOUS_COMMIT} ${env.GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
                 echo "serverless was changed? ${PACKAGE_WAS_CHANGED}"
 
                 if (SERVERLESS_WAS_CHANGED == 0) {
                     // 0 means it WAS changed
                     echo "serverless was changed"
-                    sh "cd deployment/ && sls deploy --stage staging --account ${AWS_ACCOUNT_NUMBER} --bucket staging-projects.nikitas.link --uasecret ${STAGING_SAMPLE_DEV_SITE_UASECRET} --certid ${STAGING_SAMPLE_DEV_SITE_CERTID} --logbucket ${LOGBUCKET_NAME} --hzname nikitas.link"
+                    sh "cd deployment/ && sls deploy --stage staging --account ${env.AWS_ACCOUNT_NUMBER} --bucket staging-projects.nikitas.link --uasecret ${env.STAGING_SAMPLE_DEV_SITE_UASECRET} --certid ${env.STAGING_SAMPLE_DEV_SITE_CERTID} --logbucket ${env.LOGBUCKET_NAME} --hzname nikitas.link"
                     sh "bash ./deployment/create-reports-folder.sh staging-projects.nikitas.link-reports"
                 } else {
                     echo "serverless was the same since last commit. skipping serverless deploy"
