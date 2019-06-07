@@ -36,11 +36,11 @@ export function fetchReportFailure(err, repoName) {
 }
 
 
-export function fetchReport(name) {
+export function fetchReport(name, key = 'latest.json') {
   const repoName = name
   return (dispatch) => {
     dispatch(fetchReportBegin())
-    return fetch(`https://${SITE_DOMAIN}/reports/${name}/latest.json`)
+    return fetch(`https://${SITE_DOMAIN}/reports/${name}/${key}`)
       .then(handleErrors)
       .then(resp => resp.json())
       .then(data => dispatch(fetchReportSuccess(data, repoName)))
