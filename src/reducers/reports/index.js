@@ -20,7 +20,7 @@ export function reportReducer(state = initialState, action) {
         if (!has.call(retObj, obj.name)) {
           // the current state does not have this repo name,
           // so that means we havent fetched its report yet
-          retObj[obj.name] = { reportStatus: REPORT_NOT_FETCHED_YET }
+          retObj[obj.name] = { reportStatus: REPORT_NOT_FETCHED_YET, reportData: [] }
         }
       })
       return retObj
@@ -30,7 +30,7 @@ export function reportReducer(state = initialState, action) {
       const retObj = { ...state }
       const { body } = action.payload
       if (!has.call(retObj, body.name)) {
-        retObj[body.name] = { reportStatus: REPORT_NOT_FETCHED_YET }
+        retObj[body.name] = { reportStatus: REPORT_NOT_FETCHED_YET, reportData: [] }
       }
       return retObj
     }
