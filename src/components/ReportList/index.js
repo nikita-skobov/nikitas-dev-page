@@ -33,7 +33,22 @@ export class ReportList extends Component {
     const list = [
       <ListGroup>
         <ListGroupItem>
+          <span style={{ marginRight: '1em' }}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
+              <path d="M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z" transform="translate(0 1)" />
+            </svg>
+          </span>
           {`Build Number ${latestNumber} (latest)`}
+        </ListGroupItem>
+        <ListGroupItem>
+          <ul>
+            <li>Status: {latest.status}</li>
+            <li>Finished: {new Date(latest.time_ended * 1000).toDateString()}</li>
+            <li>Branch: {latest.branch}</li>
+            <li>Commit: {latest.current_commit}</li>
+            <li>commits since previous build: {latest.num_commits}</li>
+            <li>Duration: {Math.floor(latest.duration / 60)} min {latest.duration % 60} sec</li>
+          </ul>
         </ListGroupItem>
       </ListGroup>,
       <br />,
