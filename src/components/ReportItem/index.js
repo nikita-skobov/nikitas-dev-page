@@ -4,6 +4,8 @@ import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
 
 import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
 
+import './style.css'
+
 
 function Arrow(props) {
   const { collapseOpen } = props
@@ -39,7 +41,7 @@ function BuildInfo(props) {
   }
 
   return (
-    <ListGroupItem>
+    <ListGroupItem className="ns-list-group-outline">
       <ul>
         <li>Status: {data.status}</li>
         <li>Finished: {new Date(data.time_ended * 1000).toDateString()}</li>
@@ -111,7 +113,7 @@ export class ReportItem extends Component {
 
     return [
       <ListGroup>
-        <ListGroupItem>
+        <ListGroupItem className="ns-list-group-outline">
           <span onClick={this.toggleCollapse} style={{ marginRight: '1em' }}>
             <Arrow collapseOpen={collapseOpen} />
           </span>
