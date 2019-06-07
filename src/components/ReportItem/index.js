@@ -2,6 +2,24 @@ import React, { Component } from 'react'
 
 import { ListGroup, ListGroupItem, Collapse } from 'reactstrap'
 
+function BuildInfo(props) {
+  const { data } = props
+  if (!data) return null
+
+  return (
+    <ListGroupItem>
+      <ul>
+        <li>Status: {data.status}</li>
+        <li>Finished: {new Date(data.time_ended * 1000).toDateString()}</li>
+        <li>Branch: {data.branch}</li>
+        <li>Commit: {data.current_commit}</li>
+        <li>commits since previous build: {data.num_commits}</li>
+        <li>Duration: {Math.floor(data.duration / 60)} min {data.duration % 60} sec</li>
+      </ul>
+    </ListGroupItem>
+  )
+}
+
 export class ReportItem extends Component {
   constructor(props) {
     super(props)
@@ -27,11 +45,12 @@ export class ReportItem extends Component {
     const {
       isLatest,
       data,
+      buildNumber,
     } = this.props
 
     const { collapseOpen } = this.state
 
-    let buildNumberText = `Build Number ${data.build_number}`
+    let buildNumberText = `Build Number ${buildNumber}`
 
     if (isLatest) {
       buildNumberText = `${buildNumberText} (latest)`
@@ -48,16 +67,7 @@ export class ReportItem extends Component {
           {buildNumberText}
         </ListGroupItem>
         <Collapse isOpen={collapseOpen}>
-          <ListGroupItem>
-            <ul>
-              <li>Status: {data.status}</li>
-              <li>Finished: {new Date(data.time_ended * 1000).toDateString()}</li>
-              <li>Branch: {data.branch}</li>
-              <li>Commit: {data.current_commit}</li>
-              <li>commits since previous build: {data.num_commits}</li>
-              <li>Duration: {Math.floor(data.duration / 60)} min {data.duration % 60} sec</li>
-            </ul>
-          </ListGroupItem>
+          <BuildInfo data={data} />
         </Collapse>
       </ListGroup>,
       <br />,

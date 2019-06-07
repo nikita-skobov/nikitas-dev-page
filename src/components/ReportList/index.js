@@ -10,17 +10,25 @@ export function ReportList(props) {
   if (!reportData) return null
 
   const latest = reportData[0]
+  const buildNumber = parseInt(latest.build_number, 10)
 
   const list = [
-    <ReportItem isLatest data={latest} />,
+    <ReportItem isLatest data={latest} buildNumber={buildNumber} />,
   ]
 
+  const latestNumber = parseInt(latest.build_number, 10)
+  let stopAt = latestNumber - SHOW_BUILDS_MAX
+  if (stopAt < 0) stopAt = 0
 
-  for (let i = 1; i < reportData.length; i += 1) {
+  for (let i = latestNumber - 1; i > stopAt; i -= 1) {
     list.push(
-      <ReportItem data={reportData[i]} />,
+      <ReportItem data={reportData[i]} buildNumber={i} />,
     )
   }
+
+
+  // for (let i = 1; i < reportData.length; i += 1) {
+  // }
 
   return (
     <div>
