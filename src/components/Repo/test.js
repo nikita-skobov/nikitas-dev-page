@@ -7,7 +7,7 @@ import { mount, shallow } from 'enzyme'
 
 import { flushAllPromises } from '../../utilities'
 import ConnectedRepo from './index'
-import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
+import { REPO_COMPONENT_CLASS_NAME, REPORT_NOT_FETCHED_YET } from '../../constants'
 import { setupStore } from '../../setupStore'
 
 
@@ -85,7 +85,7 @@ describe('Repo component', () => {
   })
 
   it('should fetch if store does not have report', async () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { hasReport: false }} })
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { reportStatus: REPORT_NOT_FETCHED_YET }} })
 
     mount(
       <Provider store={store2}>
