@@ -6,6 +6,7 @@ import {
   Jumbotron,
 } from 'reactstrap'
 
+import ConnectedReportList from '../ReportList'
 import { fetchRepo } from '../../actions/fetchRepo'
 import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
 import { has, getUpdateString } from '../../utilities'
@@ -113,6 +114,7 @@ export class Repo extends Component {
             <Dte label="Stars">{stars}</Dte>
             <Dte label="Open Issues">{openIssues}</Dte>
           </DetailTable>
+          <ConnectedReportList repoName={name} reportData />
         </Jumbotron>
       </div>
     )
