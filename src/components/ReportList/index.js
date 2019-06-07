@@ -13,44 +13,43 @@ const reportTitles = {
 
 const SHOW_BUILDS_MAX = 10
 
-export class ReportList extends Component {
-  render() {
-    const { repoName, reportEnum, reportList } = this.props
-    const reportTitle = reportTitles[reportEnum]
+export function ReportList(props) {
+  const { reportEnum, reportList } = props
+  const reportTitle = reportTitles[reportEnum]
 
-    const latest = reportList[0]
+  const latest = reportList[0]
 
-    if (!latest) {
-      // report doesnt exist,  or not fetched yet
-      return (
-        <div>
-          {reportTitle}
-        </div>
-      )
-    }
-
-    // eslint-disable-next-line
-    const latestNumber = parseInt(latest.build_number, 10)
-
-    const list = [
-      <ReportItem isLatest data={latest} />,
-    ]
-
-
-    for (let i = 1; i < reportList.length; i += 1) {
-      list.push(
-        <ReportItem data={reportList[i]} />,
-      )
-    }
-
+  if (!latest) {
+    // report doesnt exist,  or not fetched yet
     return (
       <div>
         {reportTitle}
-        {list}
       </div>
     )
   }
+
+  // eslint-disable-next-line
+  const latestNumber = parseInt(latest.build_number, 10)
+
+  const list = [
+    <ReportItem isLatest data={latest} />,
+  ]
+
+
+  for (let i = 1; i < reportList.length; i += 1) {
+    list.push(
+      <ReportItem data={reportList[i]} />,
+    )
+  }
+
+  return (
+    <div>
+      {reportTitle}
+      {list}
+    </div>
+  )
 }
+
 
 const mapStateToProps = (state, ownProps) => {
   console.log(ownProps)
