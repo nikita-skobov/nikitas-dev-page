@@ -1,3 +1,7 @@
 .ns-badge {
   padding-top: 5px;
 }
+
+.ns-badge-height {
+  height: 2em;
+}

@@ -5,6 +5,8 @@ pipeline {
       NODE_MODULES_EXISTS = 0
       PACKAGE_WAS_CHANGED = 0
       SERVERLESS_WAS_CHANGED = 0
+      SRC_WAS_CHANGED = 0
+      PUBLIC_WAS_CHANGED = 0
       WEB_BUCKET = "staging-projects.nikitas.link"
       REPORT_BUCKET = "staging-projects.nikitas.link-reports"
       REPORT_BUCKET_PRODUCTION = "projects.nikitas.link-reports"
@@ -40,6 +42,13 @@ pipeline {
                 echo "current commit: ${env.GIT_COMMIT}"
                 PACKAGE_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "package.json"', returnStatus: true)
                 echo "package was changed? ${PACKAGE_WAS_CHANGED}"
+                SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
+                echo "serverless was changed? ${SERVERLESS_WAS_CHANGED}"
+                SRC_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "src/*"', returnStatus: true)
+                echo "src was changed? ${SRC_WAS_CHANGED}"
+                PUBLIC_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "public/*"', returnStatus: true)
+                echo "public was changed? ${PUBLIC_WAS_CHANGED}"
+
 
                 if (NODE_MODULES_EXISTS == 1) {
                     // 1 means it does NOT exist
@@ -65,9 +74,6 @@ pipeline {
     stage('Infrastructure Deployment') {
         steps {
             script {
-                SERVERLESS_WAS_CHANGED = sh(script:'echo $(git diff --name-only ${GIT_PREVIOUS_COMMIT} ${GIT_COMMIT}) | grep --quiet "deployment/*"', returnStatus: true)
-                echo "serverless was changed? ${PACKAGE_WAS_CHANGED}"
-
                 if (SERVERLESS_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
                     // 0 means it WAS changed
                     echo "Running serverless deploy"
@@ -88,16 +94,30 @@ pipeline {
 
     stage('Building') {
         steps {
-            sh 'npm run build'
-            sh 'bash ./scripts/gzipAll.sh'
+            script {
+              if (SRC_WAS_CHANGED == 0 || || PUBLIC_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
+                echo "Source was changed, or in production stage. running build"
+                sh 'npm run build'
+                sh 'bash ./scripts/gzipAll.sh'
+              } else {
+                echo "Skipping build since source has not changed"
+              }
+            }
         }
     }
 
     stage('Deploying') {
         steps {
-            sh "aws s3 rm s3://${WEB_BUCKET} --recursive"
-            // remove all items from website before updating it
-            sh "bash ./scripts/deployAll.sh --bucket=${WEB_BUCKET} --ttl=public,max-age=20"
+          script {
+            if (SRC_WAS_CHANGED == 0 || PUBLIC_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
+              echo "Source was changed, or in production stage. running deployment to s3 bucket"
+              sh "aws s3 rm s3://${WEB_BUCKET} --recursive"
+              // remove all items from website before updating it
+              sh "bash ./scripts/deployAll.sh --bucket=${WEB_BUCKET} --ttl=public,max-age=20"
+            } else {
+              echo "Skipping deployment since source has not changed"
+            }
+          }
         }
     }
   }
@@ -122,6 +142,11 @@ pipeline {
         }
       }
       sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_PRODUCTION} --project-name ${env.JOB_NAME}"
+
+      echo "${currentBuild.duration}"
+      echo "${currentBuild.durationString}"
+      echo "${currentBuild.timeInMillis}"
+      echo "${currentBuild.startTimeInMillis}"
     }
     success {
       echo 'Nice!!!'

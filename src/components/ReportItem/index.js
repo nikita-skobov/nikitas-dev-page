@@ -25,7 +25,7 @@ function Arrow(props) {
 }
 
 function BuildInfo(props) {
-  const { data, reportStatus } = props
+  const { data, reportStatus, repoName } = props
   if (reportStatus === REPORT_NOT_FETCHED_YET) {
     return (
       <ListGroupItem>
@@ -36,9 +36,16 @@ function BuildInfo(props) {
 
   if (reportStatus === REPORT_NOT_EXIST) {
     return (
-      <h3>OOpsIE doOpsIe!</h3>
+      <ListGroupItem className="ns-list-group-outline">
+        <ul>
+          <li>This report failed to load</li>
+        </ul>
+      </ListGroupItem>
     )
   }
+
+  const shortCommit = data.current_commit.substr(0, 7)
+  const commitUrl = `https://github.com/nikita-skobov/${repoName}/commit/${data.current_commit}`
 
   return (
     <ListGroupItem className="ns-list-group-outline">
@@ -46,7 +53,7 @@ function BuildInfo(props) {
         <li>Status: {data.status}</li>
         <li>Finished: {new Date(data.time_ended * 1000).toDateString()}</li>
         <li>Branch: {data.branch}</li>
-        <li>Commit: {data.current_commit}</li>
+        <li>Commit: <a target="_blank" rel="noopener noreferrer" href={commitUrl}>{shortCommit}</a></li>
         <li>commits since previous build: {data.num_commits}</li>
         <li>Duration: {Math.floor(data.duration / 60)} min {data.duration % 60} sec</li>
       </ul>
@@ -101,6 +108,7 @@ export class ReportItem extends Component {
       data,
       buildNumber,
       reportStatus,
+      repoName,
     } = this.props
 
     const { collapseOpen } = this.state
@@ -120,7 +128,7 @@ export class ReportItem extends Component {
           {buildNumberText}
         </ListGroupItem>
         <Collapse isOpen={collapseOpen}>
-          <BuildInfo data={data} reportStatus={reportStatus} />
+          <BuildInfo repoName={repoName} data={data} reportStatus={reportStatus} />
         </Collapse>
       </ListGroup>,
       <br />,

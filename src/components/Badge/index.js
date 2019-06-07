@@ -24,7 +24,7 @@ export function Badge(props) {
   const svgencoded = encodeURIComponent(badge)
   const datauri = `data:image/svg+xml,${svgencoded}`
 
-  return <img className={BADGE_COMPONENT_CLASS_NAME} src={datauri} alt="Unable to load svg badge" />
+  return <img className={`${BADGE_COMPONENT_CLASS_NAME} ns-badge-height`} src={datauri} alt="Unable to load svg badge" />
 }
 
 export default connect()(Badge)
