@@ -1,10 +1,6 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-
-import { ListGroup, ListGroupItem, Spinner } from 'reactstrap'
+import React from 'react'
 
 import { ReportItem } from '../ReportItem'
-
 
 const SHOW_BUILDS_MAX = 10
 
@@ -33,20 +29,4 @@ export function ReportList(props) {
   )
 }
 
-
-const mapStateToProps = (state, ownProps) => {
-  console.log(ownProps)
-  const latestReport = ownProps.reportData
-  const { repoName } = ownProps
-
-  return {
-    repoName,
-    reportList: [
-      latestReport,
-    ],
-  }
-}
-
-const mapActionsToProps = {}
-
-export default connect(mapStateToProps, mapActionsToProps)(ReportList)
+export default ReportList
