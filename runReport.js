@@ -81,11 +81,27 @@ const cliObj = parseCommandLineArguments(process.argv)
 
 const coverageBadge = cloverCoverage.fn(cliObj)
 const buildStatusBadge = buildStatus.fn(cliObj)
+
+const branchSplit = cliObj.branch.split('/')
+const lastBranchIndex = branchSplit.length - 1
+const end = parseInt(cliObj['build-end'], 10)
+const start = parseInt(cliObj['build-start'], 10)
+const duration = end - start
+
+
 const report = {
   badges: [
     buildStatusBadge,
     coverageBadge,
   ],
+  num_commits: cliObj['num-commits'],
+  branch: branchSplit[lastBranchIndex],
+  time_ended: cliObj['build-end'],
+  duration,
+  current_commit: cliObj['current-commit'],
+  status: cliObj['build-status'],
+  // stages
+  // // { name, time, pass_or_fail }
 }
 
 console.log(JSON.stringify(report))
