@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 
 import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
 
+import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
+
 
 function Arrow(props) {
   const { collapseOpen } = props
@@ -21,12 +23,18 @@ function Arrow(props) {
 }
 
 function BuildInfo(props) {
-  const { data } = props
-  if (!data) {
+  const { data, reportStatus } = props
+  if (reportStatus === REPORT_NOT_FETCHED_YET) {
     return (
       <ListGroupItem>
         <Spinner color="dark" />
       </ListGroupItem>
+    )
+  }
+
+  if (reportStatus === REPORT_NOT_EXIST) {
+    return (
+      <h3>OOpsIE doOpsIe!</h3>
     )
   }
 
@@ -90,6 +98,7 @@ export class ReportItem extends Component {
       isLatest,
       data,
       buildNumber,
+      reportStatus,
     } = this.props
 
     const { collapseOpen } = this.state
@@ -109,7 +118,7 @@ export class ReportItem extends Component {
           {buildNumberText}
         </ListGroupItem>
         <Collapse isOpen={collapseOpen}>
-          <BuildInfo data={data} />
+          <BuildInfo data={data} reportStatus={reportStatus} />
         </Collapse>
       </ListGroup>,
       <br />,

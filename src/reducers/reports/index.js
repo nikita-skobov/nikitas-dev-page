@@ -20,9 +20,14 @@ export function reportReducer(state = initialState, action) {
         if (!has.call(retObj, obj.name)) {
           // the current state does not have this repo name,
           // so that means we havent fetched its report yet
-          retObj[obj.name] = { reportStatus: REPORT_NOT_FETCHED_YET, reportData: [] }
+          retObj[obj.name] = {
+            latest: {
+              reportStatus: REPORT_NOT_FETCHED_YET,
+            },
+          }
         }
       })
+
       return retObj
     }
 
@@ -30,31 +35,64 @@ export function reportReducer(state = initialState, action) {
       const retObj = { ...state }
       const { body } = action.payload
       if (!has.call(retObj, body.name)) {
-        retObj[body.name] = { reportStatus: REPORT_NOT_FETCHED_YET, reportData: [] }
+        retObj[body.name] = {
+          latest: {
+            reportStatus: REPORT_NOT_FETCHED_YET,
+          },
+        }
       }
+
       return retObj
     }
 
     case FETCH_REPORT_SUCCESS: {
-      const { repoName, body } = action.payload
+      const { repoName, body, fetchedKey } = action.payload
       const retObj = { ...state }
+      const buildNumber = parseInt(body.build_number, 10)
+
       if (has.call(retObj, repoName)) {
-        retObj[repoName].reportStatus = REPORT_EXIST
-        retObj[repoName].reportData.push({ ...body })
+        retObj[repoName][buildNumber] = {
+          reportStatus: REPORT_EXIST,
+          data: { ...body },
+        }
       } else {
-        retObj[repoName] = { reportStatus: REPORT_EXIST, reportData: [{ ...body }] }
+        retObj[repoName] = {
+          [buildNumber]: {
+            reportStatus: REPORT_EXIST,
+            data: { ...body },
+          },
+        }
+      }
+
+      if (fetchedKey === 'latest.json') {
+        retObj[repoName].latest = {
+          reportStatus: REPORT_EXIST,
+          data: { ...body },
+        }
       }
 
       return retObj
     }
 
     case FETCH_REPORT_FAILURE: {
-      const { repoName } = action.payload
+      const { repoName, fetchedKey } = action.payload
       const retObj = { ...state }
-      if (has.call(retObj, repoName)) {
-        retObj[repoName].reportStatus = REPORT_NOT_EXIST
+
+      if (fetchedKey === 'latest.json') {
+        retObj[repoName].latest = {
+          reportStatus: REPORT_NOT_EXIST,
+        }
       } else {
-        retObj[repoName] = { reportStatus: REPORT_NOT_EXIST }
+        const buildNumberString = fetchedKey.split('_')[1].split('.')[0]
+        const buildNumber = parseInt(buildNumberString, 10)
+
+        if (has.call(retObj[repoName], buildNumber)) {
+          retObj[repoName][buildNumber].reportStatus = REPORT_NOT_EXIST
+        } else {
+          retObj[repoName][buildNumber] = {
+            reportStatus: REPORT_NOT_EXIST,
+          }
+        }
       }
 
       return retObj
