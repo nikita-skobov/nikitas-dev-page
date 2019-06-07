@@ -83,6 +83,7 @@ export function reportReducer(state = initialState, action) {
           reportStatus: REPORT_NOT_EXIST,
         }
       } else {
+        // fetchedKey will always be report_{number}.json
         const buildNumberString = fetchedKey.split('_')[1].split('.')[0]
         const buildNumber = parseInt(buildNumberString, 10)
 
