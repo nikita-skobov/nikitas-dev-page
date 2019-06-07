@@ -114,7 +114,7 @@ export class Repo extends Component {
             <Dte label="Stars">{stars}</Dte>
             <Dte label="Open Issues">{openIssues}</Dte>
           </DetailTable>
-          <ConnectedReportList repoName={name} reportData />
+          <ConnectedReportList repoName={name} reportData={reportData} />
         </Jumbotron>
       </div>
     )
