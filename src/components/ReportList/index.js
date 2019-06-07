@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { ReportItem } from '../ReportItem'
+import { REPORT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
 
 const SHOW_BUILDS_MAX = 10
 
@@ -9,26 +10,24 @@ export function ReportList(props) {
 
   if (!reportData) return null
 
-  const latest = reportData[0]
+  const latest = reportData.latest.data
   const buildNumber = parseInt(latest.build_number, 10)
 
   const list = [
-    <ReportItem isLatest data={latest} repoName={repoName} buildNumber={buildNumber} fetchReportCallback={fetchReportCallback} />,
+    <ReportItem isLatest reportStatus={REPORT_EXIST} data={latest} repoName={repoName} buildNumber={buildNumber} fetchReportCallback={fetchReportCallback} />,
   ]
 
-  const latestNumber = parseInt(latest.build_number, 10)
-  let stopAt = latestNumber - SHOW_BUILDS_MAX
+  let stopAt = buildNumber - SHOW_BUILDS_MAX
   if (stopAt < 0) stopAt = 0
 
-  for (let i = latestNumber - 1; i > stopAt; i -= 1) {
+  for (let i = buildNumber - 1; i > stopAt; i -= 1) {
+    const dataObj = reportData[i] ? reportData[i].data : undefined
+    const status = reportData[i] ? reportData[i].reportStatus : REPORT_NOT_FETCHED_YET
+
     list.push(
-      <ReportItem data={reportData[i]} repoName={repoName} buildNumber={i} fetchReportCallback={fetchReportCallback} />,
+      <ReportItem reportStatus={status} data={dataObj} repoName={repoName} buildNumber={i} fetchReportCallback={fetchReportCallback} />,
     )
   }
-
-
-  // for (let i = 1; i < reportData.length; i += 1) {
-  // }
 
   return (
     <div>

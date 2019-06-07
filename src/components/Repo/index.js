@@ -81,7 +81,7 @@ export class Repo extends Component {
     ]
 
     if (reportStatus === REPORT_EXIST) {
-      const latestReport = reportData[0]
+      const latestReport = reportData.latest.data
       latestReport.badges.forEach((badgeData) => {
         const badgeKeys = {
           textA: badgeData.text[0],
@@ -143,11 +143,11 @@ const mapStateToProps = (state, ownProps) => {
   const repoName = propObj.repo.name
   const thisReport = state.reports[repoName]
 
-  const reportStatus = thisReport ? thisReport.reportStatus : REPORT_NOT_FETCHED_YET
+  const reportStatus = thisReport ? thisReport.latest.reportStatus : REPORT_NOT_FETCHED_YET
   propObj.reportStatus = reportStatus
 
   if (reportStatus === REPORT_EXIST) {
-    propObj.reportData = [...thisReport.reportData]
+    propObj.reportData = { ...thisReport }
   }
 
 

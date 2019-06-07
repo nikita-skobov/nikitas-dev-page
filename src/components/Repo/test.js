@@ -7,7 +7,7 @@ import { mount, shallow } from 'enzyme'
 
 import { flushAllPromises } from '../../utilities'
 import ConnectedRepo from './index'
-import { REPO_COMPONENT_CLASS_NAME, REPORT_NOT_FETCHED_YET } from '../../constants'
+import { REPO_COMPONENT_CLASS_NAME, REPORT_NOT_FETCHED_YET, REPORT_EXIST, REPORT_NOT_EXIST } from '../../constants'
 import { setupStore } from '../../setupStore'
 
 
@@ -20,7 +20,7 @@ describe('Repo component', () => {
     // need to explicitly say repo: {} here for initial state
     // because for some reason multiple tests cause the store
     // to retain properties from previous tests
-    store = setupStore(undefined, { repo: {}, reports: { [someRepoName]: { hasReport: true } } })
+    store = setupStore(undefined, { repo: {}, reports: { [someRepoName]: { latest: { reportStatus: REPORT_EXIST } } } })
     fetch.mock.calls = []
     fetch.mock.instances = []
     fetch.mock.invocationCallOrder = []
@@ -40,7 +40,7 @@ describe('Repo component', () => {
   })
 
   it('should have the jumbotron have padding-top be 0', () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null } })
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { latest: { reportStatus: REPORT_NOT_EXIST } } } })
     const wrapper = mount(
       <Provider store={store2}>
         <Router>
@@ -69,7 +69,7 @@ describe('Repo component', () => {
       undefined,
       {
         repo: { name: someRepoName, license: null },
-        reports: { [someRepoName]: { hasReport: true, reportData: { badges: [] } } },
+        reports: { [someRepoName]: { latest: { reportStatus: REPORT_EXIST, data: { badges: [], build_number: 1 } } } },
       },
     )
 
@@ -85,7 +85,7 @@ describe('Repo component', () => {
   })
 
   it('should fetch if store does not have report', async () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { reportStatus: REPORT_NOT_FETCHED_YET }} })
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, license: null }, reports: { [someRepoName]: { latest: { reportStatus: REPORT_NOT_FETCHED_YET } } } })
 
     mount(
       <Provider store={store2}>
@@ -99,7 +99,7 @@ describe('Repo component', () => {
   })
 
   it('should only fetch repo data if the store already has a report', async () => {
-    const store2 = setupStore(undefined, { repo: { }, reports: { [someRepoName]: { hasReport: true }} })
+    const store2 = setupStore(undefined, { repo: { }, reports: { [someRepoName]: { latest: { reportStatus: REPORT_EXIST }}} })
 
     mount(
       <Provider store={store2}>
@@ -113,7 +113,7 @@ describe('Repo component', () => {
   })
 
   it('should render the name, and description of the repo', () => {
-    const store2 = setupStore(undefined, { repo: { name: someRepoName, description: 'test', license: null } })
+    const store2 = setupStore(undefined, { repo: { name: someRepoName, description: 'test', license: null }, reports: { [someRepoName]: { latest: { reportStatus: REPORT_NOT_EXIST } } } })
     const wrapper = mount(
       <Provider store={store2}>
         <Router>

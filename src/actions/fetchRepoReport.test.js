@@ -109,6 +109,7 @@ describe('fetch repo list function', () => {
           payload: {
             body,
             repoName: 'reponame',
+            fetchedKey: 'latest.json',
           },
         },
       ],
@@ -130,6 +131,7 @@ describe('fetch repo list function', () => {
           payload: {
             err: new Error('oops'),
             repoName: 'somereponame',
+            fetchedKey: 'latest.json',
           },
         },
       ],
