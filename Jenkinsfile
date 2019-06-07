@@ -22,7 +22,7 @@ pipeline {
     stage('Setup') {
         steps {
             script {
-                BUILD_START_TIME = sh(script: 'date +%s', returnStdout: true)
+                BUILD_START_TIME = sh(script: 'date +%s', returnStdout: true).trim()
 
                 if (env.GIT_BRANCH == "origin/master-production") {
                   echo "THIS IS A PRODUCTION BUILD"
@@ -33,7 +33,7 @@ pipeline {
                   CERTID = "${env.PRODUCTION_SAMPLE_DEV_SITE_CERTID}"
                 }
 
-                NUMBER_OF_COMMITS = sh(script: 'git log ${GIT_PREVIOUS_COMMIT}..${GITCOMMIT} --pretty=oneline | wc -l', returnStdout: true)
+                NUMBER_OF_COMMITS = sh(script: 'git log ${GIT_PREVIOUS_COMMIT}..${GITCOMMIT} --pretty=oneline | wc -l', returnStdout: true).trim()
                 echo "number of commits: ${NUMBER_OF_COMMITS}"
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "previous commit: ${env.GIT_PREVIOUS_COMMIT}"
@@ -105,7 +105,7 @@ pipeline {
   post {
     always {
       script {
-        BUILD_END_TIME = sh(script: 'date +%s', returnStdout: true)
+        BUILD_END_TIME = sh(script: 'date +%s', returnStdout: true).trim()
       }
       echo 'maybe delete some stuff here?'
       sh 'echo $(ls)'
