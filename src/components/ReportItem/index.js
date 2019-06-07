@@ -36,7 +36,11 @@ function BuildInfo(props) {
 
   if (reportStatus === REPORT_NOT_EXIST) {
     return (
-      <h3>OOpsIE doOpsIe!</h3>
+      <ListGroupItem className="ns-list-group-outline">
+        <ul>
+          <li>This report failed to load</li>
+        </ul>
+      </ListGroupItem>
     )
   }
 
