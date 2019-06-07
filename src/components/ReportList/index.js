@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 
 import { ListGroup, ListGroupItem, Spinner } from 'reactstrap'
 
+import { ReportItem } from '../ReportItem'
+
 const reportTitles = {
   1: <h3>This repository has not been configured to generate build reports</h3>,
   2: <Spinner color="dark" />,
@@ -31,37 +33,12 @@ export class ReportList extends Component {
     const latestNumber = parseInt(latest.build_number, 10)
 
     const list = [
-      <ListGroup>
-        <ListGroupItem>
-          <span style={{ marginRight: '1em' }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
-              <path d="M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z" transform="translate(0 1)" />
-            </svg>
-          </span>
-          {`Build Number ${latestNumber} (latest)`}
-        </ListGroupItem>
-        <ListGroupItem>
-          <ul>
-            <li>Status: {latest.status}</li>
-            <li>Finished: {new Date(latest.time_ended * 1000).toDateString()}</li>
-            <li>Branch: {latest.branch}</li>
-            <li>Commit: {latest.current_commit}</li>
-            <li>commits since previous build: {latest.num_commits}</li>
-            <li>Duration: {Math.floor(latest.duration / 60)} min {latest.duration % 60} sec</li>
-          </ul>
-        </ListGroupItem>
-      </ListGroup>,
-      <br />,
+      <ReportItem isLatest data={latest} />,
     ]
 
     for (let i = latestNumber - 1; i > (latestNumber - SHOW_BUILDS_MAX); i -= 1) {
       list.push(
-        <ListGroup>
-          <ListGroupItem>
-            {`Build Number ${i}`}
-          </ListGroupItem>
-        </ListGroup>,
-        <br />,
+        <ReportItem data={reportList[i]} />,
       )
     }
 
