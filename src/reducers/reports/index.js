@@ -3,6 +3,7 @@ import {
   FETCH_REPORT_SUCCESS,
   FETCH_REPO_SUCCESS,
   FETCH_REPO_LIST_SUCCESS,
+  FETCH_REPORT_FAILURE,
   REPORT_EXIST,
   REPORT_NOT_EXIST,
   REPORT_NOT_FETCHED_YET,
@@ -24,6 +25,7 @@ export function reportReducer(state = initialState, action) {
       })
       return retObj
     }
+
     case FETCH_REPO_SUCCESS: {
       const retObj = { ...state }
       const { body } = action.payload
@@ -32,6 +34,7 @@ export function reportReducer(state = initialState, action) {
       }
       return retObj
     }
+
     case FETCH_REPORT_SUCCESS: {
       const { repoName, body } = action.payload
       const retObj = { ...state }
@@ -44,6 +47,19 @@ export function reportReducer(state = initialState, action) {
 
       return retObj
     }
+
+    case FETCH_REPORT_FAILURE: {
+      const { repoName } = action.payload
+      const retObj = { ...state }
+      if (has.call(retObj, repoName)) {
+        retObj[repoName].reportStatus = REPORT_NOT_EXIST
+      } else {
+        retObj[repoName] = { reportStatus: REPORT_NOT_EXIST }
+      }
+
+      return retObj
+    }
+
     default:
       return state
   }
