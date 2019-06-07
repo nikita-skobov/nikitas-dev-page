@@ -36,7 +36,8 @@ export class ReportList extends Component {
       <ReportItem isLatest data={latest} />,
     ]
 
-    for (let i = latestNumber - 1; i > (latestNumber - SHOW_BUILDS_MAX); i -= 1) {
+
+    for (let i = 1; i < reportList.length; i += 1) {
       list.push(
         <ReportItem data={reportList[i]} />,
       )
