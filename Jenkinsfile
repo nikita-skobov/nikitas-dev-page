@@ -95,7 +95,7 @@ pipeline {
     stage('Building') {
         steps {
             script {
-              if (SRC_WAS_CHANGED == 0 || || PUBLIC_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
+              if (SRC_WAS_CHANGED == 0 || PUBLIC_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
                 echo "Source was changed, or in production stage. running build"
                 sh 'npm run build'
                 sh 'bash ./scripts/gzipAll.sh'
