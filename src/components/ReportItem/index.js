@@ -1,10 +1,16 @@
 import React, { Component } from 'react'
 
-import { ListGroup, ListGroupItem, Collapse } from 'reactstrap'
+import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
 
 function BuildInfo(props) {
   const { data } = props
-  if (!data) return null
+  if (!data) {
+    return (
+      <ListGroupItem>
+        <Spinner color="dark" />
+      </ListGroupItem>
+    )
+  }
 
   return (
     <ListGroupItem>
