@@ -2,9 +2,22 @@ import React, { Component } from 'react'
 
 import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
 
-const arrowDirection = {
-  false: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8"><path d="M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z" transform="translate(1)" /></svg>,
-  true: <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8"><path d="M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z" transform="translate(0 1)" /></svg>,
+
+function Arrow(props) {
+  const { collapseOpen } = props
+  if (collapseOpen) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
+        <path d="M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z" transform="translate(0 1)" />
+      </svg>
+    )
+  }
+
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
+      <path d="M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z" transform="translate(1)" />
+    </svg>
+  )
 }
 
 function BuildInfo(props) {
@@ -76,7 +89,7 @@ export class ReportItem extends Component {
       <ListGroup>
         <ListGroupItem>
           <span onClick={this.toggleCollapse} style={{ marginRight: '1em' }}>
-            {arrowDirection[collapseOpen]}
+            <Arrow collapseOpen={collapseOpen} />
           </span>
           {buildNumberText}
         </ListGroupItem>
