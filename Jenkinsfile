@@ -13,12 +13,17 @@ pipeline {
       HOSTED_ZONE_NAME = "nikitas.link"
       UA_SECRET = "${env.STAGING_SAMPLE_DEV_SITE_UASECRET}"
       CERTID = "${env.STAGING_SAMPLE_DEV_SITE_CERTID}"
+      NUMBER_OF_COMMITS = 0
+      BUILD_START_TIME = ""
+      BUILD_END_TIME = ""
   }
 
   stages {
     stage('Setup') {
         steps {
             script {
+                BUILD_START_TIME = sh(script: 'date +%s', returnStdout: true)
+
                 if (env.GIT_BRANCH == "origin/master-production") {
                   echo "THIS IS A PRODUCTION BUILD"
                   WEB_BUCKET = "projects.nikitas.link"
@@ -28,7 +33,8 @@ pipeline {
                   CERTID = "${env.PRODUCTION_SAMPLE_DEV_SITE_CERTID}"
                 }
 
-
+                NUMBER_OF_COMMITS = sh(script: 'git log ${GIT_PREVIOUS_COMMIT}..${GITCOMMIT} --pretty=oneline | wc -l', returnStdout: true)
+                echo "number of commits: ${NUMBER_OF_COMMITS}"
                 NODE_MODULES_EXISTS = sh(script: "[ -d ./node_modules/ ]", returnStatus: true)
                 echo "previous commit: ${env.GIT_PREVIOUS_COMMIT}"
                 echo "current commit: ${env.GIT_COMMIT}"
@@ -98,12 +104,15 @@ pipeline {
 
   post {
     always {
+      script {
+        BUILD_END_TIME = sh(script: 'date +%s', returnStdout: true)
+      }
       echo 'maybe delete some stuff here?'
       sh 'echo $(ls)'
       sh 'sudo npm update -g local-badges'
       // sh "npm run badges -- ${currentBuild.result}"
       // sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
-      sh "node runReport.js --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
+      sh "node runReport.js --current-commit ${env.GIT_COMMIT} --num-commits ${NUMBER_OF_COMMITS} --branch ${env.GIT_BRANCH} --build-start ${BUILD_START_TIME} --build-end ${BUILD_END_TIME} --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
       script {
         if (DEPLOYMENT_STAGE == "staging") {
           // if in staging we want to send a report to both the production bucket
