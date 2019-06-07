@@ -42,6 +42,11 @@ export class ReportItem extends Component {
   }
 
   toggleCollapse() {
+    const { data, fetchReportCallback, repoName, buildNumber } = this.props
+    if (!data) {
+      fetchReportCallback(repoName, `report_${buildNumber}.json`)
+    }
+
     let { collapseOpen } = this.state
     collapseOpen = !collapseOpen
     this.setState({ collapseOpen })

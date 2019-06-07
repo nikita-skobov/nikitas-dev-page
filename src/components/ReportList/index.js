@@ -5,7 +5,7 @@ import { ReportItem } from '../ReportItem'
 const SHOW_BUILDS_MAX = 10
 
 export function ReportList(props) {
-  const { reportData } = props
+  const { reportData, fetchReportCallback, repoName } = props
 
   if (!reportData) return null
 
@@ -13,7 +13,7 @@ export function ReportList(props) {
   const buildNumber = parseInt(latest.build_number, 10)
 
   const list = [
-    <ReportItem isLatest data={latest} buildNumber={buildNumber} />,
+    <ReportItem isLatest data={latest} repoName={repoName} buildNumber={buildNumber} fetchReportCallback={fetchReportCallback} />,
   ]
 
   const latestNumber = parseInt(latest.build_number, 10)
@@ -22,7 +22,7 @@ export function ReportList(props) {
 
   for (let i = latestNumber - 1; i > stopAt; i -= 1) {
     list.push(
-      <ReportItem data={reportData[i]} buildNumber={i} />,
+      <ReportItem data={reportData[i]} repoName={repoName} buildNumber={i} fetchReportCallback={fetchReportCallback} />,
     )
   }
 

@@ -43,7 +43,7 @@ export class Repo extends Component {
   }
 
   render() {
-    const { repo, noDataYet, reportStatus, reportData } = this.props
+    const { repo, noDataYet, reportStatus, reportData, getRepoReport } = this.props
 
     if (noDataYet) {
       return (
@@ -124,7 +124,7 @@ export class Repo extends Component {
             <Dte label="Open Issues">{openIssues}</Dte>
           </DetailTable>
           {reportTitle}
-          <ReportList repoName={name} reportData={reportData} />
+          <ReportList fetchReportCallback={getRepoReport} repoName={name} reportData={reportData} />
         </Jumbotron>
       </div>
     )
