@@ -25,11 +25,12 @@ export function fetchReportSuccess(body, repoName) {
   }
 }
 
-export function fetchReportFailure(err) {
+export function fetchReportFailure(err, repoName) {
   return {
     type: FETCH_REPORT_FAILURE,
     payload: {
       err,
+      repoName,
     },
   }
 }
@@ -43,6 +44,6 @@ export function fetchReport(name) {
       .then(handleErrors)
       .then(resp => resp.json())
       .then(data => dispatch(fetchReportSuccess(data, repoName)))
-      .catch(err => dispatch(fetchReportFailure(err)))
+      .catch(err => dispatch(fetchReportFailure(err, repoName)))
   }
 }
