@@ -1,5 +1,12 @@
 import { has } from '../../utilities'
-import { FETCH_REPORT_SUCCESS, FETCH_REPO_SUCCESS, FETCH_REPO_LIST_SUCCESS } from '../../constants'
+import {
+  FETCH_REPORT_SUCCESS,
+  FETCH_REPO_SUCCESS,
+  FETCH_REPO_LIST_SUCCESS,
+  REPORT_EXIST,
+  REPORT_NOT_EXIST,
+  REPORT_NOT_FETCHED_YET,
+} from '../../constants'
 
 export const initialState = { }
 
@@ -12,7 +19,7 @@ export function reportReducer(state = initialState, action) {
         if (!has.call(retObj, obj.name)) {
           // the current state does not have this repo name,
           // so that means we havent fetched its report yet
-          retObj[obj.name] = { hasReport: false }
+          retObj[obj.name] = { reportStatus: REPORT_NOT_FETCHED_YET }
         }
       })
       return retObj
@@ -21,7 +28,7 @@ export function reportReducer(state = initialState, action) {
       const retObj = { ...state }
       const { body } = action.payload
       if (!has.call(retObj, body.name)) {
-        retObj[body.name] = { hasReport: false }
+        retObj[body.name] = { reportStatus: REPORT_NOT_FETCHED_YET }
       }
       return retObj
     }
@@ -29,10 +36,10 @@ export function reportReducer(state = initialState, action) {
       const { repoName, body } = action.payload
       const retObj = { ...state }
       if (has.call(retObj, repoName)) {
-        retObj[repoName].hasReport = true
-        retObj[repoName].reportData = { ...body }
+        retObj[repoName].reportStatus = REPORT_EXIST
+        retObj[repoName].reportData.push({ ...body })
       } else {
-        retObj[repoName] = { hasReport: true, reportData: { ...body } }
+        retObj[repoName] = { reportStatus: REPORT_EXIST, reportData: [{ ...body }] }
       }
 
       return retObj
