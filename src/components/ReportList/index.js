@@ -9,25 +9,51 @@ const reportTitles = {
   3: <h3>Build Reports</h3>,
 }
 
+const SHOW_BUILDS_MAX = 10
+
 export class ReportList extends Component {
   render() {
-    const { repoName, reportEnum } = this.props
+    const { repoName, reportEnum, reportList } = this.props
     const reportTitle = reportTitles[reportEnum]
 
+    const latest = reportList[0]
+
+    if (!latest) {
+      // report doesnt exist,  or not fetched yet
+      return (
+        <div>
+          {reportTitle}
+        </div>
+      )
+    }
+
+    // eslint-disable-next-line
+    const latestNumber = parseInt(latest.build_number, 10)
+
+    const list = [
+      <ListGroup>
+        <ListGroupItem>
+          {`Build Number ${latestNumber} (latest)`}
+        </ListGroupItem>
+      </ListGroup>,
+      <br />,
+    ]
+
+    for (let i = latestNumber - 1; i > (latestNumber - SHOW_BUILDS_MAX); i -= 1) {
+      list.push(
+        <ListGroup>
+          <ListGroupItem>
+            {`Build Number ${i}`}
+          </ListGroupItem>
+        </ListGroup>,
+        <br />,
+      )
+    }
 
     return (
       <div>
         {reportTitle}
-        <ListGroup>
-          <ListGroupItem>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
-              <path d="M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z" transform="translate(1)" />
-            </svg>
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
-              <path d="M1.5 0l-1.5 1.5 4 4 4-4-1.5-1.5-2.5 2.5-2.5-2.5z" transform="translate(0 1)" />
-            </svg>
-          </ListGroupItem>
-        </ListGroup>
+        {list}
       </div>
     )
   }
