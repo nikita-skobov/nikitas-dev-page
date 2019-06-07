@@ -129,6 +129,7 @@ describe('fetch repo list function', () => {
           type: FETCH_REPORT_FAILURE,
           payload: {
             err: new Error('oops'),
+            repoName: 'somereponame',
           },
         },
       ],
