@@ -54,20 +54,35 @@ export class ReportItem extends Component {
       // if on the latest build report, have it open by default
       // otherwise keep the report items closed
       collapseOpen: isLatest,
+      haveFetched: false,
     }
 
     this.toggleCollapse = this.toggleCollapse.bind(this)
   }
 
   toggleCollapse() {
-    const { data, fetchReportCallback, repoName, buildNumber } = this.props
-    if (!data) {
-      fetchReportCallback(repoName, `report_${buildNumber}.json`)
-    }
+    const {
+      data,
+      fetchReportCallback,
+      repoName,
+      buildNumber,
+    } = this.props
 
-    let { collapseOpen } = this.state
-    collapseOpen = !collapseOpen
-    this.setState({ collapseOpen })
+    this.setState((prevState) => {
+      const tempState = prevState
+
+      let { collapseOpen, haveFetched } = prevState
+
+      if (!data && !haveFetched) {
+        haveFetched = true
+        fetchReportCallback(repoName, `report_${buildNumber}.json`)
+      }
+
+      collapseOpen = !collapseOpen
+      tempState.collapseOpen = collapseOpen
+      tempState.haveFetched = haveFetched
+      return tempState
+    })
   }
 
   render() {
