@@ -64,9 +64,7 @@ pipeline {
                     echo "package.json is the same as it was last time. skipping npm install"
                 }
 
-                SETUP_END = "${currentBuild.timeInMillis}"
-                echo "Current duration: ${currentBuild.duration}"
-                echo "time in millis: ${currentBuild.timeInMillis}"
+                SETUP_END = "${currentBuild.duration}"
             }
         }
     }
@@ -76,9 +74,7 @@ pipeline {
         sh 'npm -v'
         sh 'npm run test-CI-json'
         script {
-          TEST_END = "${currentBuild.timeInMillis}"
-          echo "Current duration: ${currentBuild.duration}"
-          echo "time in millis: ${currentBuild.timeInMillis}"
+          TEST_END = "${currentBuild.duration}"
         }
       }
     }
@@ -95,9 +91,7 @@ pipeline {
                     echo "serverless was the same since last commit. skipping serverless deploy"
                 }
 
-                INFRASTRUCTURE_DEPLOYMENT_END = "${currentBuild.timeInMillis}"
-                echo "Current duration: ${currentBuild.duration}"
-                echo "time in millis: ${currentBuild.timeInMillis}"
+                INFRASTRUCTURE_DEPLOYMENT_END = "${currentBuild.duration}"
             }
         }
     }
@@ -106,9 +100,7 @@ pipeline {
         steps {
             sh "bash ./deployment/test-all.sh --web-bucket ${WEB_BUCKET} --report-bucket ${REPORT_BUCKET}"
             script {
-              INFRASTRUCTURE_TESTING_END = "${currentBuild.timeInMillis}"
-              echo "Current duration: ${currentBuild.duration}"
-              echo "time in millis: ${currentBuild.timeInMillis}"
+              INFRASTRUCTURE_TESTING_END = "${currentBuild.duration}"
             }
         }
     }
@@ -124,9 +116,7 @@ pipeline {
                 echo "Skipping build since source has not changed"
               }
 
-              BUILDING_END = "${currentBuild.timeInMillis}"
-              echo "Current duration: ${currentBuild.duration}"
-              echo "time in millis: ${currentBuild.timeInMillis}"
+              BUILDING_END = "${currentBuild.duration}"
             }
         }
     }
@@ -142,9 +132,7 @@ pipeline {
             } else {
               echo "Skipping deployment since source has not changed"
             }
-            echo "Current duration: ${currentBuild.duration}"
-            echo "time in millis: ${currentBuild.timeInMillis}"
-            DEPLOYMENT_END = "${currentBuild.timeInMillis}"
+            DEPLOYMENT_END = "${currentBuild.duration}"
           }
         }
     }
