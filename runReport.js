@@ -84,10 +84,9 @@ const buildStatusBadge = buildStatus.fn(cliObj)
 
 const branchSplit = cliObj.branch.split('/')
 const lastBranchIndex = branchSplit.length - 1
-const end = parseInt(cliObj['build-end'], 10)
-const start = parseInt(cliObj['build-start'], 10)
-const duration = end - start
-
+const start = parseInt(cliObj['build-start'], 10) / 1000 // convert to seconds
+const duration = parseInt(cliObj['build-duration'], 10) / 1000 // convert to seconds
+const end = start + duration
 
 const report = {
   badges: [
@@ -96,7 +95,7 @@ const report = {
   ],
   num_commits: cliObj['num-commits'],
   branch: branchSplit[lastBranchIndex],
-  time_ended: cliObj['build-end'],
+  time_ended: end,
   duration,
   current_commit: cliObj['current-commit'],
   status: cliObj['build-status'],
