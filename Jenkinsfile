@@ -65,6 +65,8 @@ pipeline {
                 }
 
                 SETUP_END = "${currentBuild.timeInMillis}"
+                echo "Current duration: ${currentBuild.duration}"
+                echo "time in millis: ${currentBuild.timeInMillis}"
             }
         }
     }
@@ -75,6 +77,8 @@ pipeline {
         sh 'npm run test-CI-json'
         script {
           TEST_END = "${currentBuild.timeInMillis}"
+          echo "Current duration: ${currentBuild.duration}"
+          echo "time in millis: ${currentBuild.timeInMillis}"
         }
       }
     }
@@ -92,6 +96,8 @@ pipeline {
                 }
 
                 INFRASTRUCTURE_DEPLOYMENT_END = "${currentBuild.timeInMillis}"
+                echo "Current duration: ${currentBuild.duration}"
+                echo "time in millis: ${currentBuild.timeInMillis}"
             }
         }
     }
@@ -101,6 +107,8 @@ pipeline {
             sh "bash ./deployment/test-all.sh --web-bucket ${WEB_BUCKET} --report-bucket ${REPORT_BUCKET}"
             script {
               INFRASTRUCTURE_TESTING_END = "${currentBuild.timeInMillis}"
+              echo "Current duration: ${currentBuild.duration}"
+              echo "time in millis: ${currentBuild.timeInMillis}"
             }
         }
     }
@@ -117,6 +125,8 @@ pipeline {
               }
 
               BUILDING_END = "${currentBuild.timeInMillis}"
+              echo "Current duration: ${currentBuild.duration}"
+              echo "time in millis: ${currentBuild.timeInMillis}"
             }
         }
     }
@@ -132,7 +142,8 @@ pipeline {
             } else {
               echo "Skipping deployment since source has not changed"
             }
-
+            echo "Current duration: ${currentBuild.duration}"
+            echo "time in millis: ${currentBuild.timeInMillis}"
             DEPLOYMENT_END = "${currentBuild.timeInMillis}"
           }
         }
