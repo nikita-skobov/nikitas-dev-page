@@ -91,6 +91,7 @@ const stagesCSV = cliObj.stages
 
 const stages = []
 
+let previousDuration = 0
 let previousIndex = 0
 stagesCSV.split(',').forEach((str, index) => {
   if (index % 2 === 0) {
@@ -103,8 +104,9 @@ stagesCSV.split(',').forEach((str, index) => {
   } else if (str !== '.') {
     // if index % 2 != 0, then str is a duration of a stage
     // if its a dot then that means the stage failed, so dont modify
-    const durationSeconds = parseInt(str, 10)
-    stages[previousIndex].duration = Math.floor(durationSeconds)
+    const durationMS = parseInt(str, 10)
+    stages[previousIndex].duration = Math.floor(durationMS) - previousDuration
+    previousDuration = durationMS
   }
 })
 
