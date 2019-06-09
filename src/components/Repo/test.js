@@ -69,7 +69,7 @@ describe('Repo component', () => {
       undefined,
       {
         repo: { name: someRepoName, license: null },
-        reports: { [someRepoName]: { latest: { reportStatus: REPORT_EXIST, data: { badges: [], build_number: 1 } } } },
+        reports: { [someRepoName]: { latest: { reportStatus: REPORT_EXIST, data: { badges: [], build_number: 1, current_commit: 'dsa' } } } },
       },
     )
 
