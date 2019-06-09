@@ -97,7 +97,7 @@ stagesCSV.split(',').forEach((str, index) => {
     // this means it is a title of a stage
     previousIndex = stages.length
     stages.push({
-      name: str,
+      name: str.replace('_', ' '),
       duration: '-',
     })
   } else if (str !== '.') {
