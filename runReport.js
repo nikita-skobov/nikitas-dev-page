@@ -95,8 +95,8 @@ const report = {
   ],
   num_commits: cliObj['num-commits'],
   branch: branchSplit[lastBranchIndex],
-  time_ended: end,
-  duration,
+  time_ended: Math.floor(end),
+  duration: Math.floor(duration),
   current_commit: cliObj['current-commit'],
   status: cliObj['build-status'],
   // stages
