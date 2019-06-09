@@ -24,6 +24,29 @@ function Arrow(props) {
   )
 }
 
+function Stages(props) {
+  const { stageData } = props
+  if (!stageData) return null
+
+  const stageList = []
+  stageData.forEach((stage) => {
+    stageList.push(
+      <li>
+        {stage.name}: {Math.floor((stage.duration / 1000) / 60)} min {Math.floor((stage.duration / 1000) % 60)} sec {stage.duration % 1000} ms
+      </li>,
+    )
+  })
+
+  return (
+    <div>
+      <h5>Stages: </h5>
+      <ul>
+        {stageList}
+      </ul>
+    </div>
+  )
+}
+
 function BuildInfo(props) {
   const { data, reportStatus, repoName } = props
   if (reportStatus === REPORT_NOT_FETCHED_YET) {
@@ -57,6 +80,7 @@ function BuildInfo(props) {
         <li>commits since previous build: {data.num_commits}</li>
         <li>Duration: {Math.floor(data.duration / 60)} min {data.duration % 60} sec</li>
       </ul>
+      <Stages stageData={data.stages} />
     </ListGroupItem>
   )
 }
