@@ -87,6 +87,26 @@ const lastBranchIndex = branchSplit.length - 1
 const start = parseInt(cliObj['build-start'], 10) / 1000 // convert to seconds
 const duration = parseInt(cliObj['build-duration'], 10) / 1000 // convert to seconds
 const end = start + duration
+const stagesCSV = cliObj.stages
+
+const stages = []
+
+let previousIndex = 0
+stagesCSV.split(',').forEach((str, index) => {
+  if (index % 2 === 0) {
+    // this means it is a title of a stage
+    previousIndex = stages.length
+    stages.push({
+      name: str,
+      duration: '-',
+    })
+  } else if (str !== '.') {
+    // if index % 2 != 0, then str is a duration of a stage
+    // if its a dot then that means the stage failed, so dont modify
+    const durationSeconds = parseInt(str, 10)
+    stages[previousIndex].duration = Math.floor(durationSeconds)
+  }
+})
 
 const report = {
   badges: [
@@ -99,8 +119,7 @@ const report = {
   duration: Math.floor(duration),
   current_commit: cliObj['current-commit'],
   status: cliObj['build-status'],
-  // stages
-  // // { name, time, pass_or_fail }
+  stages,
 }
 
 console.log(JSON.stringify(report))
