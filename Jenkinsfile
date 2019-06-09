@@ -16,16 +16,19 @@ pipeline {
       UA_SECRET = "${env.STAGING_SAMPLE_DEV_SITE_UASECRET}"
       CERTID = "${env.STAGING_SAMPLE_DEV_SITE_CERTID}"
       NUMBER_OF_COMMITS = 0
-      BUILD_START_TIME = ""
-      BUILD_END_TIME = ""
+
+      SETUP_END = "."
+      TEST_END = "."
+      INFRASTRUCTURE_DEPLOYMENT_END = "."
+      INFRASTRUCTURE_TESTING_END = "."
+      BUILDING_END = "."
+      DEPLOYMENT_END = "."
   }
 
   stages {
     stage('Setup') {
         steps {
             script {
-                BUILD_START_TIME = sh(script: 'date +%s', returnStdout: true).trim()
-
                 if (env.GIT_BRANCH == "origin/master-production") {
                   echo "THIS IS A PRODUCTION BUILD"
                   WEB_BUCKET = "projects.nikitas.link"
@@ -60,6 +63,8 @@ pipeline {
                 } else {
                     echo "package.json is the same as it was last time. skipping npm install"
                 }
+
+                SETUP_END = "${currentBuild.timeInMillis}"
             }
         }
     }
@@ -68,6 +73,9 @@ pipeline {
         sh 'node -v'
         sh 'npm -v'
         sh 'npm run test-CI-json'
+        script {
+          TEST_END = "${currentBuild.timeInMillis}"
+        }
       }
     }
 
@@ -82,6 +90,8 @@ pipeline {
                 } else {
                     echo "serverless was the same since last commit. skipping serverless deploy"
                 }
+
+                INFRASTRUCTURE_DEPLOYMENT_END = "${currentBuild.timeInMillis}"
             }
         }
     }
@@ -89,6 +99,9 @@ pipeline {
     stage('Infrastructure Testing') {
         steps {
             sh "bash ./deployment/test-all.sh --web-bucket ${WEB_BUCKET} --report-bucket ${REPORT_BUCKET}"
+            script {
+              INFRASTRUCTURE_TESTING_END = "${currentBuild.timeInMillis}"
+            }
         }
     }
 
@@ -102,11 +115,13 @@ pipeline {
               } else {
                 echo "Skipping build since source has not changed"
               }
+
+              BUILDING_END = "${currentBuild.timeInMillis}"
             }
         }
     }
 
-    stage('Deploying') {
+    stage('Deployment') {
         steps {
           script {
             if (SRC_WAS_CHANGED == 0 || PUBLIC_WAS_CHANGED == 0 || DEPLOYMENT_STAGE == "production") {
@@ -117,6 +132,8 @@ pipeline {
             } else {
               echo "Skipping deployment since source has not changed"
             }
+
+            DEPLOYMENT_END = "${currentBuild.timeInMillis}"
           }
         }
     }
@@ -124,15 +141,12 @@ pipeline {
 
   post {
     always {
-      script {
-        BUILD_END_TIME = sh(script: 'date +%s', returnStdout: true).trim()
-      }
       echo 'maybe delete some stuff here?'
       sh 'echo $(ls)'
       sh 'sudo npm update -g local-badges'
       // sh "npm run badges -- ${currentBuild.result}"
       // sh "aws s3 cp ./badges/ s3://staging-projects.nikitas.link-reports/reports/${env.JOB_NAME}/badges/ --recursive --cache-control public,max-age=20"
-      sh "node runReport.js --current-commit ${env.GIT_COMMIT} --num-commits ${NUMBER_OF_COMMITS} --branch ${env.GIT_BRANCH} --build-start ${currentBuild.startTimeInMillis} --build-duration ${currentBuild.duration} --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
+      sh "node runReport.js --current-commit ${env.GIT_COMMIT} --stages Setup,${SETUP_END},Test,${TEST_END},Infrastructure_Deployment,${INFRASTRUCTURE_DEPLOYMENT_END},Infrastructure_Testing,${INFRASTRUCTURE_TESTING_END},Building,${BUILDING_END},Deployment,${DEPLOYMENT_END} --num-commits ${NUMBER_OF_COMMITS} --branch ${env.GIT_BRANCH} --build-start ${currentBuild.startTimeInMillis} --build-duration ${currentBuild.duration} --coverage-path coverage/clover.xml --build-status ${currentBuild.result} > latest.json"
       script {
         if (DEPLOYMENT_STAGE == "staging") {
           // if in staging we want to send a report to both the production bucket
@@ -142,11 +156,6 @@ pipeline {
         }
       }
       sh "bash ./scripts/sendReport.sh --report-bucket ${REPORT_BUCKET_PRODUCTION} --project-name ${env.JOB_NAME}"
-
-      echo "${currentBuild.duration}"
-      echo "${currentBuild.durationString}"
-      echo "${currentBuild.timeInMillis}"
-      echo "${currentBuild.startTimeInMillis}"
     }
     success {
       echo 'Nice!!!'
