@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { ListGroup, ListGroupItem } from 'reactstrap'
+
 import { ReportItem } from '../ReportItem'
 import { REPORT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
 
@@ -28,6 +30,15 @@ export function ReportList(props) {
       <ReportItem reportStatus={status} data={dataObj} repoName={repoName} buildNumber={i} fetchReportCallback={fetchReportCallback} />,
     )
   }
+
+  // this is a button that loads more report items
+  list.push(
+    <ListGroup>
+      <ListGroupItem action disabled active>
+        Load More
+      </ListGroupItem>
+    </ListGroup>
+  )
 
   return (
     <div>
