@@ -47,8 +47,12 @@ export class ReportList extends Component {
       />,
     ]
 
+    let reachedBottom = false
     let stopAt = buildNumber - (SHOW_BUILDS_MAX * showBuildsMultiplier)
-    if (stopAt < 0) stopAt = 0
+    if (stopAt < 0) {
+      stopAt = 0
+      reachedBottom = true
+    }
 
     for (let i = buildNumber - 1; i > stopAt; i -= 1) {
       const dataObj = reportData[i] ? reportData[i].data : undefined
@@ -67,7 +71,7 @@ export class ReportList extends Component {
 
     // this is a button that loads more report items
     list.push(
-      <Button block outline color="primary" onClick={this.loadMore}>
+      <Button disabled={reachedBottom} block outline={!reachedBottom} color="primary" onClick={this.loadMore}>
         Load More
       </Button>,
     )
