@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
 
 import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
+import { getDurationString } from '../../utilities'
 
 import './style.css'
 
@@ -21,6 +22,29 @@ function Arrow(props) {
     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 8 8">
       <path d="M1.5 0l-1.5 1.5 2.5 2.5-2.5 2.5 1.5 1.5 4-4-4-4z" transform="translate(1)" />
     </svg>
+  )
+}
+
+function Stages(props) {
+  const { stageData } = props
+  if (!stageData) return null
+
+  const stageList = []
+  stageData.forEach((stage) => {
+    stageList.push(
+      <li>
+        {stage.name}: {getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}
+      </li>,
+    )
+  })
+
+  return (
+    <div>
+      <h5>Stages: </h5>
+      <ul>
+        {stageList}
+      </ul>
+    </div>
   )
 }
 
@@ -46,6 +70,8 @@ function BuildInfo(props) {
 
   const shortCommit = data.current_commit.substr(0, 7)
   const commitUrl = `https://github.com/nikita-skobov/${repoName}/commit/${data.current_commit}`
+  const durationString = getDurationString({ duration: data.duration * 1000, unitsToShow: 2, seperator: ' ' })
+  // data.duration is in seconds, getDurationString needs milliseconds
 
   return (
     <ListGroupItem className="ns-list-group-outline">
@@ -55,8 +81,9 @@ function BuildInfo(props) {
         <li>Branch: {data.branch}</li>
         <li>Commit: <a target="_blank" rel="noopener noreferrer" href={commitUrl}>{shortCommit}</a></li>
         <li>commits since previous build: {data.num_commits}</li>
-        <li>Duration: {Math.floor(data.duration / 60)} min {data.duration % 60} sec</li>
+        <li>Duration: {durationString}</li>
       </ul>
+      <Stages stageData={data.stages} />
     </ListGroupItem>
   )
 }

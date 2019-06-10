@@ -5,6 +5,7 @@ import {
   getUpdateString,
   handleErrors,
   capitalize,
+  getDurationString,
 } from './index'
 
 describe('utility functions', () => {
@@ -119,6 +120,42 @@ describe('utility functions', () => {
 
     it('should return "0 hours ago" if the date string is close to the current time', () => {
       expect(getUpdateString(dateStr)).toEqual('0 hours ago')
+    })
+  })
+
+  describe('get duration string function', () => {
+    it('should return a string', () => {
+      const durationString = getDurationString({ duration: 1000 })
+      expect(typeof durationString).toEqual('string')
+    })
+
+    it('should output 2 units when unitsToShow = 2', () => {
+      const durationString = getDurationString({ duration: 1010, unitsToShow: 2 })
+      expect(durationString).toEqual('1 sec, 10 ms')
+    })
+
+    it('should only output the highest possible time unit by default', () => {
+      const durationString = getDurationString({ duration: 87400000 })
+      const durationString2 = getDurationString({ duration: 190000 }) // 180000 is 3 mins
+      expect(durationString).toEqual('1 day')
+      expect(durationString2).toEqual('3 min')
+    })
+
+    it('should only show plurality for hours and days', () => {
+      const days = getDurationString({ duration: 3007400000 })
+      expect(days).toMatch('days')
+
+      const hours = getDurationString({ duration: 19000000 })
+      expect(hours).toMatch('hours')
+
+      const min = getDurationString({ duration: 190000 })
+      expect(min).not.toMatch('mins')
+
+      const sec = getDurationString({ duration: 5000 })
+      expect(sec).not.toMatch('secs')
+
+      const ms = getDurationString({ duration: 50 })
+      expect(ms).not.toMatch('mss')
     })
   })
 })
