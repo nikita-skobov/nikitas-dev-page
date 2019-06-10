@@ -64,6 +64,11 @@ export function getHoursAgo(dayOld, dayNew) {
 export function getDurationString({
   duration, // in milliseconds
   unitsToShow = 1, // ie: 1010 becomes 1 sec, not 1 sec 10ms
+  msString = ' ms',
+  secondString = ' sec',
+  minuteString = ' min',
+  hourString = ' hour',
+  dayString = ' day',
 }) {
   const millisecond = 1
   const msInSecond = 1000
@@ -76,19 +81,25 @@ export function getDurationString({
   let unitsLeft = unitsToShow
 
   const unitDurations = [
-    msInDay,
-    msInHour,
-    msInMinute,
-    msInSecond,
-    millisecond,
+    { dur: msInDay, str: dayString },
+    { dur: msInHour, str: hourString },
+    { dur: msInMinute, str: minuteString },
+    { dur: msInSecond, str: secondString },
+    { dur: millisecond, str: msString },
   ]
 
-  unitDurations.forEach((dur) => {
+  unitDurations.forEach(({ dur, str }) => {
     const number = Math.floor(durationMS / dur)
-    console.log(`dur: ${dur}, durationMS: ${durationMS}`)
     if (number > 0 && unitsLeft > 0) {
-      const plurality = number > 1 ? 's' : ''
-      durationString = `${durationString}${number} day${plurality}, `
+      let plurality = ''
+      if (number > 1) {
+        if (dur === msInDay || dur === msInHour) {
+          // only add an s to the end if counting hours or days
+          plurality = 's'
+        }
+      }
+
+      durationString = `${durationString}${number}${str}${plurality}, `
       durationMS -= number * dur
       unitsLeft -= 1
     }
