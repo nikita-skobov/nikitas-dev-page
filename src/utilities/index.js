@@ -69,6 +69,7 @@ export function getDurationString({
   minuteString = ' min',
   hourString = ' hour',
   dayString = ' day',
+  seperator = ', ',
 }) {
   const millisecond = 1
   const msInSecond = 1000
@@ -99,13 +100,14 @@ export function getDurationString({
         }
       }
 
-      durationString = `${durationString}${number}${str}${plurality}, `
+      durationString = `${durationString}${number}${str}${plurality}${seperator}`
       durationMS -= number * dur
       unitsLeft -= 1
     }
   })
 
-  durationString = durationString.slice(0, -2)
+
+  durationString = durationString.slice(0, -seperator.length)
 
   return durationString
 }
