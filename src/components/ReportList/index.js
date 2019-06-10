@@ -37,7 +37,14 @@ export class ReportList extends Component {
     const buildNumber = parseInt(latest.build_number, 10)
 
     const list = [
-      <ReportItem isLatest reportStatus={REPORT_EXIST} data={latest} repoName={repoName} buildNumber={buildNumber} fetchReportCallback={fetchReportCallback} />,
+      <ReportItem
+        isLatest
+        reportStatus={REPORT_EXIST}
+        data={latest}
+        repoName={repoName}
+        buildNumber={buildNumber}
+        fetchReportCallback={fetchReportCallback}
+      />,
     ]
 
     let stopAt = buildNumber - (SHOW_BUILDS_MAX * showBuildsMultiplier)
@@ -48,7 +55,13 @@ export class ReportList extends Component {
       const status = reportData[i] ? reportData[i].reportStatus : REPORT_NOT_FETCHED_YET
 
       list.push(
-        <ReportItem reportStatus={status} data={dataObj} repoName={repoName} buildNumber={i} fetchReportCallback={fetchReportCallback} />,
+        <ReportItem
+          reportStatus={status}
+          data={dataObj}
+          repoName={repoName}
+          buildNumber={i}
+          fetchReportCallback={fetchReportCallback}
+        />,
       )
     }
 
