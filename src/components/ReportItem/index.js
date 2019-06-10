@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
 
 import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
+import { getDurationString } from '../../utilities'
 
 import './style.css'
 
@@ -32,7 +33,7 @@ function Stages(props) {
   stageData.forEach((stage) => {
     stageList.push(
       <li>
-        {stage.name}: {Math.floor((stage.duration / 1000) / 60)} min {Math.floor((stage.duration / 1000) % 60)} sec {stage.duration % 1000} ms
+        {stage.name}: {getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}
       </li>,
     )
   })
@@ -69,6 +70,8 @@ function BuildInfo(props) {
 
   const shortCommit = data.current_commit.substr(0, 7)
   const commitUrl = `https://github.com/nikita-skobov/${repoName}/commit/${data.current_commit}`
+  const durationString = getDurationString({ duration: data.duration * 1000, unitsToShow: 2, seperator: ' ' })
+  // data.duration is in seconds, getDurationString needs milliseconds
 
   return (
     <ListGroupItem className="ns-list-group-outline">
@@ -78,7 +81,7 @@ function BuildInfo(props) {
         <li>Branch: {data.branch}</li>
         <li>Commit: <a target="_blank" rel="noopener noreferrer" href={commitUrl}>{shortCommit}</a></li>
         <li>commits since previous build: {data.num_commits}</li>
-        <li>Duration: {Math.floor(data.duration / 60)} min {data.duration % 60} sec</li>
+        <li>Duration: {durationString}</li>
       </ul>
       <Stages stageData={data.stages} />
     </ListGroupItem>
