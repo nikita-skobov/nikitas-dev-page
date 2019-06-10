@@ -5,6 +5,7 @@ import {
   getUpdateString,
   handleErrors,
   capitalize,
+  getDurationString,
 } from './index'
 
 describe('utility functions', () => {
@@ -119,6 +120,20 @@ describe('utility functions', () => {
 
     it('should return "0 hours ago" if the date string is close to the current time', () => {
       expect(getUpdateString(dateStr)).toEqual('0 hours ago')
+    })
+  })
+
+  describe('get duration string function', () => {
+    it('should return a string', () => {
+      const durationString = getDurationString({ duration: 1000 })
+      console.log(durationString)
+      expect(typeof durationString).toEqual('string')
+    })
+
+    it('should return 1 sec, 10 ms for duration = 1010, units = 2', () => {
+      const durationString = getDurationString({ duration: 1010, unitsToShow: 2 })
+      console.log(durationString)
+      expect(durationString).toEqual('1 sec, 10 ms')
     })
   })
 })

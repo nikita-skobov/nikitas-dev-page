@@ -61,6 +61,42 @@ export function getHoursAgo(dayOld, dayNew) {
   return Math.floor((dayNew.getTime() - dayOld.getTime()) / millisecondsInAnHour)
 }
 
+export function getDurationString({
+  duration, // in milliseconds
+  unitsToShow = 1, // ie: 1010 becomes 1 sec, not 1 sec 10ms
+}) {
+  const millisecond = 1
+  const msInSecond = 1000
+  const msInMinute = msInSecond * 60
+  const msInHour = msInMinute * 60
+  const msInDay = msInHour * 24
+
+  let durationString = ''
+  let durationMS = duration
+  let unitsLeft = unitsToShow
+
+  const unitDurations = [
+    msInDay,
+    msInHour,
+    msInMinute,
+    msInSecond,
+    millisecond,
+  ]
+
+  unitDurations.forEach((dur) => {
+    const number = Math.floor(durationMS / dur)
+    console.log(`dur: ${dur}, durationMS: ${durationMS}`)
+    if (number > 0 && unitsLeft > 0) {
+      const plurality = number > 1 ? 's' : ''
+      durationString = `${durationString}${number} day${plurality}, `
+      durationMS -= number * dur
+      unitsLeft -= 1
+    }
+  })
+
+  return durationString
+}
+
 export function getUpdateString(dateStr) {
   const previousDate = new Date(dateStr)
   const today = new Date()
