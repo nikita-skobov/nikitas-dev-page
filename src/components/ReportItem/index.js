@@ -98,8 +98,9 @@ export class ReportItem extends Component {
       // if on the latest build report, have it open by default
       // otherwise keep the report items closed
       collapseOpen: isLatest,
-      haveFetched: false,
     }
+
+    this.haveFetched = false
 
     this.toggleCollapse = this.toggleCollapse.bind(this)
   }
@@ -115,7 +116,8 @@ export class ReportItem extends Component {
     this.setState((prevState) => {
       const tempState = prevState
 
-      let { collapseOpen, haveFetched } = prevState
+      let { haveFetched } = this
+      let { collapseOpen } = prevState
 
       if (!data && !haveFetched) {
         haveFetched = true
@@ -124,7 +126,7 @@ export class ReportItem extends Component {
 
       collapseOpen = !collapseOpen
       tempState.collapseOpen = collapseOpen
-      tempState.haveFetched = haveFetched
+      this.haveFetched = haveFetched
       return tempState
     })
   }
