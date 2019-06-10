@@ -105,6 +105,8 @@ export function getDurationString({
     }
   })
 
+  durationString = durationString.slice(0, -2)
+
   return durationString
 }
 
