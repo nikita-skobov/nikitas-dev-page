@@ -55,7 +55,7 @@ export class ReportList extends Component {
     // this is a button that loads more report items
     list.push(
       <ListGroup onClick={this.loadMore}>
-        <ListGroupItem action disabled active>
+        <ListGroupItem action active>
           Load More
         </ListGroupItem>
       </ListGroup>,
