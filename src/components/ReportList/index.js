@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { ListGroup, ListGroupItem } from 'reactstrap'
+import { Button } from 'reactstrap'
 
 import { ReportItem } from '../ReportItem'
 import { REPORT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
@@ -67,11 +67,9 @@ export class ReportList extends Component {
 
     // this is a button that loads more report items
     list.push(
-      <ListGroup onClick={this.loadMore}>
-        <ListGroupItem action active className="text-center">
-          Load More
-        </ListGroupItem>
-      </ListGroup>,
+      <Button block outline color="primary" onClick={this.loadMore}>
+        Load More
+      </Button>,
     )
 
     return (
