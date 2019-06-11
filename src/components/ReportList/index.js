@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import { Button } from 'reactstrap'
 
 import { ReportItem } from '../ReportItem'
-import { REPORT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
+import { REPORT_EXIST, REPORT_NOT_FETCHED_YET, REPORT_LIST_COMPONENT_CLASS_NAME } from '../../constants'
 
 const SHOW_BUILDS_MAX = 10
 
@@ -77,7 +77,7 @@ export class ReportList extends Component {
     )
 
     return (
-      <div>
+      <div className={REPORT_LIST_COMPONENT_CLASS_NAME}>
         {list}
       </div>
     )

@@ -17,6 +17,7 @@ export const REPORT_NOT_EXIST = 1
 export const REPORT_NOT_FETCHED_YET = 2
 export const REPORT_EXIST = 3
 
+export const REPORT_LIST_COMPONENT_CLASS_NAME = 'ns-report-list'
 export const LIST_COMPONENT_CLASS_NAME = 'ns-list'
 export const LIST_ITEM_COMPONENT_CLASS_NAME = 'ns-list-item'
 export const REPO_COMPONENT_CLASS_NAME = 'ns-repo'
