@@ -71,7 +71,7 @@ export class ReportList extends Component {
 
     // this is a button that loads more report items
     list.push(
-      <Button disabled={reachedBottom} block outline={!reachedBottom} color="primary" onClick={this.loadMore}>
+      <Button className="ns-list-shadow" disabled={reachedBottom} block outline={!reachedBottom} color="primary" onClick={this.loadMore}>
         Load More
       </Button>,
     )

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { ListGroup, ListGroupItem, Collapse, Spinner, ButtonGroup, Button, Table } from 'reactstrap'
+import { ListGroup, ListGroupItem, Collapse, Spinner, ButtonGroup, Button, Table, Toast } from 'reactstrap'
 
 import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET, REPORT_ITEM_COMPONENT_CLASS_NAME } from '../../constants'
 import { getDurationString } from '../../utilities'
@@ -156,7 +156,7 @@ export class ReportItem extends Component {
     }
 
     return [
-      <ListGroup className={REPORT_ITEM_COMPONENT_CLASS_NAME}>
+      <ListGroup className={`ns-list-shadow ${REPORT_ITEM_COMPONENT_CLASS_NAME}`}>
         <ListGroupItem className="ns-list-group-outline">
           <span onClick={this.toggleCollapse} style={{ marginRight: '1em' }}>
             <Arrow collapseOpen={collapseOpen} />
