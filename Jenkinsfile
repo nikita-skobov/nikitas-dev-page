@@ -99,7 +99,6 @@ pipeline {
     stage('Infrastructure Testing') {
         steps {
             sh "bash ./deployment/test-all.sh --web-bucket ${WEB_BUCKET} --report-bucket ${REPORT_BUCKET}"
-            sh "(exit 1)"
             script {
               INFRASTRUCTURE_TESTING_END = "${currentBuild.duration}"
             }
