@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
-import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
+import { ListGroup, ListGroupItem, Collapse, Spinner, ButtonGroup, Button, Table } from 'reactstrap'
 
 import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET, REPORT_ITEM_COMPONENT_CLASS_NAME } from '../../constants'
 import { getDurationString } from '../../utilities'
@@ -32,18 +32,17 @@ function Stages(props) {
   const stageList = []
   stageData.forEach((stage) => {
     stageList.push(
-      <li>
-        {stage.name}: {getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}
-      </li>,
+      <div style={{ paddingBottom: '0.25em' }}>
+        <div className="ns-list-stage-left ns-list-stage-info">{stage.name}</div>
+        <div className="ns-list-stage-right ns-list-stage-success">{getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}</div>
+      </div>,
     )
   })
 
   return (
     <div>
       <h5>Stages: </h5>
-      <ul>
-        {stageList}
-      </ul>
+      {stageList}
     </div>
   )
 }
