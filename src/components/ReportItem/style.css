@@ -24,6 +24,11 @@
   border-color: #28a745;
 }
 
+.ns-list-stage-fail {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
 .ns-list-stage-right {
   width: 50%;
   color: white;

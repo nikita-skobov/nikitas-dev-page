@@ -31,10 +31,18 @@ function Stages(props) {
 
   const stageList = []
   stageData.forEach((stage) => {
+    const durationOrFail = stage.duration === '-'
+      ? 'FAILED'
+      : getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })
+
+    const stageRightClass = stage.duration === '-'
+      ? 'ns-list-stage-fail'
+      : 'ns-list-stage-success'
+
     stageList.push(
       <div style={{ paddingBottom: '0.25em' }}>
         <div className="ns-list-stage-left ns-list-stage-info">{stage.name}</div>
-        <div className="ns-list-stage-right ns-list-stage-success">{getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}</div>
+        <div className={`ns-list-stage-right ${stageRightClass}`}>{durationOrFail}</div>
       </div>,
     )
   })
