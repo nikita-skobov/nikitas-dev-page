@@ -105,6 +105,12 @@ pipeline {
         }
     }
 
+    stage('Err') {
+      steps {
+        sh "(exit 1)"
+      }
+    }
+
     stage('Building') {
         steps {
             script {

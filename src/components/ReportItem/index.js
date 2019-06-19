@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
-import { ListGroup, ListGroupItem, Collapse, Spinner } from 'reactstrap'
+import { ListGroup, ListGroupItem, Collapse, Spinner, ButtonGroup, Button, Table } from 'reactstrap'
 
-import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET } from '../../constants'
+import { REPORT_NOT_EXIST, REPORT_NOT_FETCHED_YET, REPORT_ITEM_COMPONENT_CLASS_NAME } from '../../constants'
 import { getDurationString } from '../../utilities'
 
 import './style.css'
@@ -32,18 +32,17 @@ function Stages(props) {
   const stageList = []
   stageData.forEach((stage) => {
     stageList.push(
-      <li>
-        {stage.name}: {getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}
-      </li>,
+      <div style={{ paddingBottom: '0.25em' }}>
+        <div className="ns-list-stage-left ns-list-stage-info">{stage.name}</div>
+        <div className="ns-list-stage-right ns-list-stage-success">{getDurationString({ duration: stage.duration, unitsToShow: 2, seperator: ' ' })}</div>
+      </div>,
     )
   })
 
   return (
     <div>
       <h5>Stages: </h5>
-      <ul>
-        {stageList}
-      </ul>
+      {stageList}
     </div>
   )
 }
@@ -98,8 +97,9 @@ export class ReportItem extends Component {
       // if on the latest build report, have it open by default
       // otherwise keep the report items closed
       collapseOpen: isLatest,
-      haveFetched: false,
     }
+
+    this.haveFetched = false
 
     this.toggleCollapse = this.toggleCollapse.bind(this)
   }
@@ -115,7 +115,8 @@ export class ReportItem extends Component {
     this.setState((prevState) => {
       const tempState = prevState
 
-      let { collapseOpen, haveFetched } = prevState
+      let { haveFetched } = this
+      let { collapseOpen } = prevState
 
       if (!data && !haveFetched) {
         haveFetched = true
@@ -124,7 +125,7 @@ export class ReportItem extends Component {
 
       collapseOpen = !collapseOpen
       tempState.collapseOpen = collapseOpen
-      tempState.haveFetched = haveFetched
+      this.haveFetched = haveFetched
       return tempState
     })
   }
@@ -147,7 +148,7 @@ export class ReportItem extends Component {
     }
 
     return [
-      <ListGroup>
+      <ListGroup className={REPORT_ITEM_COMPONENT_CLASS_NAME}>
         <ListGroupItem className="ns-list-group-outline">
           <span onClick={this.toggleCollapse} style={{ marginRight: '1em' }}>
             <Arrow collapseOpen={collapseOpen} />
