@@ -1,0 +1,42 @@
+.ns-list-group-outline {
+  border: 1px solid #007bff;
+}
+
+.ns-list-stage-left {
+  width: 50%;
+  color: white;
+  padding: 0.25rem;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  border-top-left-radius: 0.25rem;
+  border-bottom-left-radius: 0.25rem;
+}
+
+.ns-list-stage-info {
+  background-color: #6c757d;
+  border-color: #6c757d;
+}
+
+.ns-list-stage-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.ns-list-stage-fail {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.ns-list-stage-right {
+  width: 50%;
+  color: white;
+  padding: 0.25rem;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid transparent;
+  border-top-right-radius: 0.25rem;
+  border-bottom-right-radius: 0.25rem;
+}

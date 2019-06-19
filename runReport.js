@@ -81,11 +81,47 @@ const cliObj = parseCommandLineArguments(process.argv)
 
 const coverageBadge = cloverCoverage.fn(cliObj)
 const buildStatusBadge = buildStatus.fn(cliObj)
+
+const branchSplit = cliObj.branch.split('/')
+const lastBranchIndex = branchSplit.length - 1
+const start = parseInt(cliObj['build-start'], 10) / 1000 // convert to seconds
+const duration = parseInt(cliObj['build-duration'], 10) / 1000 // convert to seconds
+const end = start + duration
+const stagesCSV = cliObj.stages
+
+const stages = []
+
+let previousDuration = 0
+let previousIndex = 0
+stagesCSV.split(',').forEach((str, index) => {
+  if (index % 2 === 0) {
+    // this means it is a title of a stage
+    previousIndex = stages.length
+    stages.push({
+      name: str.replace('_', ' '),
+      duration: '-',
+    })
+  } else if (str !== '.') {
+    // if index % 2 != 0, then str is a duration of a stage
+    // if its a dot then that means the stage failed, so dont modify
+    const durationMS = parseInt(str, 10)
+    stages[previousIndex].duration = Math.floor(durationMS) - previousDuration
+    previousDuration = durationMS
+  }
+})
+
 const report = {
   badges: [
     buildStatusBadge,
     coverageBadge,
   ],
+  num_commits: cliObj['num-commits'],
+  branch: branchSplit[lastBranchIndex],
+  time_ended: Math.floor(end),
+  duration: Math.floor(duration),
+  current_commit: cliObj['current-commit'],
+  status: cliObj['build-status'],
+  stages,
 }
 
 console.log(JSON.stringify(report))

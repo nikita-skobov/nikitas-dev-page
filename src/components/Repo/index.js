@@ -6,14 +6,21 @@ import {
   Jumbotron,
 } from 'reactstrap'
 
+import { REPORT_EXIST, REPORT_NOT_FETCHED_YET, REPO_COMPONENT_CLASS_NAME } from '../../constants'
+import { ReportList } from '../ReportList'
 import { fetchRepo } from '../../actions/fetchRepo'
-import { REPO_COMPONENT_CLASS_NAME } from '../../constants'
 import { has, getUpdateString } from '../../utilities'
 import { Badge } from '../Badge'
 import { DetailTable } from '../DetailTable'
 import { DetailTableEntry as Dte } from '../DetailTableEntry'
 import { GroupSpacer } from '../GroupSpacer'
 import { fetchReport } from '../../actions/fetchRepoReport'
+
+const reportTitles = {
+  1: <h3>This repository has not been configured to generate build reports</h3>,
+  2: <Spinner color="dark" />,
+  3: <h3>Build Reports</h3>,
+}
 
 export class Repo extends Component {
   componentDidMount() {
@@ -22,7 +29,7 @@ export class Repo extends Component {
       getRepo,
       getRepoReport,
       repo,
-      hasReport,
+      reportStatus,
     } = this.props
 
     const { name } = repo
@@ -30,13 +37,13 @@ export class Repo extends Component {
     if (noDataYet) {
       getRepo(name)
     }
-    if (!hasReport) {
+    if (reportStatus === REPORT_NOT_FETCHED_YET) {
       getRepoReport(name)
     }
   }
 
   render() {
-    const { repo, noDataYet, hasReport, reportData } = this.props
+    const { repo, noDataYet, reportStatus, reportData, getRepoReport } = this.props
 
     if (noDataYet) {
       return (
@@ -73,8 +80,9 @@ export class Repo extends Component {
       <Badge key={`size${size}`} template="flat-square" textA="Size" textB={size} />,
     ]
 
-    if (hasReport) {
-      reportData.badges.forEach((badgeData) => {
+    if (reportStatus === REPORT_EXIST) {
+      const latestReport = reportData.latest.data
+      latestReport.badges.forEach((badgeData) => {
         const badgeKeys = {
           textA: badgeData.text[0],
           textB: badgeData.text[1],
@@ -90,6 +98,8 @@ export class Repo extends Component {
         )
       })
     }
+
+    const reportTitle = reportTitles[reportStatus]
 
     return (
       <div className={REPO_COMPONENT_CLASS_NAME}>
@@ -113,6 +123,8 @@ export class Repo extends Component {
             <Dte label="Stars">{stars}</Dte>
             <Dte label="Open Issues">{openIssues}</Dte>
           </DetailTable>
+          {reportTitle}
+          <ReportList fetchReportCallback={getRepoReport} repoName={name} reportData={reportData} />
         </Jumbotron>
       </div>
     )
@@ -129,10 +141,16 @@ const mapStateToProps = (state, ownProps) => {
     propObj.noDataYet = true
   }
   const repoName = propObj.repo.name
-  propObj.hasReport = state.reports[repoName] ? state.reports[repoName].hasReport : false
-  if (propObj.hasReport) {
-    propObj.reportData = { ...state.reports[repoName].reportData }
+  const thisReport = state.reports[repoName]
+
+  const reportStatus = thisReport ? thisReport.latest.reportStatus : REPORT_NOT_FETCHED_YET
+  propObj.reportStatus = reportStatus
+
+  if (reportStatus === REPORT_EXIST) {
+    propObj.reportData = { ...thisReport }
   }
+
+
   return propObj
 }
 
